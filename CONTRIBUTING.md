@@ -42,14 +42,14 @@ Este projeto segue o padrão **Conventional Commits**.
 
 Formato:
 ```text
-tipo(escopo opcional): descrição curta
+tipo(escopo opcional): descrição curta em inglês
 ```
 
 Exemplos:
 ```text
-feat: adicionar página de lista de atletas
-fix(auth): corrigir validação de token
-chore: configurar eslint e prettier
+feat: add athlete list page
+fix(auth): correct token validation
+chore: configure eslint and prettier
 ```
 
 ---
