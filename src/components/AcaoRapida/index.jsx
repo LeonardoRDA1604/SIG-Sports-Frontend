@@ -8,7 +8,7 @@ export function AcaoRapida(props) {
       <>             
         <button type="button" className=" 
         flex flex-row items-center justify-center p-4
-        sm:p-5 bg-primary-500 rounded-lg hover:bg-primary-400
+        sm:p-5 bg-primary-900 rounded-lg hover:bg-primary-400
        text-primary-50 font-semibold transform scale-100 hover:scale-102
        transition-all duration-200 cursor-pointer
   "

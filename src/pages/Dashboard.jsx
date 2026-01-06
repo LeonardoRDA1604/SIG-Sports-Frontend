@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import AnimatedTitle from "../modals/AnimatedTitle";
 import { Card } from "../components/Card";
 import { AcaoRapida } from "../components/AcaoRapida/index";

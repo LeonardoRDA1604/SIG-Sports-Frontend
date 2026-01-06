@@ -14,12 +14,6 @@ const USUARIOS_INICIAIS = [
     senha: "123",
     tipoUsuario: "treinador"
   },
-  {
-    nome: "Maria de Souza",
-    email: "aluno@teste.com",
-    senha: "123",
-    tipoUsuario: "aluno"
-  },
 ];
 
 /**

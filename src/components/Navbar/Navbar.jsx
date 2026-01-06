@@ -1,3 +1,7 @@
+import { useState } from "react";
+
+import { Link } from "react-router-dom";
+import Logout from "../Logout/Logout";
 
 // icones usados na navbar
 import { BiDollar } from "react-icons/bi";
@@ -8,12 +12,7 @@ import { FaUsers } from "react-icons/fa";
 import { LuClipboardCheck } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 import {FcMenu} from "react-icons/fc";
-
-import { useState } from "react";
-
-import { Link } from "react-router-dom";
-import Logout from "./Logout";
-import NotificationIcon from "./Notificacao/NotificationIcon";
+import NotificationIcon from "../Notificacao/NotificationIcon";
 
 function Navbar({ expanded, setExpanded }) {
   const usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -23,7 +22,7 @@ function Navbar({ expanded, setExpanded }) {
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       className={`
-        h-screen bg-white shadow-md z-40 fixed top-0 left-0
+        h-screen bg-primary-900 shadow-md z-40 fixed top-0 left-0
         transition-all duration-300 flex flex-col
         ${expanded ? "w-64" : "w-22"}
       `}
@@ -32,24 +31,14 @@ function Navbar({ expanded, setExpanded }) {
      <div className="flex items-center justify-center mb-2 relative py-14 mt-12">
       {/* Logo Grande*/}
 
-      <img src="src/assets/icons/ps-sports-logo-color.svg" alt="Logo Expandida" className={`absolute py-4 transition-all duration-300 ${expanded ? "opacity-100 w-48" : "opacity-0 w-12"}`} />
+      <img src="src/assets/icons/ps-sports-logo-color.svg" alt="Logo Expandida" className={` filter drop-shadow-[0_0_05px_rgba(255,255,255,0.7)] absolute  py-4 transition-all duration-300 ${expanded ? "opacity-100 w-48" : "opacity-0 w-12"}`} />
 
       {/* Logo Pequena */}
-      <img src="src/assets/icons/ps-sports-logo-color.svg" alt="Logo Minimizada" className={`absolute py-4 transition-all duration-300 ${expanded ? "opacity-0 w-48" : "opacity-100 w-22"}`} />
+      <img src="src/assets/icons/ps-sports-logo-color.svg" alt="Logo Minimizada" className={` filter drop-shadow-[0_0_05px_rgba(255,255,255,0.7)] absolute py-4 transition-all duration-300 ${expanded ? "opacity-0 w-48" : "opacity-100 w-22"}`} />
      </div>
 
-      <div className="flex flex-col h-full px-6 p-6">
-        {/* Botão expandir */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setExpanded(!expanded);
-          }}
-          className="mb-6 ml-2 cursor-pointer w-6 transition-transform duration-200 hover:scale-125"
-        >
-          <FcMenu  size={24} />
-        </button>
-
+      <div className="flex flex-col h-full px-6 p-6 mt-15 justify-between">
+        
         {/* MENU */}
         <nav className="flex-2">
           <ul className="space-y-4 text-slate-900 ">
@@ -117,7 +106,7 @@ function Navbar({ expanded, setExpanded }) {
               {/* FIM NOVO CÓDIGO */}
           </div>
           <div className="mt-1">
-    {/* ... restante do código ... */}
+              {/* ... restante do código ... */}
               <Logout />
               <NotificationIcon count={3} />
               
@@ -130,11 +119,11 @@ function Navbar({ expanded, setExpanded }) {
           <div
             className={`
               flex flex-col transition-all duration-300 mt-1 gap-3
-              ${expanded ? "opacity-100 max-w-[200px]" : "opacity-0 max-w-0  overflow-hidden"}
+              ${expanded ? "opacity-100 max-w-200px" : "opacity-0 max-w-0  overflow-hidden"}
             `}
           >
-            <p className="font-semibold whitespace-nowrap">{usuario?.nome}</p>
-            <p className="text-sm text-slate-600 whitespace-nowrap">{usuario?.email}</p>
+            <p className="font-semibold text-primary-50 whitespace-nowrap">{usuario?.nome}</p>
+            <p className="text-sm text-primary-200 whitespace-nowrap">{usuario?.email}</p>
           </div>
         </div>
       </div>
