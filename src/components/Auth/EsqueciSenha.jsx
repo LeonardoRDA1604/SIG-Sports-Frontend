@@ -1,0 +1,113 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { MdEmail, MdLockReset } from "react-icons/md"; // Ícones
+
+export default function EsqueciSenha() {
+  const [email, setEmail] = useState("");
+  const [mensagem, setMensagem] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setMensagem("");
+
+    // 1. Lógica de Solicitação de Reset (Apenas para demonstração)
+    console.log(`Solicitação de redefinição de senha para: ${email}`);
+
+    // Em uma aplicação real, aqui você faria uma chamada de API
+    // para enviar um email com um token de redefinição.
+    
+    // Simulação de Sucesso
+    setMensagem("Se o e-mail estiver cadastrado, um link de redefinição foi enviado!");
+    setEmail(""); // Limpa o campo após o envio
+
+    // Opcional: Redirecionar após um tempo ou manter na tela
+    /*
+    setTimeout(() => {
+        navigate("/");
+    }, 5000);
+    */
+  };
+
+  return (
+    // Fundo gradiente escuro (igual ao Login)
+    <div className="min-h-screen flex items-center justify-center p-4"
+         style={{ background: 'radial-gradient(circle at 50% 50%, #0036cc, #000125)' }}>
+      
+      {/* Cartão de Recuperação de Senha */}
+      <div className="bg-gray-800 shadow-2xl rounded-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row bg-opacity-90">
+
+        {/* FORMULÁRIO (Lado Esquerdo) - Adaptado para Esqueci a Senha */}
+        <div className="w-full md:w-1/2 p-10 bg-gray-900 rounded-l-2xl flex flex-col justify-center">
+          <h2 className="text-2xl font-bold mb-4 text-center text-white tracking-wider">
+            Recuperar Senha
+          </h2>
+          <p className="text-gray-400 text-center mb-8">
+            Informe seu e-mail para receber as instruções de redefinição.
+          </p>
+
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+
+            {/* Campo E-mail */}
+            <div className="relative">
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Endereço de E-mail"
+                className="w-full p-3 pr-10 border-none rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+                required
+              />
+              {/* Ícone de Email */}
+              <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+                <MdEmail className="h-5 w-5" />
+              </span>
+            </div>
+
+            {/* Mensagem de Erro/Sucesso */}
+            {mensagem && (
+              <p className={`text-center font-medium text-sm ${
+                mensagem.includes("enviado") ? "text-green-400" : "text-red-400"
+              }`}>
+                {mensagem}
+              </p>
+            )}
+
+            {/* Botão de Envio: Estilo azul primário */}
+            <button
+              className="cursor-pointer w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mt-2 hover:bg-blue-600 transition duration-300 ease-in-out shadow-md transform hover:scale-[1.01]"
+              type="submit"
+            >
+              <div className="flex items-center justify-center gap-2">
+                <MdLockReset size={20} />
+                <span>Enviar Link de Redefinição</span>
+              </div>
+            </button>
+            
+            {/* Link "Voltar ao Login" */}
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="text-gray-200 hover:text-blue-400 hover:underline mt-4 text-center text-sm cursor-pointer"
+            >
+              Voltar para o Login
+            </button>
+          </form>
+        </div>
+
+        {/* IMAGEM (Lado Direito) - Mantido igual ao Login */}
+        <div className="hidden md:block md:w-1/2 rounded-r-2xl overflow-hidden">
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-gray-800 via-white to-gray-900 p-8">
+            <img
+              src="/src/assets/icons/ps-sports-logo-color.svg"
+              alt="Logo da Aplicação"
+              className="w-3/4 h-auto object-contain"
+            />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
