@@ -118,6 +118,7 @@ export default function Dashboard({ expanded }) {
               <AcaoRapida subTitle="Cadastrar Turma" />
               <AcaoRapida subTitle="Cadastrar Modalidade" />
               <AcaoRapida subTitle="Cadastrar Categoria" />
+              <AcaoRapida subTitle="Cadastrar Interessado" />
             </div>
           </div>
 

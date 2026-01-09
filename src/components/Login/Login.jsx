@@ -73,6 +73,7 @@ export default function Login() {
                 name="tipoUsuario"
                 value={formData.tipoUsuario}
                 onChange={handleChange}
+                autocomplete="off"
                 // Estilo do campo: Branco, arredondado e com padding
                 className="w-full p-3 border-none rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none pr-10"
                 required
@@ -97,7 +98,8 @@ export default function Login() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="email address"
+                placeholder="Endereço de Email"
+                autocomplete="new-email"
                 // Estilo do campo: Branco, arredondado e com padding
                 className="w-full p-3 pr-10 border-none rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 required
@@ -117,7 +119,8 @@ export default function Login() {
                 name="senha"
                 value={formData.senha}
                 onChange={handleChange}
-                placeholder="password"
+                placeholder="Senha"
+                autocomplete="new-password"
                 // Estilo do campo: Branco, arredondado e com padding
                 className="w-full p-3 pr-10 border-none rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 required
@@ -140,12 +143,12 @@ export default function Login() {
 
             {/* Botão de Login: Estilo azul primário da imagem */}
             <button
-              className="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mt-2 hover:bg-blue-600 transition duration-300 ease-in-out shadow-md transform hover:scale-[1.01]"
+              className="cursor-pointer w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mt-2 hover:bg-blue-600 transition duration-300 ease-in-out shadow-md transform hover:scale-[1.01]"
               type="submit"
             >
               <div className="flex items-center justify-center gap-2">
-                <MdLogin size={20} />
-                <span>Login</span>
+                <MdLogin  size={30} />
+                <span className="text-2xl">Entrar</span>
               </div>
             </button>
             
@@ -153,8 +156,8 @@ export default function Login() {
             {/* Link "Esqueci minha senha" */}
             <button
               type="button"
-              onClick={() => navigate("/suporte")}
-              className="text-gray-200 hover:text-blue-400 hover:underline mt-2 text-center text-md"
+              onClick={() => navigate("/esqueci-senha")}
+              className="text-gray-200 hover:text-blue-400 hover:underline mt-2 text-center text-md cursor-pointer"
             >
               Esqueci a senha
             </button>
@@ -162,7 +165,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => navigate("/cadastro")}
-              className="text-gray-200 hover:text-blue-400 hover:underline mt-2 text-center text-md"
+              className="text-gray-200 hover:text-blue-400 hover:underline mt-2 text-center text-md cursor-pointer"
             >
               Cadastre-se
             </button>
