@@ -317,7 +317,7 @@ const Cadastros = () => {
                         </a>
                       </td>
                       
-                      {/* exibi múltiplos atletas */}
+                      {/* exibe múltiplos atletas */}
                       <td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
                         {responsible.athletes.join(', ')}
                       </td>
