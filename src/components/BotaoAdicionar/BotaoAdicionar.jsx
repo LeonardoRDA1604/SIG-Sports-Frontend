@@ -2,14 +2,14 @@ import { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 import ModalCadastroTurma from "../../modals/forms/ModalCadastroTurma";
-/* import ModalCadastroCategoria from "../../modals/forms/ModalCadastroCategoria";
-import ModalCadastroModalidade from "../../modals/forms/ModalCadastroModalidade"; */
+import ModalCadastroCategoria from "../../modals/forms/ModalCadastroCategoria";
+import ModalCadastroModalidade from "../../modals/forms/ModalCadastroModalidade";
 
 export default function BotaoAdicionar({ aba, label }) {
   // Estados para cada popup de novo cadastro (a partir do botão "Adicionar ...")
   const [abrirCadastroTurma, setAbrirCadastroTurma] = useState(false); // Adicionar Turma
-  /* const [abrirCadastroCategoria, setAbrirCadastroCategoria] = useState(false); // Adicionar Categoria
-  const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false); // Adicionar Modalidade */
+  const [abrirCadastroCategoria, setAbrirCadastroCategoria] = useState(false); // Adicionar Categoria
+  const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false); // Adicionar Modalidade
 
   // Função para identificar a aba ativa para o botão "Adicionar ..." acessar o popup respectivo
   function abrirCadastro() {
@@ -17,12 +17,12 @@ export default function BotaoAdicionar({ aba, label }) {
       case "turmas":
         setAbrirCadastroTurma(true);
         break;
-      /* case "categorias":
+      case "categorias":
         setAbrirCadastroCategoria(true);
         break;
       case "modalidades":
         setAbrirCadastroModalidade(true);
-        break; */
+        break;
       default:
         break;
     }
@@ -40,7 +40,7 @@ export default function BotaoAdicionar({ aba, label }) {
         onClose={() => setAbrirCadastroTurma(false)}
       />
 
-      {/* <ModalCadastroCategoria
+      <ModalCadastroCategoria
         aberto={abrirCadastroCategoria}
         onClose={() => setAbrirCadastroCategoria(false)}
       />
@@ -48,7 +48,7 @@ export default function BotaoAdicionar({ aba, label }) {
       <ModalCadastroModalidade
         aberto={abrirCadastroModalidade}
         onClose={() => setAbrirCadastroModalidade(false)}
-      /> */}
+      />
     </>
   );
 }
