@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import AnimatedTitle from "../modals/AnimatedTitle";
-import ModalResponsavel from "../modals/responsavel";
 
 import { FaUser } from "react-icons/fa";
 import { FaUserFriends } from "react-icons/fa";
@@ -82,7 +81,6 @@ const abas = [
 const Cadastros = () => {
   const [abaAtiva, setAbaAtiva] = useState('atletas');
   const [termoPesquisa, setTermoPesquisa] = useState('');
-  const [modalAberto, setModalAberto] = useState(false);
 
   // Lógica de Filtragem de Atletas
   const athletesFiltrados = termoPesquisa.length > 0 && abaAtiva === 'atletas'
@@ -210,73 +208,39 @@ const Cadastros = () => {
             />
           </div>
 
-          {/* Botão Adicionar Novo Item */}
-          <button 
-          onClick={() => {
-            if (abaAtiva === 'responsaveis') setModalAberto(true);
-          }}
-          className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 order-1 sm:order-2">
-            <IoIosAddCircleOutline className="text-3xl" />
-            <span className="text-sm sm:text-base">Adicionar {abas.find(a => a.id === abaAtiva)?.labelSingular}</span>
-          </button>
-        </div>
-
-        {/* 4. CONTEÚDO: Tabela/Dados */}
-        <div className="bg-white shadow-xl rounded-lg p-4 sm:p-6 border border-gray-100">
-          
-          {/* Tabela Atletas */}
-          {abaAtiva === 'atletas' && ( 
-            <div className="bg-white rounded-lg overflow-x-auto"> 
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-white">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                    >
-                      Nome
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                    >
-                      Idade
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                    >
-                      Categoria
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                    >
-                      Turma
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {athletesFiltrados.map((athletes) => (
-                    <tr key={athletes.id} className="hover:bg-blue-100">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-                        <a href="#" className="text-blue-600 hover:underline">
-                          {athletes.name}
-                        </a>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-primary-900 font-medium">
-                        {athletes.age}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <a href="#" className="text-blue-600 hover:underline">
-                          {athletes.category}
-                        </a>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <a href="#" className="text-blue-600 hover:underline">
-                          {athletes.classes}
-                        </a>
-                      </td>
+          {/* 4. CONTEÚDO: Tabela/Dados */}
+          <div className="bg-white shadow-xl rounded-lg p-4 sm:p-6 border border-gray-100">
+            
+            {/* Tabela Atletas */}
+            {abaAtiva === 'atletas' && ( 
+              <div className="bg-white rounded-lg overflow-x-auto"> 
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-white">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        Nome
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        Idade
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        Categoria
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        Turma
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -640,10 +604,6 @@ const Cadastros = () => {
 
           </div>
         </div>
-        <ModalResponsavel 
-          isOpen={modalAberto} 
-          onClose={() => setModalAberto(false)}
-        />
       </div>
   );
 };
