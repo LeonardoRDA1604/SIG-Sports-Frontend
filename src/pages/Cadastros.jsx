@@ -277,60 +277,36 @@ const Cadastros = () => {
               </div>
             )}
 
-          {/* Conteúdo para Abas RESPONSAVEIS */}
-          {abaAtiva === 'responsaveis' && (
-            <div className="bg-white rounded-lg overflow-x-auto"> 
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-white">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                    >
-                      Nome
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                    >
-                      Atletas
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                    >
-                      Parentesco
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                    >
-                      Telefone
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {responsibleFiltrados.map((responsible) => (
-                    <tr key={responsible.id} className="hover:bg-blue-100">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-                        <a href="#" className="text-blue-600 hover:underline">
-                          {responsible.name}
-                        </a>
-                      </td>
-                      
-                      {/* exibe múltiplos atletas */}
-                      <td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-                        {responsible.athletes.join(', ')}
-                      </td>
-                      
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          {responsible.kinship}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <a href="#" className="text-blue-600 hover:underline">
-                          {responsible.phoneNumber}
-                        </a>
-                      </td>
+            {/* Conteúdo para Abas RESPONSAVEIS */}
+            {abaAtiva === 'responsaveis' && (
+              <div className="bg-white rounded-lg overflow-x-auto"> 
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-white">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        Nome
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        Atletas
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        Parentesco
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        Telefone
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
