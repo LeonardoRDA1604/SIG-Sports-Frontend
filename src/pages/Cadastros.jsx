@@ -610,7 +610,7 @@ const Cadastros = () => {
         </div>
         <ModalResponsavel 
           isOpen={modalAberto} 
-          onClose={() => setModalAberto(false)} 
+          onClose={() => setModalAberto(false)}
         />
       </div>
     </div>
