@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { HiOutlineCalendar, HiChevronDown, HiOutlineClock } from 'react-icons/hi';
 import { IoClose } from "react-icons/io5";
 
 export default function ModalCadastroTurma({ aberto, onClose }) {
+  // Estado para os campos controlados
+  const estadoInicial = {
+    nomeTurma: '',
+    modalidade: '',
+    categoria: '',
+    treinador: ''
+  };
+
+  const [formData, setFormData] = useState(estadoInicial);
   const [diasSelecionados, setDiasSelecionados] = useState([]);
   const [showDiasMenu, setShowDiasMenu] = useState(false);
   const [horarioInicio, setHorarioInicio] = useState("");
@@ -11,10 +20,37 @@ export default function ModalCadastroTurma({ aberto, onClose }) {
 
   const diasDaSemana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
+  // Função de reset e fechamento
+  const handleClose = () => {
+    setFormData(estadoInicial);
+    setDiasSelecionados([]);
+    setHorarioInicio("");
+    setHorarioFim("");
+    setShowDiasMenu(false);
+    setShowHorarioMenu(false);
+    onClose();
+  };
+
   const toggleDia = (dia) => {
     setDiasSelecionados(prev => 
       prev.includes(dia) ? prev.filter(d => d !== dia) : [...prev, dia]
     );
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Verificação de campos obrigatórios
+  const validarCampos = () => {
+    const camposTextoOk = formData.nomeTurma.trim() !== '' && 
+                          formData.modalidade !== '' && 
+                          formData.categoria !== '';
+    const diasOk = diasSelecionados.length > 0;
+    const horariosOk = horarioInicio !== "" && horarioFim !== "";
+
+    return camposTextoOk && diasOk && horariosOk;
   };
   
   if (!aberto) return null; // Não renderiza nada quando estiver fechado
@@ -27,7 +63,7 @@ export default function ModalCadastroTurma({ aberto, onClose }) {
         {/* Cabeçalho Fixo */}
         <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100 sticky top-0 bg-white z-10 rounded-t-2xl">
           <h2 className="text-xl font-bold text-[#101944]">Nova Turma</h2>
-          <button className="text-[#101944] hover:bg-gray-100 p-1 rounded-full transition-colors cursor-pointer" onClick={onClose}>
+          <button className="text-[#101944] hover:bg-gray-100 p-1 rounded-full transition-colors cursor-pointer" onClick={handleClose}>
             <IoClose size={24} />
           </button>
         </div>
@@ -42,6 +78,9 @@ export default function ModalCadastroTurma({ aberto, onClose }) {
             </label>
             <input 
               type="text" 
+              name="nomeTurma"
+              value={formData.nomeTurma}
+              onChange={handleChange}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition-all text-sm"
             />
           </div>
@@ -52,8 +91,13 @@ export default function ModalCadastroTurma({ aberto, onClose }) {
               Modalidade <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:border-blue-600 outline-none cursor-pointer text-sm">
-                <option value="" disabled selected>Selecione</option>
+              <select 
+                name="modalidade"
+                value={formData.modalidade}
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:border-blue-600 outline-none cursor-pointer text-sm"
+              >
+                <option value="" disabled>Selecione</option>
                 <option value="futebol">Futebol</option>
                 <option value="futsal">Futsal</option>
                 <option value="beach-soccer">Beach Soccer</option>
@@ -69,8 +113,13 @@ export default function ModalCadastroTurma({ aberto, onClose }) {
               Categoria <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:border-blue-600 outline-none cursor-pointer text-sm">
-                <option value="" disabled selected>Selecione</option>
+              <select 
+                name="categoria"
+                value={formData.categoria}
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:border-blue-600 outline-none cursor-pointer text-sm"
+              >
+                <option value="" disabled>Selecione</option>
                 <option value="sub-12">Sub-12</option>
                 <option value="sub-14">Sub-14</option>
                 <option value="sub-16">Sub-16</option>
@@ -162,8 +211,13 @@ export default function ModalCadastroTurma({ aberto, onClose }) {
               Treinador
             </label>
             <div className="relative">
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:border-blue-600 outline-none text-sm">
-                <option value=""></option>
+              <select 
+                name="treinador"
+                value={formData.treinador}
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:border-blue-600 outline-none text-sm cursor-pointer"
+              >
+                <option value="" disabled>Selecione</option>
                 <option value="1">João Silva</option>
                 <option value="2">Maria Souza</option>
               </select>
@@ -176,15 +230,20 @@ export default function ModalCadastroTurma({ aberto, onClose }) {
         <div className="flex items-center justify-end space-x-6 px-6 py-5 border-t border-gray-100 bg-white rounded-b-2xl">
           <button 
             type="button" 
-            className="text-[#101944] font-bold hover:underline transition-all cursor-pointer"
-            onClick={onClose}
+            className="text-[#101944] font-bold hover:underline transition-all cursor-pointer text-sm"
+            onClick={handleClose}
           >
             Cancelar
           </button>
           <button 
-            type="submit" 
-            className="px-10 py-2.5 bg-[#003366] text-white font-bold rounded-full hover:bg-[#002850] transition-colors shadow-md shadow-blue-900/20  cursor-pointer"
-            onClick={onClose}
+            type="button" 
+            className={`px-10 py-2.5 font-bold rounded-full transition-colors shadow-md text-sm ${
+              validarCampos() 
+              ? 'bg-[#003366] text-white hover:bg-[#002850] cursor-pointer shadow-blue-900/20' 
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
+            }`}
+            disabled={!validarCampos()}
+            onClick={handleClose}
           >
             Salvar
           </button>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
+import ModalCadastroAtleta from "../../modals/forms/ModalCadastroAtleta";
+import ModalCadastroResponsavel from "../../modals/forms/ModalCadastroResponsavel";
 import ModalCadastroTurma from "../../modals/forms/ModalCadastroTurma";
 import ModalCadastroCategoria from "../../modals/forms/ModalCadastroCategoria";
 import ModalCadastroModalidade from "../../modals/forms/ModalCadastroModalidade";
@@ -8,6 +10,8 @@ import ModalCadastroTreinador from "../../modals/forms/ModalCadastroTreinador";
 
 export default function BotaoAdicionar({ aba, label }) {
   // Estados para cada popup de novo cadastro (a partir do botão "Adicionar ...")
+  const [abrirCadastroAtleta, setAbrirCadastroAtleta] = useState(false); // Adicionar Atleta
+  const [abrirCadastroResponsavel, setAbrirCadastroResponsavel] = useState(false); // Adicionar Responsavel
   const [abrirCadastroTurma, setAbrirCadastroTurma] = useState(false); // Adicionar Turma
   const [abrirCadastroCategoria, setAbrirCadastroCategoria] = useState(false); // Adicionar Categoria
   const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false); // Adicionar Modalidade
@@ -16,6 +20,12 @@ export default function BotaoAdicionar({ aba, label }) {
   // Função para identificar a aba ativa para o botão "Adicionar ..." acessar o popup respectivo
   function abrirCadastro() {
     switch(aba){
+      case "atletas":
+        setAbrirCadastroAtleta(true);
+        break;
+      case "responsaveis":
+        setAbrirCadastroResponsavel(true);
+        break;
       case "turmas":
         setAbrirCadastroTurma(true);
         break;
@@ -39,6 +49,16 @@ export default function BotaoAdicionar({ aba, label }) {
         <IoIosAddCircleOutline className="text-3xl" />
         <span className="text-sm sm:text-base">Adicionar {label}</span>
       </button>
+
+      <ModalCadastroAtleta
+        aberto={abrirCadastroAtleta}
+        onClose={() => setAbrirCadastroAtleta(false)}
+      />
+
+      <ModalCadastroResponsavel
+        aberto={abrirCadastroResponsavel}
+        onClose={() => setAbrirCadastroResponsavel(false)}
+      />
 
       <ModalCadastroTurma
         aberto={abrirCadastroTurma}

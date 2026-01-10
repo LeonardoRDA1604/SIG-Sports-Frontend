@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar/Navbar";
-import AnimatedTitle from "../modals/AnimatedTitle";
 
 import { FaUser } from "react-icons/fa";
 import { FaUserFriends } from "react-icons/fa";
