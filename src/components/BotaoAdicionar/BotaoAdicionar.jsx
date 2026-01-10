@@ -4,12 +4,14 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import ModalCadastroTurma from "../../modals/forms/ModalCadastroTurma";
 import ModalCadastroCategoria from "../../modals/forms/ModalCadastroCategoria";
 import ModalCadastroModalidade from "../../modals/forms/ModalCadastroModalidade";
+import ModalCadastroTreinador from "../../modals/forms/ModalCadastroTreinador";
 
 export default function BotaoAdicionar({ aba, label }) {
   // Estados para cada popup de novo cadastro (a partir do botão "Adicionar ...")
   const [abrirCadastroTurma, setAbrirCadastroTurma] = useState(false); // Adicionar Turma
   const [abrirCadastroCategoria, setAbrirCadastroCategoria] = useState(false); // Adicionar Categoria
   const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false); // Adicionar Modalidade
+  const [abrirCadastroTreinador, setAbrirCadastroTreinador] = useState(false); // Adicionar Treinador
 
   // Função para identificar a aba ativa para o botão "Adicionar ..." acessar o popup respectivo
   function abrirCadastro() {
@@ -22,6 +24,9 @@ export default function BotaoAdicionar({ aba, label }) {
         break;
       case "modalidades":
         setAbrirCadastroModalidade(true);
+        break;
+      case "treinadores":
+        setAbrirCadastroTreinador(true);
         break;
       default:
         break;
@@ -48,6 +53,11 @@ export default function BotaoAdicionar({ aba, label }) {
       <ModalCadastroModalidade
         aberto={abrirCadastroModalidade}
         onClose={() => setAbrirCadastroModalidade(false)}
+      />
+
+      <ModalCadastroTreinador
+        aberto={abrirCadastroTreinador}
+        onClose={() => setAbrirCadastroTreinador(false)}
       />
     </>
   );
