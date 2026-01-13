@@ -25,6 +25,7 @@ import ModalVisualizarTurma from '../modals/views/ModalVisualizarTurma';
 import ModalVisualizarCategoria from '../modals/views/ModalVisualizarCategoria';
 import ModalVisualizarModalidade from '../modals/views/ModalVisualizarModalidade';
 import { temAcessoBloqueado } from '../utils/permissoes';
+import ModalVisualizarInteressado from '../modals/views/ModalVisualizarInteressado';
 
 // Dados dos Atletas
 const athletesData = [
@@ -480,10 +481,10 @@ const classesData = [
 
 // Dados das Categorias
 const categoriesData = [
-    { id: 1, name: 'Sub-12', classes: 'A12, B12, C12', modality: 'Futebol' },
-    { id: 2, name: 'Sub-14', classes: 'A14, B14, C14', modality: 'Futsal' },
-    { id: 3, name: 'Sub-16', classes: 'A16, B16, C16', modality: 'Futebol' },
-    { id: 4, name: 'Sub-18', classes: 'A18, B18, C18', modality: 'Futebol' },
+	{ id: 1, name: 'Sub-12', classes: 'A12, B12, C12', modality: 'Futebol' },
+	{ id: 2, name: 'Sub-14', classes: 'A14, B14, C14', modality: 'Futsal' },
+	{ id: 3, name: 'Sub-16', classes: 'A16, B16, C16', modality: 'Futebol' },
+	{ id: 4, name: 'Sub-18', classes: 'A18, B18, C18', modality: 'Futebol' },
 ];
 
 // Dados das Modalidades
@@ -496,19 +497,28 @@ const modalitiesData = [
 
 // Dados dos Interessados
 const interestedData = [
-	{
-		id: 1,
-		name: 'João Silva',
-		modality: 'Futebol',
-		phoneNumber: '(11) 99999-8888',
-	},
-	{
-		id: 2,
-		name: 'Maria Santos',
-		modality: 'Futsal',
-		phoneNumber: '(21) 98888-7777',
-	},
-];
+  {
+    id: 1,
+    nome: "João Silva",
+    email: "joao.silva@email.com",
+    telefone: "(81) 98877-6655",
+    modalidade: "Futebol"
+  },
+  {
+    id: 2,
+    nome: "Maria Santos",
+    email: "maria.santos@gmail.com",
+    telefone: "(81) 99911-2233",
+    modalidade: "Futsal"
+  },
+  {
+    id: 3,
+    nome: "Pedro Oliveira",
+    email: "pedro.oli@outlook.com",
+    telefone: "(81) 98765-4321",
+    modalidade: "Beach Soccer"
+  }
+]
 
 // Mapeamento das abas
 const abas = [
@@ -592,10 +602,12 @@ const Cadastros = () => {
 	const [responsavelSelecionado, setResponsavelSelecionado] = useState(null);
 	const [abrirVisualizarTurma, setAbrirVisualizarTurma] = useState(false);
 	const [turmaSelecionada, setTurmaSelecionada] = useState(null);
-  const [abrirVisualizarCategoria, setAbrirVisualizarCategoria] = useState(false);
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
-  const [abrirVisualizarModalidade, setAbrirVisualizarModalidade] = useState(false);
-  const [modalidadeSelecionada, setModalidadeSelecionada] = useState(null);
+	const [abrirVisualizarCategoria, setAbrirVisualizarCategoria] = useState(false);
+	const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
+	const [abrirVisualizarModalidade, setAbrirVisualizarModalidade] = useState(false);
+	const [modalidadeSelecionada, setModalidadeSelecionada] = useState(null);
+	const [abrirVisualizarInteressado, setabrirVisualizarInteressado] = useState(false);
+	const [interessadoSelecionado, setInteressadoSelecionado] = useState(null);
 
 	// Verificar se o usuário é administrador
 	const usuarioAtual = JSON.parse(localStorage.getItem('usuario') || '{}');
@@ -927,6 +939,8 @@ const Cadastros = () => {
 							aba={abaAtiva}
 							label={abas.find((a) => a.id === abaAtiva)?.labelSingular}
 							onCreated={handleCreated}
+							turmasGlobais={turmas}
+    						categoriasGlobais={categorias}
 						/>
 					) : (
 						<div className="text-xs sm:text-sm text-gray-500 italic">
@@ -1214,7 +1228,7 @@ const Cadastros = () => {
 													href="#"
 													className="text-blue-600 hover:underline"
 												>
-													{coach.PhoneNumber}
+													{coach.phoneNumber}
 												</a>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
@@ -1387,58 +1401,93 @@ const Cadastros = () => {
 
 					{/* Conteúdo para Abas CATEGORIAS */}
 					{abaAtiva === 'categorias' && (
-            <div className="bg-white rounded-lg overflow-x-auto">
-              <table className="w-full divide-y divide-gray-200">
-                <thead className="bg-white">
-                  <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Turmas</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Modalidade</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {categoriesFiltrados.map((category) => (
-                    <tr key={category.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-                        <button
-                          onClick={() => {
-                            setCategoriaSelecionada(category);
-                            setAbrirVisualizarCategoria(true);
-                          }}
-                          className="text-blue-600 hover:underline text-sm cursor-pointer"
-                        >
-                          {category.name}
-                        </button>
-                      </td>
-                      
-                      {/* COLUNA TURMAS SEPARADAS (Estilo similar aos Atletas nos Responsáveis) */}
-                      <td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-                        <div className="flex flex-wrap gap-x-1">
-                          {category.classes?.split(", ").map((turma, index, array) => (
-                            <span key={index}>
-                              <span 
-                                className="text-blue-600 hover:underline cursor-pointer text-sm"
-                                onClick={() => {
-                                  // Opcional: Lógica para abrir o modal da turma específica aqui
-                                  const turmaObj = turmas.find(t => t.nomeTurma === turma);
-                                  if (turmaObj) {
-                                    setTurmaSelecionada(turmaObj);
-                                    setAbrirVisualizarTurma(true);
-                                  }
-                                }}
-                              >
-                                {turma}
-                              </span>
-                              {index < array.length - 1 && <span className="text-gray-500">, </span>}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
+						<div className="bg-white rounded-lg overflow-x-auto">
+							<table className="w-full divide-y divide-gray-200">
+								<thead className="bg-white">
+									<tr>
+										<th
+											scope="col"
+											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+										>
+											Categoria
+										</th>
+										<th
+											scope="col"
+											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+										>
+											Turmas
+										</th>
+										<th
+											scope="col"
+											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+										>
+											Modalidade
+										</th>
+										<th
+											scope="col"
+											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+										>
+											Ações
+										</th>
+									</tr>
+								</thead>
+								<tbody className="bg-white divide-y divide-gray-200">
+									{categoriesFiltrados.map((category) => (
+										<tr key={category.id} className="hover:bg-gray-50">
+											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
+												<button
+													onClick={() => {
+														setCategoriaSelecionada(category);
+														setAbrirVisualizarCategoria(true);
+													}}
+													className="text-blue-600 hover:underline text-sm cursor-pointer"
+												>
+													{category.name}
+												</button>
+											</td>
 
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
-                        {category.modality}
-                      </td>
+											{/* COLUNA TURMAS SEPARADAS (Estilo similar aos Atletas nos Responsáveis) */}
+											<td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
+												<div className="flex flex-wrap gap-x-1">
+													{category.classes
+														?.split(', ')
+														.map((turma, index, array) => (
+															<span key={index}>
+																<span
+																	className="text-blue-600 hover:underline cursor-pointer text-sm"
+																	onClick={() => {
+																		// Opcional: Lógica para abrir o modal da turma específica aqui
+																		const turmaObj =
+																			turmas.find(
+																				(t) =>
+																					t.nomeTurma ===
+																					turma
+																			);
+																		if (turmaObj) {
+																			setTurmaSelecionada(
+																				turmaObj
+																			);
+																			setAbrirVisualizarTurma(
+																				true
+																			);
+																		}
+																	}}
+																>
+																	{turma}
+																</span>
+																{index < array.length - 1 && (
+																	<span className="text-gray-500">
+																		,{' '}
+																	</span>
+																)}
+															</span>
+														))}
+												</div>
+											</td>
+
+											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+												{category.modality}
+											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
 												<button
 													disabled={!isAdmin}
@@ -1514,65 +1563,95 @@ const Cadastros = () => {
 								</thead>
 
 								<tbody className="bg-white divide-y divide-gray-200">
-                  {modalitiesFiltrados.map((modality) => (
-                    <tr key={modality.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-                        <button
-                          onClick={() => {
-                            setModalidadeSelecionada(modality);
-                            setAbrirVisualizarModalidade(true);
-                          }}
-                          className="text-blue-600 hover:underline text-sm cursor-pointer"
-                        >
-                          {modality.name}
-                        </button>
-                      </td>
+									{modalitiesFiltrados.map((modality) => (
+										<tr key={modality.id} className="hover:bg-gray-50">
+											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
+												<button
+													onClick={() => {
+														setModalidadeSelecionada(modality);
+														setAbrirVisualizarModalidade(true);
+													}}
+													className="text-blue-600 hover:underline text-sm cursor-pointer"
+												>
+													{modality.name}
+												</button>
+											</td>
 
-                      {/* COLUNA CATEGORIAS SEPARADAS */}
-                      <td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-                        <div className="flex flex-wrap gap-x-1">
-                          {modality.category?.split(", ").map((catNome, idx, arr) => (
-                            <span key={idx}>
-                              <span 
-                                className="text-blue-600 hover:underline cursor-pointer text-sm"
-                                onClick={() => {
-                                  const catObj = categorias.find(c => c.name === catNome);
-                                  if (catObj) {
-                                    setCategoriaSelecionada(catObj);
-                                    setAbrirVisualizarCategoria(true);
-                                  }
-                                }}
-                              >
-                                {catNome}
-                              </span>
-                              {idx < arr.length - 1 && <span className="text-gray-500">, </span>}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
+											{/* COLUNA CATEGORIAS SEPARADAS */}
+											<td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
+												<div className="flex flex-wrap gap-x-1">
+													{modality.category
+														?.split(', ')
+														.map((catNome, idx, arr) => (
+															<span key={idx}>
+																<span
+																	className="text-blue-600 hover:underline cursor-pointer text-sm"
+																	onClick={() => {
+																		const catObj =
+																			categorias.find(
+																				(c) =>
+																					c.name ===
+																					catNome
+																			);
+																		if (catObj) {
+																			setCategoriaSelecionada(
+																				catObj
+																			);
+																			setAbrirVisualizarCategoria(
+																				true
+																			);
+																		}
+																	}}
+																>
+																	{catNome}
+																</span>
+																{idx < arr.length - 1 && (
+																	<span className="text-gray-500">
+																		,{' '}
+																	</span>
+																)}
+															</span>
+														))}
+												</div>
+											</td>
 
-                      {/* COLUNA TURMAS SEPARADAS */}
-                      <td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-                        <div className="flex flex-wrap gap-x-1">
-                          {modality.classes?.split(", ").map((turmaNome, idx, arr) => (
-                            <span key={idx}>
-                              <span 
-                                className="text-blue-600 hover:underline cursor-pointer text-sm"
-                                onClick={() => {
-                                  const turmaObj = turmas.find(t => t.nomeTurma === turmaNome);
-                                  if (turmaObj) {
-                                    setTurmaSelecionada(turmaObj);
-                                    setAbrirVisualizarTurma(true);
-                                  }
-                                }}
-                              >
-                                {turmaNome}
-                              </span>
-                              {idx < arr.length - 1 && <span className="text-gray-500">, </span>}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
+											{/* COLUNA TURMAS SEPARADAS */}
+											<td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
+												<div className="flex flex-wrap gap-x-1">
+													{modality.classes
+														?.split(', ')
+														.map((turmaNome, idx, arr) => (
+															<span key={idx}>
+																<span
+																	className="text-blue-600 hover:underline cursor-pointer text-sm"
+																	onClick={() => {
+																		const turmaObj =
+																			turmas.find(
+																				(t) =>
+																					t.nomeTurma ===
+																					turmaNome
+																			);
+																		if (turmaObj) {
+																			setTurmaSelecionada(
+																				turmaObj
+																			);
+																			setAbrirVisualizarTurma(
+																				true
+																			);
+																		}
+																	}}
+																>
+																	{turmaNome}
+																</span>
+																{idx < arr.length - 1 && (
+																	<span className="text-gray-500">
+																		,{' '}
+																	</span>
+																)}
+															</span>
+														))}
+												</div>
+											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
 												<button
 													disabled={!isAdmin}
@@ -1651,12 +1730,15 @@ const Cadastros = () => {
 									{interessadosFiltrados.map((interested) => (
 										<tr key={interested.id} className="hover:bg-gray-50">
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
+												<button
+													onClick={() => {
+														setInteressadoSelecionado(interested);
+														setabrirVisualizarInteressado(interested);
+													}}
+													className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-all cursor-pointer text-left"
 												>
 													{interested.name}
-												</a>
+												</button>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
 												<a
@@ -1752,15 +1834,15 @@ const Cadastros = () => {
 					</div>
 				)}
 
-				{/* Modais de Cadastro/Edição */}
+				{/* --- MODALS DE CADASTRO --- */}
 				<ModalCadastroAtleta
 					aberto={abrirCadastroAtleta}
 					onClose={() => {
 						setAbrirCadastroAtleta(false);
 						setItemEditando(null);
 					}}
-          turmasGlobais={turmas}
-          categoriasGlobais={categorias}
+					turmasGlobais={turmas}
+					categoriasGlobais={categorias}
 					onSave={async (atletaEditado) => {
 						try {
 							const numTurma = atletaEditado.classes.replace(/\D/g, '');
@@ -1970,13 +2052,13 @@ const Cadastros = () => {
 					interessado={itemEditando}
 				/>
 
-				{/* Modal Visualizar Atleta */}
+				{/* --- MODALS DE VISUALIZAÇÕES --- */}
 				<ModalVisualizarAtleta
 					aberto={abrirVisualizarAtleta}
 					onClose={() => setAbrirVisualizarAtleta(false)}
 					atleta={atletaSelecionado}
-          turmasGlobais={turmas}
-          categoriasGlobais={categorias}
+					turmasGlobais={turmas}
+					categoriasGlobais={categorias}
 					onSave={async (atletaEditado) => {
 						try {
 							const numTurma = atletaEditado.classes.replace(/\D/g, '');
@@ -2014,13 +2096,14 @@ const Cadastros = () => {
 					}}
 				/>
 
-				{/* Modal Visualizar Responsável */}
 				<ModalVisualizarResp
 					aberto={abrirVisualizarResp}
 					onClose={() => {
 						setAbrirVisualizarResp(false);
 						setResponsavelSelecionado(null);
 					}}
+					turmasGlobais={turmas} 
+    				categoriasGlobais={categorias}
 					responsavel={responsavelSelecionado}
 					onSave={async (dadosAtualizados) => {
 						try {
@@ -2043,7 +2126,6 @@ const Cadastros = () => {
 					}}
 				/>
 
-				{/* Modal Visualizar Turma */}
 				<ModalVisualizarTurma
 					aberto={abrirVisualizarTurma}
 					onClose={() => setAbrirVisualizarTurma(false)}
@@ -2094,81 +2176,104 @@ const Cadastros = () => {
 					}}
 				/>
 
-        <ModalVisualizarCategoria
-          aberto={abrirVisualizarCategoria}
-          onClose={() => setAbrirVisualizarCategoria(false)}
-          categoria={categoriaSelecionada}
-          turmasGlobais={turmas}
-          modalidadesGlobais={modalidades}
-          onSave={async (categoriaEditada) => {
-              try {
-                  // 1. Atualiza a Categoria no Banco e no Estado
-                  await update('categorias', categoriaEditada.id, categoriaEditada);
-                  setCategorias(prev => prev.map(c => c.id === categoriaEditada.id ? categoriaEditada : c));
+				<ModalVisualizarCategoria
+					aberto={abrirVisualizarCategoria}
+					onClose={() => setAbrirVisualizarCategoria(false)}
+					categoria={categoriaSelecionada}
+					turmasGlobais={turmas}
+					modalidadesGlobais={modalidades}
+					onSave={async (categoriaEditada) => {
+						try {
+							// 1. Atualiza a Categoria no Banco e no Estado
+							await update('categorias', categoriaEditada.id, categoriaEditada);
+							setCategorias((prev) =>
+								prev.map((c) =>
+									c.id === categoriaEditada.id ? categoriaEditada : c
+								)
+							);
 
-                  // 2. SINCRONIZAR TURMAS: Atualiza o campo 'category' de cada turma
-                  const nomesTurmasNaCategoria = categoriaEditada.classes.split(", ");
-                  
-                  const novasTurmas = turmas.map(t => {
-                      // Se a turma foi incluída nesta categoria, atualiza o vínculo
-                      if (nomesTurmasNaCategoria.includes(t.nomeTurma)) {
-                          return { ...t, category: categoriaEditada.name };
-                      }
-                      // Se a turma pertencia a esta categoria mas foi removida no modal, limpa o vínculo
-                      if (t.category === categoriaEditada.name && !nomesTurmasNaCategoria.includes(t.nomeTurma)) {
-                          return { ...t, category: "" };
-                      }
-                      return t;
-                  });
+							// 2. SINCRONIZAR TURMAS: Atualiza o campo 'category' de cada turma
+							const nomesTurmasNaCategoria = categoriaEditada.classes.split(', ');
 
-                  for (const t of novasTurmas) {
-                      await update('turmas', t.id, t);
-                  }
-                  setTurmas(novasTurmas);
+							const novasTurmas = turmas.map((t) => {
+								// Se a turma foi incluída nesta categoria, atualiza o vínculo
+								if (nomesTurmasNaCategoria.includes(t.nomeTurma)) {
+									return { ...t, category: categoriaEditada.name };
+								}
+								// Se a turma pertencia a esta categoria mas foi removida no modal, limpa o vínculo
+								if (
+									t.category === categoriaEditada.name &&
+									!nomesTurmasNaCategoria.includes(t.nomeTurma)
+								) {
+									return { ...t, category: '' };
+								}
+								return t;
+							});
 
-                  // 3. SINCRONIZAR ATLETAS: Atualiza a categoria do aluno baseada na sua Turma
-                  const novosAtletas = athletes.map(a => {
-                      // Encontra a turma atual do atleta na lista recém-atualizada
-                      const turmaDoAtleta = novasTurmas.find(t => t.nomeTurma === a.classes);
-                      if (turmaDoAtleta) {
-                          return { ...a, category: turmaDoAtleta.category };
-                      }
-                      return a;
-                  });
+							for (const t of novasTurmas) {
+								await update('turmas', t.id, t);
+							}
+							setTurmas(novasTurmas);
 
-                  for (const a of novosAtletas) {
-                      await update('atletas', a.id, a);
-                  }
-                  setAthletes(novosAtletas);
+							// 3. SINCRONIZAR ATLETAS: Atualiza a categoria do aluno baseada na sua Turma
+							const novosAtletas = athletes.map((a) => {
+								// Encontra a turma atual do atleta na lista recém-atualizada
+								const turmaDoAtleta = novasTurmas.find(
+									(t) => t.nomeTurma === a.classes
+								);
+								if (turmaDoAtleta) {
+									return { ...a, category: turmaDoAtleta.category };
+								}
+								return a;
+							});
 
-                  setAbrirVisualizarCategoria(false);
-              } catch (e) { console.error("Erro na sincronização de categoria:", e); }
-          }}
-        />
-      
-        <ModalVisualizarModalidade
-          aberto={abrirVisualizarModalidade}
-          onClose={() => setAbrirVisualizarModalidade(false)}
-          modalidade={modalidadeSelecionada}
-          categoriasGlobais={categorias}
-          turmasGlobais={turmas}
-          onSave={async (dados) => {
-              try {
-                  await update('modalidades', dados.id, dados);
-                  setModalidades(prev => prev.map(m => m.id === dados.id ? dados : m));
-                  
-                  // Sincronização: Atualiza a modalidade dentro das Categorias afetadas
-                  const novasCategorias = categorias.map(c => {
-                      if (dados.category.includes(c.name)) return { ...c, modality: dados.name };
-                      return c;
-                  });
-                  for(const c of novasCategorias) await update('categorias', c.id, c);
-                  setCategorias(novasCategorias);
+							for (const a of novosAtletas) {
+								await update('atletas', a.id, a);
+							}
+							setAthletes(novosAtletas);
 
-                  setAbrirVisualizarModalidade(false);
-              } catch (e) { console.error(e); }
-          }}
-        />
+							setAbrirVisualizarCategoria(false);
+						} catch (e) {
+							console.error('Erro na sincronização de categoria:', e);
+						}
+					}}
+				/>
+
+				<ModalVisualizarModalidade
+					aberto={abrirVisualizarModalidade}
+					onClose={() => setAbrirVisualizarModalidade(false)}
+					modalidade={modalidadeSelecionada}
+					categoriasGlobais={categorias}
+					turmasGlobais={turmas}
+					onSave={async (dados) => {
+						try {
+							await update('modalidades', dados.id, dados);
+							setModalidades((prev) =>
+								prev.map((m) => (m.id === dados.id ? dados : m))
+							);
+
+							// Sincronização: Atualiza a modalidade dentro das Categorias afetadas
+							const novasCategorias = categorias.map((c) => {
+								if (dados.category.includes(c.name))
+									return { ...c, modality: dados.name };
+								return c;
+							});
+							for (const c of novasCategorias) await update('categorias', c.id, c);
+							setCategorias(novasCategorias);
+
+							setAbrirVisualizarModalidade(false);
+						} catch (e) {
+							console.error(e);
+						}
+					}}
+				/>
+
+				{/* Modal de Visualização */}
+				<ModalVisualizarInteressado
+					aberto={abrirVisualizarInteressado}
+					onClose={() => setabrirVisualizarInteressado(false)}
+					interessado={interessadoSelecionado}
+				/>
 			</div>
 		</Layout>
 	);

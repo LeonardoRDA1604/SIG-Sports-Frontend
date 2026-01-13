@@ -8,12 +8,14 @@ export default function ModalCadastroAtleta({
 	onSave,
 	atleta,
 	responsavelContexto, // Dados do responsável atual
-	turmasGlobais,
-	categoriasGlobais,
+	turmasGlobais = [],
+    categoriasGlobais = [],
 }) {
 	const [step, setStep] = useState(1); // Controle da página (1 ou 2)
 	const [enderecoMesmoAtleta, setEnderecoMesmoAtleta] = useState(true); // Boolean de Mesmo Endereço do Atleta
 	const [emailErro, setEmailErro] = useState(false); // Estado de erro do email
+	const [atletaEmailErro, setAtletaEmailErro] = useState(false);
+	const [respEmailErro, setRespEmailErro] = useState(false);
 
 	const estadoInicial = {
 		// Dados Atleta (Pág 1)
@@ -24,8 +26,8 @@ export default function ModalCadastroAtleta({
 		email: '',
 		escola: '',
 		modalidade: '',
-		categoria: '',
-		turma: '',
+		category: '',
+		classes: '',
 		cep: '',
 		bairro: '',
 		cidade: '',
@@ -48,6 +50,7 @@ export default function ModalCadastroAtleta({
 	};
 
 	const [formData, setFormData] = useState(estadoInicial); // Utiliza o estado inicial do formulário para iniciar o estado dos campos
+
 
 	// Preencher dados quando estiver editando
 	useEffect(() => {
@@ -106,46 +109,29 @@ export default function ModalCadastroAtleta({
 
 	// Função para validar campos obrigatórios de acordo com o Step
 	const validarCampos = () => {
-		if (step === 1) {
-			const obrigatoriosStep1 = [
-				'nome',
-				'nascimento',
-				'escola',
-				'modalidade',
-				'categoria',
-				'turma',
-				'cep',
-				'bairro',
-				'cidade',
-				'logradouro',
-			];
-			return obrigatoriosStep1.every((campo) => formData[campo].trim() !== '');
-		} else {
-			const obrigatoriosStep2Base = [
-				'respCpf',
-				'respNome',
-				'respEmail',
-				'respTelefone',
-				'respParentesco',
-			];
-			// Verifica preenchimento E se não há erro de formato de email
-			const baseValida =
-				obrigatoriosStep2Base.every((campo) => formData[campo].trim() !== '') && !emailErro;
+    if (step === 1) {
+        const obrigatoriosStep1 = [
+            'nome', 'nascimento', 'escola', 'modalidade', 
+            'category', 'classes', 'cep', 'bairro', 'cidade', 'logradouro'
+        ];
+        // Verifica se os campos obrigatórios estão preenchidos
+        const preenchidos = obrigatoriosStep1.every((campo) => formData[campo]?.trim() !== '');
+        
+        // SÓ permite continuar se estiver preenchido E o e-mail (se digitado) não tiver erro
+        return preenchidos && !atletaEmailErro;
+    } else {
+        const obrigatoriosStep2Base = ['respCpf', 'respNome', 'respEmail', 'respTelefone', 'respParentesco'];
+        
+        // Valida campos base do responsável + erro de e-mail
+        const baseValida = obrigatoriosStep2Base.every((campo) => formData[campo]?.trim() !== '') && !respEmailErro;
 
-			if (enderecoMesmoAtleta) return baseValida;
+        if (enderecoMesmoAtleta) return baseValida;
 
-			const obrigatoriosEnderecoResp = [
-				'respCep',
-				'respBairro',
-				'respCidade',
-				'respLogradouro',
-			];
-			return (
-				baseValida &&
-				obrigatoriosEnderecoResp.every((campo) => formData[campo].trim() !== '')
-			);
-		}
-	};
+        // Se o endereço for diferente, valida os campos de endereço do responsável
+        const obrigatoriosEnderecoResp = ['respCep', 'respBairro', 'respCidade', 'respLogradouro'];
+        return baseValida && obrigatoriosEnderecoResp.every((campo) => formData[campo]?.trim() !== '');
+    }
+};
 
 	// Reset do modal ao fechar
 	const handleClose = () => {
@@ -179,8 +165,8 @@ export default function ModalCadastroAtleta({
 			escola: capitalizarNome(formData.escola),
 			modalidade: formData.modalidade,
 			age: formData.nascimento ? calcularIdade(formData.nascimento) : null,
-			category: (formData.categoria || '').replace(/^sub-/i, 'Sub-'),
-			classes: formData.turma || '',
+			category: (formData.category || '').replace(/^sub-/i, 'Sub-'),
+			classes: formData.classes || '',
 			cep: formData.cep,
 			bairro: capitalizarNome(formData.bairro),
 			cidade: capitalizarNome(formData.cidade),
@@ -276,18 +262,20 @@ export default function ModalCadastroAtleta({
 		}
 		if (name.toLowerCase().includes('telefone')) maskedValue = maskTelefone(value);
 
+		if (name === 'email') {
+			setAtletaEmailErro(!validarEmail(value) && value !== '');
+		}
 		if (name === 'respEmail') {
-			setEmailErro(!validarEmail(value) && value !== '');
+			setRespEmailErro(!validarEmail(value) && value !== '');
 		}
 
 		// Se mudar a categoria, reseta a turma selecionada para evitar inconsistência
-		if (name === 'categoria') {
-			// Quando muda a categoria, busca a primeira turma disponível para essa categoria no banco real
-			const primeiraTurmaDaCat = turmasGlobais.find((t) => t.category === value);
+		if (name === 'category') {
+			const primeiraTurma = turmasGlobais?.find((t) => t.category === value);
 			setFormData((prev) => ({
 				...prev,
-				[name]: value,
-				classes: primeiraTurmaDaCat ? primeiraTurmaDaCat.nomeTurma : '',
+            	category: value,
+            	classes: primeiraTurma ? primeiraTurma.nomeTurma : '',
 			}));
 		} else {
 			setFormData((prev) => ({ ...prev, [name]: maskedValue }));
@@ -302,7 +290,7 @@ export default function ModalCadastroAtleta({
 		'w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none text-sm cursor-pointer';
 	// Estilo específico para a Turma (com lógica de cinza)
 	const turmaSelectStyle = `w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none text-sm transition-colors ${
-		!formData.categoria
+		!formData.category
 			? 'bg-gray-100 text-gray-400 cursor-not-allowed'
 			: 'bg-white text-gray-900 cursor-pointer'
 	}`;
@@ -390,17 +378,20 @@ export default function ModalCadastroAtleta({
 								</div>
 							</div>
 							<div>
-								<label className="block text-sm font-semibold text-slate-600 mb-1">
-									Email
-								</label>
+								<label className="block text-sm font-semibold text-slate-600 mb-1">Email</label>
 								<input
 									type="email"
 									name="email"
 									value={formData.email}
 									onChange={handleChange}
 									placeholder="exemplo@email.com"
-									className={inputStyle}
+									className={`${inputStyle} ${atletaEmailErro ? 'border-red-500 focus:ring-red-500/20' : ''}`}
 								/>
+								{atletaEmailErro && (
+									<span className="text-[10px] text-red-500 font-bold mt-1 block px-1">
+										Formato de e-mail inválido.
+									</span>
+								)}
 							</div>
 							<div>
 								<label className="block text-sm font-semibold text-slate-600 mb-1">
@@ -445,15 +436,15 @@ export default function ModalCadastroAtleta({
 								</label>
 								<div className="relative">
 									<select
-										name="categoria"
-										value={formData.categoria}
+										name="category"
+										value={formData.category}
 										onChange={handleChange}
 										className={selectStyle}
 									>
 										<option value="" disabled>
 											Selecione
 										</option>
-										{categoriasGlobais.map((cat) => (
+										{categoriasGlobais?.map((cat) => (
 											<option key={cat.id} value={cat.name}>
 												{cat.name}
 											</option>
@@ -471,17 +462,17 @@ export default function ModalCadastroAtleta({
 								</label>
 								<div className="relative">
 									<select
-										name="turma"
-										value={formData.turma}
+										name="classes"
+										value={formData.classes}
 										onChange={handleChange}
 										className={turmaSelectStyle}
-										disabled={!formData.categoria}
+										disabled={!formData.category}
 									>
 										<option value="" disabled>
 											Selecione a turma
 										</option>
 										{turmasGlobais
-											.filter((t) => t.category === formData.categoria)
+											?.filter((t) => t.category === formData.category)
 											.map((t) => (
 												<option key={t.id} value={t.nomeTurma}>
 													{t.nomeTurma}
@@ -659,15 +650,11 @@ export default function ModalCadastroAtleta({
 									name="respEmail"
 									value={formData.respEmail}
 									onChange={handleChange}
-									className={`${inputStyle} ${
-										emailErro
-											? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-											: ''
-									}`}
+									className={`${inputStyle} ${respEmailErro ? 'border-red-500 focus:ring-red-500/20' : ''}`}
 								/>
-								{emailErro && (
-									<span className="text-xs text-red-500 mt-1">
-										Por favor, insira um e-mail válido.
+								{respEmailErro && (
+									<span className="text-[10px] text-red-500 font-bold mt-1 block px-1">
+										Por favor, insira um e-mail válido para o responsável.
 									</span>
 								)}
 							</div>

@@ -20,7 +20,8 @@ export default function ModalVisualizarResp({
 	onClose,
 	responsavel,
 	onSave,
-	onOpenAddAthlete, // Função para abrir o modal de vincular novo atleta
+	turmasGlobais,
+    categoriasGlobais
 }) {
 	// ========================
 	// ESTADOS DE CONTROLE
@@ -501,6 +502,8 @@ export default function ModalVisualizarResp({
                 aberto={abrirNovoAtleta}
                 onClose={() => setAbrirNovoAtleta(false)}
                 responsavelContexto={formData}
+				turmasGlobais={turmasGlobais}
+        		categoriasGlobais={categoriasGlobais}
                 onSave={(novoAtletaFull) => {
                     // CORREÇÃO: Atualizar a lista local de nomes e disparar evento para o pai
                     setFormData(prev => ({

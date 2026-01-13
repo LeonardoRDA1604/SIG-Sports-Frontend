@@ -22,8 +22,8 @@ export default function ModalVisualizarAtleta({
 	onClose,
 	atleta,
 	onSave,
-	turmasGlobais,
-	categoriasGlobais,
+	turmasGlobais = [],
+	categoriasGlobais = [],
 }) {
 	// ========================
 	// ESTADOS DE CONTROLE
@@ -261,26 +261,21 @@ export default function ModalVisualizarAtleta({
 			}));
 		} else {
 			if (name === 'category') {
+				const primeiraTurma = turmasGlobais?.find((t) => t.category === value);
 				setFormData((prev) => ({
 					...prev,
-					[name]: value,
-					classes: opcoesTurmas[value][0],
+					category: value,
+					classes: primeiraTurma ? primeiraTurma.nomeTurma : '',
+				}));
+			} else if (name.includes('.')) {
+				const [parent, child] = name.split('.');
+				setFormData((prev) => ({
+					...prev,
+					[parent]: { ...prev[parent], [child]: maskedValue },
 				}));
 			} else {
 				setFormData((prev) => ({ ...prev, [name]: maskedValue }));
 			}
-		}
-
-		if (name === 'category') {
-			// Quando muda a categoria, busca a primeira turma disponível para essa categoria no banco real
-			const primeiraTurmaDaCat = turmasGlobais.find((t) => t.category === value);
-			setFormData((prev) => ({
-				...prev,
-				[name]: value,
-				classes: primeiraTurmaDaCat ? primeiraTurmaDaCat.nomeTurma : '',
-			}));
-		} else {
-			setFormData((prev) => ({ ...prev, [name]: maskedValue }));
 		}
 	};
 
@@ -340,18 +335,15 @@ export default function ModalVisualizarAtleta({
 	};
 
 	const handleFinalSave = () => {
-		if (emailErro) return;
-		// Capitalizar nomes antes de salvar para padronização
-		const dadosCapitalizados = {
-			...formData,
-			name: capitalizarNome(formData.name),
-			respNome: capitalizarNome(formData.respNome),
-		};
-		onSave(dadosCapitalizados);
-		setIsEditing(false);
-	};
+        if (emailErro) return;
+        onSave({
+            ...formData,
+            name: capitalizarNome(formData.name)
+        });
+        setIsEditing(false);
+    };
 
-	if (!aberto) return null;
+    if (!aberto || !formData) return null;
 
 	return (
 		<div className="fixed inset-0 bg-black/50 flex items-center justify-center z-99999 p-4">

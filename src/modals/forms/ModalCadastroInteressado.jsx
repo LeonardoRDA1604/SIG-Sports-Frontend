@@ -12,9 +12,11 @@ export default function ModalCadastroInteressado({
     nome: "",
     modalidade: "",
     telefone: "",
+    email: "",
   };
 
   const [formData, setFormData] = useState(estadoInicial);
+  const [emailErro, setEmailErro] = useState(false); // Estado de erro do email
 
   // Preencher dados quando estiver editando
   useEffect(() => {
@@ -27,6 +29,7 @@ export default function ModalCadastroInteressado({
 
   const handleClose = () => {
     setFormData(estadoInicial);
+    setEmailErro(false); // Reseta o estado de erro do email
     onClose();
   };
 
@@ -41,15 +44,28 @@ export default function ModalCadastroInteressado({
         .substring(0, 15);
     }
 
+    if (name === "email") {
+      setEmailErro(!validarEmail(value) && value !== "");
+    }
+
     setFormData((prev) => ({ ...prev, [name]: maskedValue }));
   };
 
   const validarCampos = () => {
-    return (
-      formData.nome.trim() !== "" &&
-      formData.modalidade !== "" &&
-      formData.telefone.trim() !== ""
+    const camposObrigatorios = [
+      "nome",
+      "email",
+      "telefone",
+      "modalidade"
+    ];
+
+    // Verifica se todos os campos obrigatórios têm conteúdo (removendo espaços vazios)
+    const todosPreenchidos = camposObrigatorios.every(
+      (campo) => formData[campo]?.trim() !== ""
     );
+
+    // O botão só habilita se tudo estiver preenchido E não houver erro de formato de email
+    return todosPreenchidos && !emailErro;
   };
 
   const handleSalvar = () => {
@@ -63,6 +79,12 @@ export default function ModalCadastroInteressado({
     };
     onSave?.(payload);
     handleClose();
+  };
+
+  // Validação de email
+  const validarEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   const inputStyle =
@@ -102,6 +124,44 @@ export default function ModalCadastroInteressado({
             />
           </div>
 
+          {/* Email com Validação Visual */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-600 mb-1">
+              Email <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={`${inputStyle} ${
+                emailErro
+                  ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                  : ""
+              }`}
+            />
+            {emailErro && (
+              <span className="text-xs text-red-500 mt-1">
+                Por favor, insira um e-mail válido.
+              </span>
+            )}
+          </div>
+
+          {/* Telefone */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-600 mb-1">
+              Telefone <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="telefone"
+              value={formData.telefone}
+              onChange={handleChange}
+              placeholder="(00) 00000-0000"
+              className={inputStyle}
+            />
+          </div>
+
           {/* Modalidade */}
           <div>
             <label className="block text-sm font-semibold text-slate-600 mb-1">
@@ -127,21 +187,6 @@ export default function ModalCadastroInteressado({
                 size={20}
               />
             </div>
-          </div>
-
-          {/* Telefone */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              Telefone <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="telefone"
-              value={formData.telefone}
-              onChange={handleChange}
-              placeholder="(00) 00000-0000"
-              className={inputStyle}
-            />
           </div>
         </div>
 

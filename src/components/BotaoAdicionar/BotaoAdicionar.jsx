@@ -11,7 +11,7 @@ import ModalCadastroModalidade from "../../modals/forms/ModalCadastroModalidade"
 import ModalCadastroTreinador from "../../modals/forms/ModalCadastroTreinador";
 import ModalCadastroInteressado from "../../modals/forms/ModalCadastroInteressado";
 
-export default function BotaoAdicionar({ aba, label, onCreated }) {
+export default function BotaoAdicionar({ aba, label, onCreated, turmasGlobais = [], categoriasGlobais = []}) {
   // Estados para cada popup de novo cadastro (a partir do botão "Adicionar ...")
   const [abrirCadastroAtleta, setAbrirCadastroAtleta] = useState(false); // Adicionar Atleta
   const [abrirCadastroResponsavel, setAbrirCadastroResponsavel] =
@@ -78,6 +78,8 @@ export default function BotaoAdicionar({ aba, label, onCreated }) {
         onSave={(data) => {
           onCreated?.("atletas", data);
         }}
+        turmasGlobais={turmasGlobais}
+    		categoriasGlobais={categoriasGlobais}
       />
 
       <ModalCadastroResponsavel
