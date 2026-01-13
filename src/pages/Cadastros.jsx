@@ -22,8 +22,9 @@ import ModalCadastroModalidade from '../modals/forms/ModalCadastroModalidade';
 import ModalVisualizarAtleta from '../modals/views/ModalVisualizarAtleta';
 import { temAcessoBloqueado } from '../utils/permissoes';
 import ModalVisualizarResp from '../modals/views/ModalVisualizarResp';
+import ModalVisualizarTurma from '../modals/views/ModalVisualizarTurma';
 
-// Dados dos atletas atualizados (incluindo Leandro)
+// Dados dos Atletas
 const athletesData = [
 	{
 		id: '1',
@@ -161,7 +162,7 @@ const athletesData = [
 		modalidade: 'futebol',
 		age: 17,
 		category: 'Sub-18',
-		classes: 'B17',
+		classes: 'B18',
 		cep: '52.051-380',
 		bairro: 'Casa Amarela',
 		cidade: 'Recife',
@@ -184,7 +185,7 @@ const athletesData = [
 		email: 'leandro@aponti.com',
 		escola: 'Aponti',
 		modalidade: 'futebol',
-		age: 40,
+		age: 16,
 		category: 'Sub-16',
 		classes: 'A16',
 		cep: '54310-302',
@@ -202,7 +203,7 @@ const athletesData = [
 	},
 ];
 
-// Dados dos responsáveis atualizados (incluindo Adelmo)
+// Dados dos Responsáveis
 const responsibleData = [
 	{
 		id: '1',
@@ -336,86 +337,142 @@ const responsibleData = [
 	},
 ];
 
-// Dados dos treinadores
+// Dados dos Treinadores
 const coachData = [
-	{
-		id: 1,
-		name: 'Pep Guardiola',
-		classes: 'Sub-12',
-		workTimes: '06:00 - 12:00',
-		PhoneNumber: '(00) 0.0000-0000',
-	},
-	{
-		id: 2,
-		name: 'Carlo Ancelotti',
-		classes: 'Sub-14',
-		workTimes: '06:00 - 12:00',
-		PhoneNumber: '(00) 0.0000-0000',
-	},
-	{
-		id: 3,
-		name: 'Xabi Alonso',
-		classes: 'Sub-16',
-		workTimes: '06:00 - 12:00',
-		PhoneNumber: '(00) 0.0000-000',
-	},
-	{
-		id: 4,
-		name: 'Mikel Arteta',
-		classes: 'Sub-16',
-		workTimes: '12:35 - 18:35',
-		PhoneNumber: '(99) 9.9999-9999',
-	},
-	{
-		id: 5,
-		name: 'Luis Enrique',
-		classes: 'Sub-16',
-		workTimes: '12:35 - 18:35',
-		PhoneNumber: '(88) 8.8888-8888',
-	},
+	{ id: 1, name: 'Pep Guardiola', workTimes: '06:00 - 12:00', phoneNumber: '(81) 91111-1111' },
+	{ id: 2, name: 'Carlo Ancelotti', workTimes: '06:00 - 12:00', phoneNumber: '(81) 92222-2222' },
+	{ id: 3, name: 'Xabi Alonso', workTimes: '14:00 - 20:00', phoneNumber: '(81) 93333-3333' },
+	{ id: 4, name: 'Mikel Arteta', workTimes: '14:00 - 20:00', phoneNumber: '(81) 94444-4444' },
 ];
 
 // Dados das Turmas
 const classesData = [
+	// SUB-12 (Treinador: Pep Guardiola - Manhã)
 	{
 		id: 1,
-		classes: 'A12',
-		workTimes: '06:00 - 12:00',
+		nomeTurma: 'A12',
+		workTimes: '06:00 - 08:00',
 		coach: 'Pep Guardiola',
 		category: 'Sub-12',
 		modality: 'Futebol',
+		days: 'Segunda, Quarta e Sexta',
+		athletes: [],
 	},
 	{
 		id: 2,
-		classes: 'B14',
-		workTimes: '06:00 - 12:00',
-		coach: 'Carlo Ancelotti',
-		category: 'Sub-14',
-		modality: 'Futsal',
+		nomeTurma: 'B12',
+		workTimes: '08:00 - 10:00',
+		coach: 'Pep Guardiola',
+		category: 'Sub-12',
+		modality: 'Futebol',
+		days: 'Terça e Quinta',
+		athletes: ['Mateus Alexander da Silva'],
 	},
 	{
 		id: 3,
-		classes: 'A16',
-		workTimes: '06:00 - 12:00',
-		coach: 'Xabi Alonso',
-		category: 'Sub-16',
-		modality: 'Beach Soccer',
+		nomeTurma: 'C12',
+		workTimes: '10:00 - 12:00',
+		coach: 'Pep Guardiola',
+		category: 'Sub-12',
+		modality: 'Futebol',
+		days: 'Segunda, Quarta e Sexta',
+		athletes: [],
 	},
+
+	// SUB-14 (Treinador: Carlo Ancelotti - Manhã)
 	{
 		id: 4,
-		classes: 'B16',
-		workTimes: '12:35 - 18:35',
-		coach: 'Mikel Arteta',
-		category: 'Sub-16',
-		modality: 'Fut7',
+		nomeTurma: 'A14',
+		workTimes: '06:00 - 08:00',
+		coach: 'Carlo Ancelotti',
+		category: 'Sub-14',
+		modality: 'Futsal',
+		days: 'Segunda, Quarta e Sexta',
+		athletes: ['Gabriel Amaral Bezerra de Menezes'],
 	},
 	{
 		id: 5,
-		classes: 'C16',
-		workTimes: '12:35 - 18:35',
-		coach: 'Luis Enrique',
+		nomeTurma: 'B14',
+		workTimes: '08:00 - 10:00',
+		coach: 'Carlo Ancelotti',
+		category: 'Sub-14',
+		modality: 'Futsal',
+		days: 'Terça e Quinta',
+		athletes: [],
+	},
+	{
+		id: 6,
+		nomeTurma: 'C14',
+		workTimes: '10:00 - 12:00',
+		coach: 'Carlo Ancelotti',
+		category: 'Sub-14',
+		modality: 'Futsal',
+		days: 'Segunda, Quarta e Sexta',
+		athletes: [],
+	},
+
+	// SUB-16 (Treinador: Xabi Alonso - Tarde/Noite)
+	{
+		id: 7,
+		nomeTurma: 'A16',
+		workTimes: '14:00 - 16:00',
+		coach: 'Xabi Alonso',
 		category: 'Sub-16',
 		modality: 'Futebol',
+		days: 'Segunda, Quarta e Sexta',
+		athletes: ['Enzo Gabriel dos Santos', 'Leandro Wilke Alves De Melo'],
+	},
+	{
+		id: 8,
+		nomeTurma: 'B16',
+		workTimes: '16:00 - 18:00',
+		coach: 'Xabi Alonso',
+		category: 'Sub-16',
+		modality: 'Fut7',
+		days: 'Terça e Quinta',
+		athletes: ['Thiago Pereira Lima', 'Nathan Josué Albuquerque Cavalcanti'],
+	},
+	{
+		id: 9,
+		nomeTurma: 'C16',
+		workTimes: '18:00 - 20:00',
+		coach: 'Xabi Alonso',
+		category: 'Sub-16',
+		modality: 'Futebol',
+		days: 'Segunda, Quarta e Sexta',
+		athletes: [],
+	},
+
+	// SUB-18 (Treinador: Mikel Arteta - Tarde/Noite)
+	{
+		id: 10,
+		nomeTurma: 'A18',
+		workTimes: '14:00 - 16:00',
+		coach: 'Mikel Arteta',
+		category: 'Sub-18',
+		modality: 'Futebol',
+		days: 'Segunda, Quarta e Sexta',
+		athletes: [],
+	},
+	{
+		id: 11,
+		nomeTurma: 'B18',
+		workTimes: '16:00 - 18:00',
+		coach: 'Mikel Arteta',
+		category: 'Sub-18',
+		modality: 'Futebol',
+		days: 'Terça e Quinta',
+		athletes: ['Wesley Santana de Oliveira Neto'],
+	},
+	{
+		id: 12,
+		nomeTurma: 'C18',
+		workTimes: '18:00 - 20:00',
+		coach: 'Mikel Arteta',
+		category: 'Sub-18',
+		modality: 'Futebol',
+		days: 'Segunda, Quarta e Sexta',
+		athletes: [],
 	},
 ];
 
@@ -527,11 +584,13 @@ const Cadastros = () => {
 	// Estado para armazenar o item sendo editado
 	const [itemEditando, setItemEditando] = useState(null);
 
-	// Estado para visualizar atleta
+	// Estados para abrir os modais de visualização
 	const [abrirVisualizarAtleta, setAbrirVisualizarAtleta] = useState(false);
 	const [atletaSelecionado, setAtletaSelecionado] = useState(null);
 	const [abrirVisualizarResp, setAbrirVisualizarResp] = useState(false);
 	const [responsavelSelecionado, setResponsavelSelecionado] = useState(null);
+	const [abrirVisualizarTurma, setAbrirVisualizarTurma] = useState(false);
+	const [turmaSelecionada, setTurmaSelecionada] = useState(null);
 
 	// Verificar se o usuário é administrador
 	const usuarioAtual = JSON.parse(localStorage.getItem('usuario') || '{}');
@@ -734,7 +793,7 @@ const Cadastros = () => {
 			case 'turmas':
 				return {
 					id: item.id,
-					nomeTurma: item.name || '',
+					nomeTurma: item.name || item.classes || '',
 					categoria: item.category || '',
 					modalidade: item.modality || '',
 					treinador: item.coach || '',
@@ -1193,6 +1252,7 @@ const Cadastros = () => {
 							)}
 						</div>
 					)}
+
 					{/* Conteúdo para Abas TURMAS */}
 					{abaAtiva === 'turmas' && (
 						<div className="bg-white rounded-lg overflow-x-auto">
@@ -1239,25 +1299,28 @@ const Cadastros = () => {
 								</thead>
 
 								<tbody className="bg-white divide-y divide-gray-200">
-									{classesFiltrados.map((classes) => (
-										<tr key={classes.id} className="hover:bg-gray-50">
+									{classesFiltrados.map((item) => (
+										<tr key={item.id} className="hover:bg-gray-50">
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
+												<button
+													onClick={() => {
+														setTurmaSelecionada(item);
+														setAbrirVisualizarTurma(true);
+													}}
+													className="text-blue-600 hover:underline font-medium text-sm cursor-pointer"
 												>
-													{classes.classes}
-												</a>
+													{item.nomeTurma}
+												</button>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-primary-900 font-medium">
-												{classes.workTimes}
+												{item.workTimes}
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
 												<a
 													href="#"
 													className="text-blue-600 hover:underline"
 												>
-													{classes.coach}
+													{item.coach}
 												</a>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -1265,7 +1328,7 @@ const Cadastros = () => {
 													href="#"
 													className="text-blue-600 hover:underline"
 												>
-													{classes.category}
+													{item.category}
 												</a>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -1273,7 +1336,7 @@ const Cadastros = () => {
 													href="#"
 													className="text-blue-600 hover:underline"
 												>
-													{classes.modality}
+													{item.modality}
 												</a>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
@@ -1282,8 +1345,8 @@ const Cadastros = () => {
 													onClick={() =>
 														handleDeleteClick(
 															'turmas',
-															classes.id,
-															classes.classes
+															item.id,
+															item.classes
 														)
 													}
 													className={`transition-colors cursor-pointer ${
@@ -1572,9 +1635,7 @@ const Cadastros = () => {
 												</a>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<a
-													className="text-primary-900"
-												>
+												<a className="text-primary-900">
 													{interested.phoneNumber}
 												</a>
 											</td>
@@ -1666,19 +1727,46 @@ const Cadastros = () => {
 						setAbrirCadastroAtleta(false);
 						setItemEditando(null);
 					}}
-					onSave={(data) => {
-						if (itemEditando?.id) {
-							// Atualizar
+					onSave={async (atletaEditado) => {
+						try {
+							const numTurma = atletaEditado.classes.replace(/\D/g, '');
+							const categoriaNova = numTurma
+								? `Sub-${numTurma}`
+								: atletaEditado.category;
+							const dadosAtleta = { ...atletaEditado, category: categoriaNova };
+
+							// 1. Atualiza o Atleta globalmente
+							await update('atletas', dadosAtleta.id, dadosAtleta);
 							setAthletes((prev) =>
-								prev.map((a) => (a.id === itemEditando.id ? { ...a, ...data } : a))
+								prev.map((a) => (a.id === dadosAtleta.id ? dadosAtleta : a))
 							);
-						} else {
-							// Criar novo com ID gerado
-							const newId = Math.max(...athletes.map((a) => a.id), 0) + 1;
-							setAthletes((prev) => [...prev, { id: newId, ...data }]);
+
+							// 2. SINCRONIZAÇÃO ENTRE TURMAS: Garante que ele só esteja na turma nova
+							const novasTurmas = turmas.map((t) => {
+								let listaAtletas = [...(t.athletes || [])];
+
+								if (t.nomeTurma === dadosAtleta.classes) {
+									// Adiciona na turma nova se não estiver lá
+									if (!listaAtletas.includes(dadosAtleta.name))
+										listaAtletas.push(dadosAtleta.name);
+								} else {
+									// Remove de TODAS as outras turmas
+									listaAtletas = listaAtletas.filter(
+										(name) => name !== dadosAtleta.name
+									);
+								}
+								return { ...t, athletes: listaAtletas };
+							});
+
+							// Persiste as mudanças em todas as turmas afetadas
+							for (const t of novasTurmas) {
+								await update('turmas', t.id, t);
+							}
+							setTurmas(novasTurmas);
+							setAtletaSelecionado(dadosAtleta);
+						} catch (e) {
+							console.error(e);
 						}
-						setItemEditando(null);
-						setAbrirCadastroAtleta(false);
 					}}
 					atleta={itemEditando}
 				/>
@@ -1731,17 +1819,56 @@ const Cadastros = () => {
 						setAbrirCadastroTurma(false);
 						setItemEditando(null);
 					}}
-					onSave={(data) => {
-						if (itemEditando?.id) {
-							setTurmas((prev) =>
-								prev.map((t) => (t.id === itemEditando.id ? { ...t, ...data } : t))
-							);
-						} else {
-							const newId = Math.max(...turmas.map((t) => t.id), 0) + 1;
-							setTurmas((prev) => [...prev, { id: newId, ...data }]);
+					onSave={async (turmaEditada) => {
+						try {
+							// 1. Atualiza a Turma atual no banco e no estado
+							await update('turmas', turmaEditada.id, turmaEditada);
+
+							// 2. SINCRONIZAÇÃO ENTRE TURMAS: Se um atleta foi adicionado aqui,
+							// ele deve ser removido de qualquer outra turma automaticamente.
+							const turmasSincronizadas = turmas.map((t) => {
+								if (t.id === turmaEditada.id) return turmaEditada;
+
+								// Remove das outras turmas qualquer atleta que agora pertence à turmaEditada
+								const atletasLimpas = (t.athletes || []).filter(
+									(nomeAtleta) => !turmaEditada.athletes.includes(nomeAtleta)
+								);
+								return { ...t, athletes: atletasLimpas };
+							});
+
+							for (const t of turmasSincronizadas) {
+								await update('turmas', t.id, t);
+							}
+							setTurmas(turmasSincronizadas);
+
+							// 3. Atualiza os Atletas: muda 'classes' e 'category' de quem entrou ou saiu
+							const novosAtletas = athletes.map((a) => {
+								if (turmaEditada.athletes.includes(a.name)) {
+									return {
+										...a,
+										classes: turmaEditada.nomeTurma,
+										category: turmaEditada.category,
+									};
+								}
+								// Se o atleta constava como dessa turma mas não está mais na lista, limpa o campo
+								if (
+									a.classes === turmaEditada.nomeTurma &&
+									!turmaEditada.athletes.includes(a.name)
+								) {
+									return { ...a, classes: '', category: '' };
+								}
+								return a;
+							});
+
+							for (const a of novosAtletas) {
+								await update('atletas', a.id, a);
+							}
+							setAthletes(novosAtletas);
+							setTurmaSelecionada(turmaEditada);
+							setAbrirVisualizarTurma(false);
+						} catch (e) {
+							console.error(e);
 						}
-						setItemEditando(null);
-						setAbrirCadastroTurma(false);
 					}}
 					turma={itemEditando}
 				/>
@@ -1812,33 +1939,46 @@ const Cadastros = () => {
 				{/* Modal Visualizar Atleta */}
 				<ModalVisualizarAtleta
 					aberto={abrirVisualizarAtleta}
-					onClose={() => {
-						setAbrirVisualizarAtleta(false);
-						setAtletaSelecionado(null);
-					}}
+					onClose={() => setAbrirVisualizarAtleta(false)}
 					atleta={atletaSelecionado}
-					onSave={async (atletaAtualizado) => {
+					onSave={async (atletaEditado) => {
 						try {
-							await update('atletas', atletaAtualizado.id, atletaAtualizado);
+							const numTurma = atletaEditado.classes.replace(/\D/g, '');
+							const categoriaNova = numTurma
+								? `Sub-${numTurma}`
+								: atletaEditado.category;
+							const dadosAtleta = { ...atletaEditado, category: categoriaNova };
 
-							// 1. Atualiza a lista global
+							// Atualiza Atleta no Banco e no Estado
+							await update('atletas', dadosAtleta.id, dadosAtleta);
 							setAthletes((prev) =>
-								prev.map((a) =>
-									a.id === atletaAtualizado.id ? atletaAtualizado : a
-								)
+								prev.map((a) => (a.id === dadosAtleta.id ? dadosAtleta : a))
 							);
 
-							// 2. CORREÇÃO: Atualiza o item selecionado para que o 'atleta' prop do modal mude
-							setAtletaSelecionado(atletaAtualizado);
+							// LIMPEZA GLOBAL: Garante que o nome só exista na turma atual
+							const turmasAtualizadas = turmas.map((t) => {
+								let lista = [...(t.athletes || [])];
+								if (t.nomeTurma === dadosAtleta.classes) {
+									if (!lista.includes(dadosAtleta.name))
+										lista.push(dadosAtleta.name);
+								} else {
+									// Remove de qualquer outra turma que não seja a selecionada
+									lista = lista.filter((n) => n !== dadosAtleta.name);
+								}
+								return { ...t, athletes: lista };
+							});
 
-							// setAbrirVisualizarAtleta(false); // Remova ou mantenha dependendo se quer que o modal feche ao salvar
+							for (const t of turmasAtualizadas) await update('turmas', t.id, t);
+							setTurmas(turmasAtualizadas);
+							setAtletaSelecionado(dadosAtleta);
+							setAbrirVisualizarAtleta(false);
 						} catch (e) {
 							console.error(e);
 						}
 					}}
 				/>
 
-				{/* NOVO: Modal Visualizar Responsável */}
+				{/* Modal Visualizar Responsável */}
 				<ModalVisualizarResp
 					aberto={abrirVisualizarResp}
 					onClose={() => {
@@ -1863,6 +2003,57 @@ const Cadastros = () => {
 							setAbrirVisualizarResp(false);
 						} catch (e) {
 							console.error('Erro ao atualizar responsável', e);
+						}
+					}}
+				/>
+
+				{/* Modal Visualizar Turma */}
+				<ModalVisualizarTurma
+					aberto={abrirVisualizarTurma}
+					onClose={() => setAbrirVisualizarTurma(false)}
+					turma={turmaSelecionada}
+					atletasGlobais={athletes}
+					onSave={async (turmaEditada) => {
+						try {
+							// LIMPEZA GLOBAL: Remove os atletas adicionados aqui de qualquer outra turma
+							const turmasSincronizadas = turmas.map((t) => {
+								if (t.id === turmaEditada.id) return turmaEditada;
+								// Se o atleta está na lista da turma que estamos salvando agora,
+								// ele deve ser removido desta outra turma 't'
+								const atletasRestantes = (t.athletes || []).filter(
+									(nome) => !turmaEditada.athletes.includes(nome)
+								);
+								return { ...t, athletes: atletasRestantes };
+							});
+
+							// Persiste todas as turmas alteradas
+							for (const t of turmasSincronizadas) await update('turmas', t.id, t);
+							setTurmas(turmasSincronizadas);
+
+							// Atualiza o cadastro individual de cada atleta (Turma e Categoria)
+							const atletasAtualizados = athletes.map((a) => {
+								if (turmaEditada.athletes.includes(a.name)) {
+									return {
+										...a,
+										classes: turmaEditada.nomeTurma,
+										category: turmaEditada.category,
+									};
+								}
+								// Se o atleta estava nesta turma mas foi removido, limpa os campos dele
+								if (
+									a.classes === turmaSelecionada.nomeTurma &&
+									!turmaEditada.athletes.includes(a.name)
+								) {
+									return { ...a, classes: '', category: '' };
+								}
+								return a;
+							});
+
+							for (const a of atletasAtualizados) await update('atletas', a.id, a);
+							setAthletes(atletasAtualizados);
+							setAbrirVisualizarTurma(false);
+						} catch (e) {
+							console.error(e);
 						}
 					}}
 				/>

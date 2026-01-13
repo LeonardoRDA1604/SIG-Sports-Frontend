@@ -161,7 +161,7 @@
       "email": "leandro@aponti.com",
       "escola": "Aponti",
       "modalidade": "futebol",
-      "age": 40,
+      "age": 16,
       "category": "Sub-16",
       "classes": "A16",
       "cep": "54310-302",
@@ -175,7 +175,28 @@
       "respNome": "Adelmo Bezerra De Melo",
       "respEmail": "adelmo@aponti.com",
       "respTelefone": "(81) 97766-5544",
-      "respParentesco": "pai"
+      "respParentesco": "pai",
+      "birthDate": "07/05/1985",
+      "modality": "futebol",
+      "responsible": "",
+      "observations": "Atleta federado.",
+      "responsiblesList": [
+        "Adelmo Bezerra De Melo"
+      ],
+      "address": {
+        "street": "1ª Travessa Arão Lins De Andrade 45",
+        "neighborhood": "Prazeres",
+        "city": "Jaboatão Dos Guararapes",
+        "uf": "PE",
+        "cep": "54310-302",
+        "complement": "Casa"
+      },
+      "respCep": "",
+      "respBairro": "",
+      "respCidade": "",
+      "respUf": "SP",
+      "respLogradouro": "",
+      "respComplemento": ""
     }
   ],
   "responsaveis": [
@@ -187,7 +208,10 @@
       "phoneNumber": "(81) 98877-6655",
       "birthDate": "15/06/1982",
       "kinship": "Pai",
-      "athletes": ["Mateus Alexander da Silva", "João A."],
+      "athletes": [
+        "Mateus Alexander da Silva",
+        "João A."
+      ],
       "observations": "Contato preferencial via WhatsApp.",
       "address": {
         "street": "Rua do Bom Jesus, 123",
@@ -206,7 +230,9 @@
       "phoneNumber": "(81) 99988-7766",
       "birthDate": "20/10/1985",
       "kinship": "Pai",
-      "athletes": ["Gabriel Amaral Bezerra de Menezes"],
+      "athletes": [
+        "Gabriel Amaral Bezerra de Menezes"
+      ],
       "address": {
         "street": "Av. Boa Viagem, 500",
         "neighborhood": "Boa Viagem",
@@ -224,7 +250,11 @@
       "phoneNumber": "(81) 98765-4321",
       "birthDate": "12/03/1978",
       "kinship": "Mãe",
-      "athletes": ["Enzo Gabriel dos Santos", "Thiago Pereira Lima", "Nathan Josué Albuquerque Cavalcanti"],
+      "athletes": [
+        "Enzo Gabriel dos Santos",
+        "Thiago Pereira Lima",
+        "Nathan Josué Albuquerque Cavalcanti"
+      ],
       "address": {
         "street": "Rua da Aurora, 10",
         "neighborhood": "Santo Amaro",
@@ -242,7 +272,9 @@
       "phoneNumber": "(81) 97766-5544",
       "birthDate": "25/11/1980",
       "kinship": "Pai",
-      "athletes": ["Thiago Pereira Lima"],
+      "athletes": [
+        "Thiago Pereira Lima"
+      ],
       "address": {
         "street": "Rua Amélia, 45",
         "neighborhood": "Graças",
@@ -260,7 +292,9 @@
       "phoneNumber": "(81) 98811-2233",
       "birthDate": "08/09/1984",
       "kinship": "Mãe",
-      "athletes": ["Nathan Josué Albuquerque Cavalcanti"],
+      "athletes": [
+        "Nathan Josué Albuquerque Cavalcanti"
+      ],
       "address": {
         "street": "Rua do Futuro, 200",
         "neighborhood": "Aflitos",
@@ -278,7 +312,9 @@
       "phoneNumber": "(81) 99900-1122",
       "birthDate": "24/06/1987",
       "kinship": "Pai",
-      "athletes": ["Wesley Santana de Oliveira Neto"],
+      "athletes": [
+        "Wesley Santana de Oliveira Neto"
+      ],
       "address": {
         "street": "Estrada do Arraial, 1000",
         "neighborhood": "Casa Amarela",
@@ -296,7 +332,9 @@
       "phoneNumber": "(81) 97766-5544",
       "birthDate": "01/01/1960",
       "kinship": "Pai",
-      "athletes": ["Leandro Wilke Alves De Melo"],
+      "athletes": [
+        "Leandro Wilke Alves De Melo"
+      ],
       "address": {
         "street": "Rua Nova, 10",
         "neighborhood": "Centro",
@@ -313,17 +351,162 @@
       "name": "Pep Guardiola",
       "classes": "Sub-12",
       "workTimes": "06:00 - 12:00",
-      "PhoneNumber": "(81) 91234-5678"
+      "phoneNumber": "(81) 91111-1111"
+    },
+    {
+      "id": "2",
+      "name": "Carlo Ancelotti",
+      "classes": "Sub-14",
+      "workTimes": "06:00 - 12:00",
+      "phoneNumber": "(81) 92222-2222"
+    },
+    {
+      "id": "3",
+      "name": "Xabi Alonso",
+      "classes": "Sub-16",
+      "workTimes": "14:00 - 20:00",
+      "phoneNumber": "(81) 93333-3333"
+    },
+    {
+      "id": "4",
+      "name": "Mikel Arteta",
+      "classes": "Sub-18",
+      "workTimes": "14:00 - 20:00",
+      "phoneNumber": "(81) 94444-4444"
     }
   ],
   "turmas": [
     {
       "id": "1",
-      "classes": "A12",
-      "workTimes": "06:00 - 12:00",
+      "nomeTurma": "A12",
+      "workTimes": "06:00 - 08:00",
       "coach": "Pep Guardiola",
       "category": "Sub-12",
-      "modality": "Futebol"
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "2",
+      "nomeTurma": "B12",
+      "workTimes": "08:00 - 10:00",
+      "coach": "Pep Guardiola",
+      "category": "Sub-12",
+      "modality": "Futebol",
+      "days": "Terça e Quinta",
+      "athletes": [
+        "Mateus Alexander da Silva"
+      ]
+    },
+    {
+      "id": "3",
+      "nomeTurma": "C12",
+      "workTimes": "10:00 - 12:00",
+      "coach": "Pep Guardiola",
+      "category": "Sub-12",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "4",
+      "nomeTurma": "A14",
+      "workTimes": "06:00 - 08:00",
+      "coach": "Carlo Ancelotti",
+      "category": "Sub-14",
+      "modality": "Futsal",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": [
+        "Gabriel Amaral Bezerra de Menezes"
+      ]
+    },
+    {
+      "id": "5",
+      "nomeTurma": "B14",
+      "workTimes": "08:00 - 10:00",
+      "coach": "Carlo Ancelotti",
+      "category": "Sub-14",
+      "modality": "Futsal",
+      "days": "Terça e Quinta",
+      "athletes": []
+    },
+    {
+      "id": "6",
+      "nomeTurma": "C14",
+      "workTimes": "10:00 - 12:00",
+      "coach": "Carlo Ancelotti",
+      "category": "Sub-14",
+      "modality": "Futsal",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "7",
+      "nomeTurma": "A16",
+      "workTimes": "14:00 - 16:00",
+      "coach": "Xabi Alonso",
+      "category": "Sub-16",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": [
+        "Enzo Gabriel dos Santos",
+        "Leandro Wilke Alves De Melo"
+      ]
+    },
+    {
+      "id": "8",
+      "nomeTurma": "B16",
+      "workTimes": "16:00 - 18:00",
+      "coach": "Xabi Alonso",
+      "category": "Sub-16",
+      "modality": "Fut7",
+      "days": "Terça e Quinta",
+      "athletes": [
+        "Thiago Pereira Lima",
+        "Nathan Josué Albuquerque Cavalcanti"
+      ]
+    },
+    {
+      "id": "9",
+      "nomeTurma": "C16",
+      "workTimes": "18:00 - 20:00",
+      "coach": "Xabi Alonso",
+      "category": "Sub-16",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "10",
+      "nomeTurma": "A18",
+      "workTimes": "14:00 - 16:00",
+      "coach": "Mikel Arteta",
+      "category": "Sub-18",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "11",
+      "nomeTurma": "B18",
+      "workTimes": "16:00 - 18:00",
+      "coach": "Mikel Arteta",
+      "category": "Sub-18",
+      "modality": "Futebol",
+      "days": "Terça e Quinta",
+      "athletes": [
+        "Wesley Santana de Oliveira Neto"
+      ]
+    },
+    {
+      "id": "12",
+      "nomeTurma": "C18",
+      "workTimes": "18:00 - 20:00",
+      "coach": "Mikel Arteta",
+      "category": "Sub-18",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
     }
   ],
   "categorias": [
