@@ -27,7 +27,7 @@ function Navbar({ expanded, setExpanded }) {
       `}
     >
       {/* Logo com possivel alteração */}
-      <div className="flex items-center justify-center mb-2 relative py-14 mt-35">
+      <div className="flex items-center justify-center mb-2 relative py-14 mt-15">
         {/* Logo Grande*/}
 
         <img

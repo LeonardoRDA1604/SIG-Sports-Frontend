@@ -23,6 +23,7 @@ import ModalVisualizarAtleta from '../modals/views/ModalVisualizarAtleta';
 import { temAcessoBloqueado } from '../utils/permissoes';
 import ModalVisualizarResp from '../modals/views/ModalVisualizarResp';
 import ModalVisualizarTurma from '../modals/views/ModalVisualizarTurma';
+import ModalVisualizarCategoria from '../modals/views/ModalVisualizarCategoria';
 
 // Dados dos Atletas
 const athletesData = [
@@ -478,11 +479,10 @@ const classesData = [
 
 // Dados das Categorias
 const categoriesData = [
-	{ id: 1, name: 'Sub-12', classes: 'A12', modality: 'Futebol' },
-	{ id: 2, name: 'Sub-14', classes: 'B14', modality: 'Futsal' },
-	{ id: 3, name: 'Sub-16', classes: 'A16', modality: 'Beach Soccer' },
-	{ id: 4, name: 'Sub-16', classes: 'B16', modality: 'Fut7' },
-	{ id: 5, name: 'Sub-16', classes: 'C16', modality: 'Futebol' },
+    { id: 1, name: 'Sub-12', classes: 'A12, B12, C12', modality: 'Futebol' },
+    { id: 2, name: 'Sub-14', classes: 'A14, B14, C14', modality: 'Futsal' },
+    { id: 3, name: 'Sub-16', classes: 'A16, B16, C16', modality: 'Futebol' },
+    { id: 4, name: 'Sub-18', classes: 'A18, B18, C18', modality: 'Futebol' },
 ];
 
 // Dados das Modalidades
@@ -591,6 +591,8 @@ const Cadastros = () => {
 	const [responsavelSelecionado, setResponsavelSelecionado] = useState(null);
 	const [abrirVisualizarTurma, setAbrirVisualizarTurma] = useState(false);
 	const [turmaSelecionada, setTurmaSelecionada] = useState(null);
+  const [abrirVisualizarCategoria, setAbrirVisualizarCategoria] = useState(false);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
 
 	// Verificar se o usuário é administrador
 	const usuarioAtual = JSON.parse(localStorage.getItem('usuario') || '{}');
@@ -1382,64 +1384,58 @@ const Cadastros = () => {
 
 					{/* Conteúdo para Abas CATEGORIAS */}
 					{abaAtiva === 'categorias' && (
-						<div className="bg-white rounded-lg overflow-x-auto">
-							<table className="w-full divide-y divide-gray-200">
-								<thead className="bg-white">
-									<tr>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Categoria
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Turmas
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Modalidade
-										</th>{' '}
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Ações
-										</th>{' '}
-									</tr>
-								</thead>
+            <div className="bg-white rounded-lg overflow-x-auto">
+              <table className="w-full divide-y divide-gray-200">
+                <thead className="bg-white">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Turmas</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Modalidade</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {categoriesFiltrados.map((category) => (
+                    <tr key={category.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
+                        <button
+                          onClick={() => {
+                            setCategoriaSelecionada(category);
+                            setAbrirVisualizarCategoria(true);
+                          }}
+                          className="text-blue-600 hover:underline text-sm cursor-pointer"
+                        >
+                          {category.name}
+                        </button>
+                      </td>
+                      
+                      {/* COLUNA TURMAS SEPARADAS (Estilo similar aos Atletas nos Responsáveis) */}
+                      <td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
+                        <div className="flex flex-wrap gap-x-1">
+                          {category.classes?.split(", ").map((turma, index, array) => (
+                            <span key={index}>
+                              <span 
+                                className="text-blue-600 hover:underline cursor-pointer text-sm"
+                                onClick={() => {
+                                  // Opcional: Lógica para abrir o modal da turma específica aqui
+                                  const turmaObj = turmas.find(t => t.nomeTurma === turma);
+                                  if (turmaObj) {
+                                    setTurmaSelecionada(turmaObj);
+                                    setAbrirVisualizarTurma(true);
+                                  }
+                                }}
+                              >
+                                {turma}
+                              </span>
+                              {index < array.length - 1 && <span className="text-gray-500">, </span>}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
 
-								<tbody className="bg-white divide-y divide-gray-200">
-									{categoriesFiltrados.map((category) => (
-										<tr key={category.id} className="hover:bg-gray-50">
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
-												>
-													{category.name}
-												</a>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
-												>
-													{category.classes}
-												</a>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
-												>
-													{category.modality}
-												</a>
-											</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                        {category.modality}
+                      </td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
 												<button
 													disabled={!isAdmin}
@@ -1727,6 +1723,8 @@ const Cadastros = () => {
 						setAbrirCadastroAtleta(false);
 						setItemEditando(null);
 					}}
+          turmasGlobais={turmas}
+          categoriasGlobais={categorias}
 					onSave={async (atletaEditado) => {
 						try {
 							const numTurma = atletaEditado.classes.replace(/\D/g, '');
@@ -1941,6 +1939,8 @@ const Cadastros = () => {
 					aberto={abrirVisualizarAtleta}
 					onClose={() => setAbrirVisualizarAtleta(false)}
 					atleta={atletaSelecionado}
+          turmasGlobais={turmas}
+          categoriasGlobais={categorias}
 					onSave={async (atletaEditado) => {
 						try {
 							const numTurma = atletaEditado.classes.replace(/\D/g, '');
@@ -2057,6 +2057,58 @@ const Cadastros = () => {
 						}
 					}}
 				/>
+
+        <ModalVisualizarCategoria
+          aberto={abrirVisualizarCategoria}
+          onClose={() => setAbrirVisualizarCategoria(false)}
+          categoria={categoriaSelecionada}
+          turmasGlobais={turmas}
+          modalidadesGlobais={modalidades}
+          onSave={async (categoriaEditada) => {
+              try {
+                  // 1. Atualiza a Categoria no Banco e no Estado
+                  await update('categorias', categoriaEditada.id, categoriaEditada);
+                  setCategorias(prev => prev.map(c => c.id === categoriaEditada.id ? categoriaEditada : c));
+
+                  // 2. SINCRONIZAR TURMAS: Atualiza o campo 'category' de cada turma
+                  const nomesTurmasNaCategoria = categoriaEditada.classes.split(", ");
+                  
+                  const novasTurmas = turmas.map(t => {
+                      // Se a turma foi incluída nesta categoria, atualiza o vínculo
+                      if (nomesTurmasNaCategoria.includes(t.nomeTurma)) {
+                          return { ...t, category: categoriaEditada.name };
+                      }
+                      // Se a turma pertencia a esta categoria mas foi removida no modal, limpa o vínculo
+                      if (t.category === categoriaEditada.name && !nomesTurmasNaCategoria.includes(t.nomeTurma)) {
+                          return { ...t, category: "" };
+                      }
+                      return t;
+                  });
+
+                  for (const t of novasTurmas) {
+                      await update('turmas', t.id, t);
+                  }
+                  setTurmas(novasTurmas);
+
+                  // 3. SINCRONIZAR ATLETAS: Atualiza a categoria do aluno baseada na sua Turma
+                  const novosAtletas = athletes.map(a => {
+                      // Encontra a turma atual do atleta na lista recém-atualizada
+                      const turmaDoAtleta = novasTurmas.find(t => t.nomeTurma === a.classes);
+                      if (turmaDoAtleta) {
+                          return { ...a, category: turmaDoAtleta.category };
+                      }
+                      return a;
+                  });
+
+                  for (const a of novosAtletas) {
+                      await update('atletas', a.id, a);
+                  }
+                  setAthletes(novosAtletas);
+
+                  setAbrirVisualizarCategoria(false);
+              } catch (e) { console.error("Erro na sincronização de categoria:", e); }
+          }}
+      />
 			</div>
 		</Layout>
 	);
