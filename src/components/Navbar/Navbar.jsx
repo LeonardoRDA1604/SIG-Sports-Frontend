@@ -21,13 +21,13 @@ function Navbar({ expanded, setExpanded }) {
       onMouseLeave={() => setExpanded(false)}
       className={`
         h-screen bg-primary-900 shadow-md z-40 fixed top-0 left-0
-        transition-all duration-300 flex flex-col
+        transition-all duration-300 flex-col
         hidden lg:flex
         ${expanded ? "w-64" : "w-22"}
       `}
     >
       {/* Logo com possivel alteração */}
-      <div className="flex items-center justify-center mb-2 relative py-14 mt-35">
+      <div className="flex items-center justify-center mb-2 relative py-14 mt-15">
         {/* Logo Grande*/}
 
         <img

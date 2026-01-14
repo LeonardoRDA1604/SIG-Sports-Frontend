@@ -3,7 +3,157 @@
   "LogsAuditoria": [],
   "atletas": [
     {
-      "id": "4ee4",
+      "id": "1",
+      "name": "Mateus Alexander da Silva",
+      "nascimento": "13/05/2013",
+      "cpf": "123.456.789-10",
+      "rg": "15.828.876-0",
+      "email": "mateusinho@email.com",
+      "escola": "Escola Municipal Recife",
+      "modalidade": "futebol",
+      "age": 12,
+      "category": "Sub-12",
+      "classes": "B12",
+      "cep": "50.968-305",
+      "bairro": "Recife Antigo",
+      "cidade": "Recife",
+      "uf": "PE",
+      "logradouro": "Rua do Bom Jesus, 123",
+      "complemento": "Casa D",
+      "observacoes": "Atleta com excelente drible.",
+      "respCpf": "111.222.333-44",
+      "respNome": "Roberto Carlos da Silva",
+      "respEmail": "roberto.silva@email.com",
+      "respTelefone": "(81) 98877-6655",
+      "respParentesco": "pai"
+    },
+    {
+      "id": "2",
+      "name": "Gabriel Amaral Bezerra de Menezes",
+      "nascimento": "20/10/2012",
+      "cpf": "987.654.321-00",
+      "rg": "12.345.678-9",
+      "email": "gabriel.b@email.com",
+      "escola": "Colégio Boa Viagem",
+      "modalidade": "futsal",
+      "age": 13,
+      "category": "Sub-14",
+      "classes": "A14",
+      "cep": "51.020-000",
+      "bairro": "Boa Viagem",
+      "cidade": "Recife",
+      "uf": "PE",
+      "logradouro": "Av. Boa Viagem, 500",
+      "complemento": "Apto 101",
+      "observacoes": "",
+      "respCpf": "222.333.444-55",
+      "respNome": "Ronaldo Ferreira Bezerra",
+      "respEmail": "ronaldo.f@gmail.com",
+      "respTelefone": "(81) 99988-7766",
+      "respParentesco": "pai"
+    },
+    {
+      "id": "3",
+      "name": "Enzo Gabriel dos Santos",
+      "nascimento": "05/02/2010",
+      "cpf": "111.222.333-44",
+      "rg": "87.654.321-0",
+      "email": "enzo.g@hotmail.com",
+      "escola": "Escola Santo Amaro",
+      "modalidade": "beach soccer",
+      "age": 15,
+      "category": "Sub-16",
+      "classes": "A16",
+      "cep": "50050-000",
+      "bairro": "Santo Amaro",
+      "cidade": "Recife",
+      "uf": "PE",
+      "logradouro": "Rua da Aurora, 10",
+      "complemento": "Casa",
+      "observacoes": "Líder de equipe.",
+      "respCpf": "333.444.555-66",
+      "respNome": "Miraildes Maria Mota dos Santos",
+      "respEmail": "miraildes.m@email.com",
+      "respTelefone": "(81) 98765-4321",
+      "respParentesco": "mãe"
+    },
+    {
+      "id": "4",
+      "name": "Thiago Pereira Lima",
+      "nascimento": "15/08/2009",
+      "cpf": "555.666.777-88",
+      "rg": "11.222.333-4",
+      "email": "thiago.p@uol.com.br",
+      "escola": "Escola Graças",
+      "modalidade": "fut7",
+      "age": 16,
+      "category": "Sub-16",
+      "classes": "B16",
+      "cep": "52.011-050",
+      "bairro": "Graças",
+      "cidade": "Recife",
+      "uf": "PE",
+      "logradouro": "Rua Amélia, 45",
+      "complemento": "Bloco B",
+      "observacoes": "",
+      "respCpf": "444.555.666-77",
+      "respNome": "Thiago Souza Lima",
+      "respEmail": "thiago.souza@email.com",
+      "respTelefone": "(81) 97766-5544",
+      "respParentesco": "pai"
+    },
+    {
+      "id": "5",
+      "name": "Nathan Josué Albuquerque Cavalcanti",
+      "nascimento": "30/12/2009",
+      "cpf": "444.333.222-11",
+      "rg": "99.888.777-6",
+      "email": "nathan.j@gmail.com",
+      "escola": "Colégio Aflitos",
+      "modalidade": "fut7",
+      "age": 16,
+      "category": "Sub-16",
+      "classes": "B16",
+      "cep": "52.050-000",
+      "bairro": "Aflitos",
+      "cidade": "Recife",
+      "uf": "PE",
+      "logradouro": "Rua do Futuro, 200",
+      "complemento": "",
+      "observacoes": "",
+      "respCpf": "555.444.333-22",
+      "respNome": "Marta Vieira de Albuquerque",
+      "respEmail": "marta.alb@email.com",
+      "respTelefone": "(81) 98811-2233",
+      "respParentesco": "mãe"
+    },
+    {
+      "id": "6",
+      "name": "Wesley Santana de Oliveira Neto",
+      "nascimento": "12/04/2008",
+      "cpf": "777.888.999-00",
+      "rg": "44.555.666-7",
+      "email": "wesley.s@outlook.com",
+      "escola": "Escola Casa Amarela",
+      "modalidade": "futebol",
+      "age": 17,
+      "category": "Sub-18",
+      "classes": "B17",
+      "cep": "52.051-380",
+      "bairro": "Casa Amarela",
+      "cidade": "Recife",
+      "uf": "PE",
+      "logradouro": "Estrada do Arraial, 1000",
+      "complemento": "Casa 2",
+      "observacoes": "",
+      "respCpf": "666.777.888-99",
+      "respNome": "Lionel Messi de Oliveira Neto",
+      "respEmail": "lionel.neto@email.com",
+      "respTelefone": "(81) 99900-1122",
+      "respParentesco": "pai"
+    },
+    {
+      "id": "7",
       "name": "Leandro Wilke Alves De Melo",
       "nascimento": "07/05/1985",
       "cpf": "999.999.999-99",
@@ -11,7 +161,7 @@
       "email": "leandro@aponti.com",
       "escola": "Aponti",
       "modalidade": "futebol",
-      "age": 40,
+      "age": 16,
       "category": "Sub-16",
       "classes": "A16",
       "cep": "54310-302",
@@ -20,117 +170,456 @@
       "uf": "PE",
       "logradouro": "1ª Travessa Arão Lins De Andrade 45",
       "complemento": "Casa",
-      "observacoes": "Olá sou perna de pau, mas como estou pagando. Vocês vão ter que me engolir! by: Zagalo rsrs",
-      "respCpf": "999.999.999-99",
+      "observacoes": "Atleta federado.",
+      "respCpf": "888.777.666-55",
       "respNome": "Adelmo Bezerra De Melo",
       "respEmail": "adelmo@aponti.com",
-      "respTelefone": "(81) 99999-9999",
-      "respParentesco": "pai",
-      "respCep": "",
-      "respBairro": "",
-      "respCidade": "",
-      "respUf": "SP",
-      "respLogradouro": "",
-      "respComplemento": ""
+      "respTelefone": "(81) 97766-5544",
+      "respParentesco": "pai"
     }
   ],
   "responsaveis": [
     {
       "id": "1",
-      "name": "Roberto C",
-      "athletes": [
-        "Mateus A",
-        "João A"
-      ],
+      "name": "Roberto Carlos da Silva",
+      "cpf": "111.222.333-44",
+      "email": "roberto.silva@email.com",
+      "phoneNumber": "(81) 98877-6655",
+      "birthDate": "15/06/1982",
       "kinship": "Pai",
-      "phoneNumber": "(00) 0.0000-0000"
+      "athletes": [
+        "Mateus Alexander da Silva",
+        "João A."
+      ],
+      "observations": "Contato preferencial via WhatsApp.",
+      "address": {
+        "street": "Rua do Bom Jesus, 123",
+        "neighborhood": "Recife Antigo",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "50.968-305",
+        "complement": "Casa D"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Ronaldo Ferreira Bezerra",
+      "cpf": "222.333.444-55",
+      "email": "ronaldo.f@gmail.com",
+      "phoneNumber": "(81) 99988-7766",
+      "birthDate": "20/10/1985",
+      "kinship": "Pai",
+      "athletes": [
+        "Gabriel Amaral Bezerra de Menezes"
+      ],
+      "address": {
+        "street": "Av. Boa Viagem, 500",
+        "neighborhood": "Boa Viagem",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "51.020-000",
+        "complement": "Apto 101"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Miraildes Maria Mota dos Santos",
+      "cpf": "333.444.555-66",
+      "email": "miraildes.m@email.com",
+      "phoneNumber": "(81) 98765-4321",
+      "birthDate": "12/03/1978",
+      "kinship": "Mãe",
+      "athletes": [
+        "Enzo Gabriel dos Santos",
+        "Thiago Pereira Lima",
+        "Nathan Josué Albuquerque Cavalcanti"
+      ],
+      "address": {
+        "street": "Rua da Aurora, 10",
+        "neighborhood": "Santo Amaro",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "50050-000",
+        "complement": "Casa"
+      }
+    },
+    {
+      "id": "4",
+      "name": "Thiago Souza Lima",
+      "cpf": "444.555.666-77",
+      "email": "thiago.souza@email.com",
+      "phoneNumber": "(81) 97766-5544",
+      "birthDate": "25/11/1980",
+      "kinship": "Pai",
+      "athletes": [
+        "Thiago Pereira Lima"
+      ],
+      "address": {
+        "street": "Rua Amélia, 45",
+        "neighborhood": "Graças",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "52.011-050",
+        "complement": "Bloco B"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Marta Vieira de Albuquerque",
+      "cpf": "555.444.333-22",
+      "email": "marta.alb@email.com",
+      "phoneNumber": "(81) 98811-2233",
+      "birthDate": "08/09/1984",
+      "kinship": "Mãe",
+      "athletes": [
+        "Nathan Josué Albuquerque Cavalcanti"
+      ],
+      "address": {
+        "street": "Rua do Futuro, 200",
+        "neighborhood": "Aflitos",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "52.050-000",
+        "complement": ""
+      }
+    },
+    {
+      "id": "6",
+      "name": "Lionel Messi de Oliveira Neto",
+      "cpf": "666.777.888-99",
+      "email": "lionel.neto@email.com",
+      "phoneNumber": "(81) 99900-1122",
+      "birthDate": "24/06/1987",
+      "kinship": "Pai",
+      "athletes": [
+        "Wesley Santana de Oliveira Neto"
+      ],
+      "address": {
+        "street": "Estrada do Arraial, 1000",
+        "neighborhood": "Casa Amarela",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "52.051-380",
+        "complement": "Casa 2"
+      }
+    },
+    {
+      "id": "7",
+      "name": "Adelmo Bezerra De Melo",
+      "cpf": "888.777.666-55",
+      "email": "adelmo@aponti.com",
+      "phoneNumber": "(81) 97766-5544",
+      "birthDate": "01/01/1960",
+      "kinship": "Pai",
+      "athletes": [
+        "Leandro Wilke Alves De Melo"
+      ],
+      "address": {
+        "street": "Rua Nova, 10",
+        "neighborhood": "Centro",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "50000-000",
+        "complement": ""
+      }
     }
   ],
   "treinadores": [
     {
       "id": "1",
       "name": "Pep Guardiola",
-      "classes": "Sub-12",
+      "email": "pep.guardiola@pssports.com",
+      "cpf": "111.111.111-11",
+      "birthDate": "18/01/1971",
+      "phoneNumber": "(81) 91111-1111",
+      "classes": ["A12", "B12", "C12"],
       "workTimes": "06:00 - 12:00",
-      "PhoneNumber": "(00) 0.0000-0000"
+      "address": {
+        "street": "Rua da Aurora, 500",
+        "neighborhood": "Santo Amaro",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "50050-000",
+        "complement": "Bloco C, Sala 04"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Carlo Ancelotti",
+      "email": "carlo.ance@pssports.com",
+      "cpf": "222.222.222-22",
+      "birthDate": "10/06/1959",
+      "phoneNumber": "(81) 92222-2222",
+      "classes": ["A14", "B14", "C14"],
+      "workTimes": "06:00 - 12:00",
+      "address": {
+        "street": "Av. Conselheiro Aguiar, 1500",
+        "neighborhood": "Boa Viagem",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "51020-020",
+        "complement": "Apto 402"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Xabi Alonso",
+      "email": "xabi.alonso@pssports.com",
+      "cpf": "333.333.333-33",
+      "birthDate": "25/11/1981",
+      "phoneNumber": "(81) 93333-3333",
+      "classes": ["A16", "B16", "C16"],
+      "workTimes": "14:00 - 20:00",
+      "address": {
+        "street": "Rua das Graças, 45",
+        "neighborhood": "Graças",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "52011-050",
+        "complement": "Casa de Portão Branco"
+      }
+    },
+    {
+      "id": "4",
+      "name": "Mikel Arteta",
+      "email": "mikel.arteta@pssports.com",
+      "cpf": "444.444.444-44",
+      "birthDate": "26/03/1982",
+      "phoneNumber": "(81) 94444-4444",
+      "classes": ["A18", "B18", "C18"],
+      "workTimes": "14:00 - 20:00",
+      "address": {
+        "street": "Estrada do Arraial, 120",
+        "neighborhood": "Casa Amarela",
+        "city": "Recife",
+        "uf": "PE",
+        "cep": "52051-380",
+        "complement": "Casa 12"
+      }
     }
   ],
   "turmas": [
     {
       "id": "1",
-      "classes": "A12",
-      "workTimes": "06:00 - 12:00",
+      "nomeTurma": "A12",
+      "workTimes": "06:00 - 08:00",
       "coach": "Pep Guardiola",
       "category": "Sub-12",
-      "modality": "Futebol"
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "2",
+      "nomeTurma": "B12",
+      "workTimes": "08:00 - 10:00",
+      "coach": "Pep Guardiola",
+      "category": "Sub-12",
+      "modality": "Futebol",
+      "days": "Terça e Quinta",
+      "athletes": [
+        "Mateus Alexander da Silva"
+      ]
+    },
+    {
+      "id": "3",
+      "nomeTurma": "C12",
+      "workTimes": "10:00 - 12:00",
+      "coach": "Pep Guardiola",
+      "category": "Sub-12",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "4",
+      "nomeTurma": "A14",
+      "workTimes": "06:00 - 08:00",
+      "coach": "Carlo Ancelotti",
+      "category": "Sub-14",
+      "modality": "Futsal",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": [
+        "Gabriel Amaral Bezerra de Menezes"
+      ]
+    },
+    {
+      "id": "5",
+      "nomeTurma": "B14",
+      "workTimes": "08:00 - 10:00",
+      "coach": "Carlo Ancelotti",
+      "category": "Sub-14",
+      "modality": "Futsal",
+      "days": "Terça e Quinta",
+      "athletes": []
+    },
+    {
+      "id": "6",
+      "nomeTurma": "C14",
+      "workTimes": "10:00 - 12:00",
+      "coach": "Carlo Ancelotti",
+      "category": "Sub-14",
+      "modality": "Futsal",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "7",
+      "nomeTurma": "A16",
+      "workTimes": "14:00 - 16:00",
+      "coach": "Xabi Alonso",
+      "category": "Sub-16",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": [
+        "Enzo Gabriel dos Santos",
+        "Leandro Wilke Alves De Melo"
+      ]
+    },
+    {
+      "id": "8",
+      "nomeTurma": "B16",
+      "workTimes": "16:00 - 18:00",
+      "coach": "Xabi Alonso",
+      "category": "Sub-16",
+      "modality": "Fut7",
+      "days": "Terça e Quinta",
+      "athletes": [
+        "Thiago Pereira Lima",
+        "Nathan Josué Albuquerque Cavalcanti"
+      ]
+    },
+    {
+      "id": "9",
+      "nomeTurma": "C16",
+      "workTimes": "18:00 - 20:00",
+      "coach": "Xabi Alonso",
+      "category": "Sub-16",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "10",
+      "nomeTurma": "A18",
+      "workTimes": "14:00 - 16:00",
+      "coach": "Mikel Arteta",
+      "category": "Sub-18",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
+    },
+    {
+      "id": "11",
+      "nomeTurma": "B18",
+      "workTimes": "16:00 - 18:00",
+      "coach": "Mikel Arteta",
+      "category": "Sub-18",
+      "modality": "Futebol",
+      "days": "Terça e Quinta",
+      "athletes": [
+        "Wesley Santana de Oliveira Neto"
+      ]
+    },
+    {
+      "id": "12",
+      "nomeTurma": "C18",
+      "workTimes": "18:00 - 20:00",
+      "coach": "Mikel Arteta",
+      "category": "Sub-18",
+      "modality": "Futebol",
+      "days": "Segunda, Quarta e Sexta",
+      "athletes": []
     }
   ],
   "categorias": [
     {
       "id": "1",
       "name": "Sub-12",
-      "classes": "A12",
+      "classes": "A12, B12, C12",
       "modality": "Futebol"
     },
     {
-      "id": "a3c1",
-      "name": "Sub-20",
-      "modality": "futebol",
-      "classes": ""
+      "id": "2",
+      "name": "Sub-14",
+      "classes": "A14, B14, C14",
+      "modality": "Futsal"
+    },
+    {
+      "id": "3",
+      "name": "Sub-16",
+      "classes": "A16, B16, C16",
+      "modality": "Futebol"
+    },
+    {
+      "id": "4",
+      "name": "Sub-18",
+      "classes": "A18, B18, C18",
+      "modality": "Futebol"
     }
   ],
   "modalidades": [
     {
       "id": "1",
       "name": "Futebol",
-      "category": "Sub-12",
-      "classes": "A12"
+      "category": "Sub-12, Sub-16, Sub-18",
+      "classes": "A12, B12, C12, A16, C16, A18, B18, C18",
+      "categoriesArray": [
+        "Sub-12",
+        "Sub-16",
+        "Sub-18"
+      ],
+      "classesArray": [
+        "A12",
+        "B12",
+        "C12",
+        "A16",
+        "C16",
+        "A18",
+        "B18",
+        "C18"
+      ]
     },
     {
-      "id": "6e69",
-      "name": "Fut8",
-      "category": "",
-      "classes": ""
+      "id": "2",
+      "name": "Futsal",
+      "category": "Sub-14",
+      "classes": "A14, B14, C14"
     },
     {
-      "id": "489e",
-      "name": "futebol de praia",
-      "category": "",
-      "classes": ""
-    }
-  ],
-  "pacientes": [
-    {
-      "id": "2628",
-      "nome": "José Antônio",
-      "dataNascimento": "1987-03-14",
-      "telefone": "11999999999",
-      "cpf": "99999999999",
-      "idade": "40"
+      "id": "3",
+      "name": "Fut7",
+      "category": "Sub-16",
+      "classes": "B16"
     },
     {
-      "id": "7463",
-      "nome": "Carlos Henrique Lima",
-      "dataNascimento": "1999-12-20",
-      "telefone": "(21) 99999-9999",
-      "cpf": "999.999.999-99",
-      "idade": "33"
-    }
-  ],
-  "exames": [
-    {
-      "tipo": "Hemograma",
-      "data": "2025-11-27",
-      "resultado": "Normal",
-      "id": "c344"
+      "id": "4",
+      "name": "Beach Soccer",
+      "category": "Sub-16",
+      "classes": "A16"
     }
   ],
   "interessados": [
     {
-      "id": "8b81",
-      "name": "Leandro wilke",
+      "id": "1",
+      "name": "João Silva",
+      "email": "joao.silva@email.com",
       "modality": "Futebol",
-      "phoneNumber": "(81) 99999-9999"
+      "phoneNumber": "(81) 99999-8888"
+    },
+    {
+      "id": "2",
+      "name": "Maria Santos",
+      "email": "maria.santos@gmail.com",
+      "modality": "Futsal",
+      "phoneNumber": "(81) 99911-2233"
+    },
+    {
+      "id": "3",
+      "name": "Pedro Oliveira",
+      "email": "pedro.oli@outlook.com",
+      "modality": "Beach Soccer",
+      "phoneNumber": "(81) 98765-4321"
     }
   ]
 }

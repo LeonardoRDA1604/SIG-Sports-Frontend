@@ -6,7 +6,7 @@ import {
 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 
-export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
+export default function ModalCadastroTurma({ aberto, onClose, onSave, turma, treinadoresGlobais = [] }) {
   // Estado para os campos controlados
   const estadoInicial = {
     nomeTurma: "",
@@ -280,26 +280,20 @@ export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
 
           {/* Treinador */}
           <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              Treinador
-            </label>
+            <label className="block text-sm font-semibold text-slate-600 mb-1">Treinador</label>
             <div className="relative">
-              <select
-                name="treinador"
-                value={formData.treinador}
-                onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:border-blue-600 outline-none text-sm cursor-pointer"
-              >
-                <option value="" disabled>
-                  Selecione
-                </option>
-                <option value="1">João Silva</option>
-                <option value="2">Maria Souza</option>
-              </select>
-              <HiChevronDown
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-                size={20}
-              />
+                <select
+                    name="coach"
+                    value={formData.coach}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:border-blue-600 outline-none text-sm cursor-pointer"
+                >
+                    <option value="" disabled>Selecione um treinador</option>
+                    {treinadoresGlobais.map((t) => (
+                        <option key={t.id} value={t.name}>{t.name}</option>
+                    ))}
+                </select>
+                <HiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
             </div>
           </div>
         </div>
