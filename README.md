@@ -1,13 +1,14 @@
 <div style="background-color: rgba(99, 122, 156, 0.48); padding: 20px;">
 <!-- <div style="background-color: rgba(2, 103, 255, 0.4); padding: 20px;"> -->
 
-<img src="./src/assets/icons/readme-icons/SIG Sports Logo.png" alt="Vite" width="800" height="450"/>
+<img src="./src/assets/icons/readme-icons/SIG Sports Logo.png" alt="SIG Sports Logo" width="1000"/>
+<!-- <img src="./src/assets/icons/readme-icons/SIG Sports Logo-old.png" alt="Vite" width="800" height="450"/> -->
 
-# SIG Sports – Sistema Integrado de Gerenciamento Esportivo
+# ***SIG Sports*** – **S**istema **I**ntegrado de **G**erenciamento **<font color="#0179db">Esportivo</font>**
 ### 📝 Descrição:
-O **[<font color="blue">*SIG Sports*</font>](https://sites.google.com/view/ps-sports-frontend-project/)** foi desenvolvido para a escola de futebol [PS Sport's](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [Bolsa Futuro Digital (BFD)](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [Aponti](https://aponti.org.br/). A [PS Sport's](https://pssports.com.br/) é uma escola de futebol que necessita de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
+O **[<font color="#0179db">*SIG Sports*</font>](https://sites.google.com/view/ps-sports-frontend-project/)** foi desenvolvido para suprir às necessidades da escola de futebol [*PS Sport's*](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [*Bolsa Futuro Digital (BFD)*](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [*Aponti*](https://aponti.org.br/). A [*PS Sport's*](https://pssports.com.br/) necessitava de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
 
-Diante dessa necessidade, este projeto tem como objetivo facilitar o gerenciamento de **atletas**, **responsáveis**, **interessados (leads)**, **treinadores**, **turmas**, **categorias** e **modalidades**, por meio de uma interface *moderna*, *responsiva* e *intuitiva*. O frontend foi desenvolvido para consumir APIs externas (Backend), permitindo a exibição dos dados de forma *clara*, *organizada* e *eficiente*.
+Diante dessa demanda, este projeto tem como objetivo facilitar o gerenciamento de **atletas**, **responsáveis**, **interessados (leads)**, **treinadores**, **turmas**, **categorias** e **modalidades**, por meio de uma interface *moderna*, *responsiva* e *intuitiva*. O frontend foi desenvolvido para consumir APIs externas (Backend), permitindo a exibição dos dados de forma *clara*, *organizada* e *eficiente*.
 
 O sistema foi planejado, prototipado e implementado seguindo *boas práticas de desenvolvimento*, com foco em *organização*, *usabilidade* e *experiência do usuário*, buscando oferecer uma *solução funcional* e *escalável* que *atenda às demandas da instituição*.
 
@@ -20,27 +21,27 @@ O sistema foi planejado, prototipado e implementado seguindo *boas práticas de 
 - [4. Prototipação](#-prototipação-figma)
 - [5. Responsividade](#-responsividade)
 - [6. Gerenciamento do Projeto](#-gerenciamento-do-projeto-jira)
-- [7. Arquitetura do Projeto](#-arquitetura-do-projeto-frontend)
-- [8. Funcionalidades](#-funcionalidades)
-- [9. Equipe e Contribuições](#-equipe-e-contribuições)
-    - [9.1. Contribuições dos Integrantes no Projeto](#-contribuições-dos-integrantes-no-projeto)
-    - [9.2. Contribuições de Colaboradores Externos no Projeto](#-contribuições-de-colaboradores-externos-no-projeto)
+- [7. Metodologias adotadas no Projeto](#-metodologias-adotadas-ágeis)
+- [8. Arquitetura do Projeto](#-arquitetura-do-projeto-frontend)
+- [9. Funcionalidades](#-funcionalidades)
+- [10. Equipe e Contribuições](#-equipe-e-contribuições)
+    - [10.1. Contribuições dos Integrantes no Projeto](#-contribuições-dos-integrantes-no-projeto)
+    - [10.2. Contribuições de Colaboradores Externos no Projeto](#-contribuições-de-colaboradores-externos-no-projeto)
 <!-- - [Como baixar e utilizar o sistema](#️-como-baixar-e-utilizar-o-sistema) -->
-- [10. Dependências Necessárias](#-dependências-necessárias)
-    - [10.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
-        - [10.1.1. Scripts Disponíveis](#️-scripts-disponíveis)
-- [11. Status do Projeto](#-status-do-projeto)
-- [12. Apoio](#-apoio)
-- [13. Versionamento](#️-versionamento)
-    - [13.1. Significado das versões](#-significado-das-versões)
-    - [13.2. Objetivo do versionamento](#-objetivo-do-versionamento)
-- [14. Colaboração](#-colaboração)
-- [15. Licença](#-licença)
+- [11. Dependências Necessárias](#-dependências-necessárias)
+    - [11.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
+        - [11.1.1. Scripts Disponíveis](#️-scripts-disponíveis)
+- [12. Status do Projeto](#-status-do-projeto)
+- [13. Apoio](#-apoio)
+- [14. Versionamento](#️-versionamento)
+    - [14.1. Significado das versões](#-significado-das-versões)
+    - [14.2. Objetivo do versionamento](#-objetivo-do-versionamento)
+- [15. Colaboração](#-colaboração)
+- [16. Licença](#-licença)
 
 ---
 
 ## 🎯 Objetivo do Projeto
-
 O Sistema foi desenvolvido para fornecer uma **interface web responsiva e interativa** para o gerenciamento da escola de atletas PS Sport's, integrando dados e funcionalidades de forma clara e intuitiva. O projeto permite:
 
 - Integração com o **Backend**.
@@ -125,7 +126,6 @@ Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *ot
 ---
 
 ## 🧱 Arquitetura do Projeto (Frontend)
-
 ```
 src/
 │── assets/
@@ -143,7 +143,6 @@ src/
 
 
 ## ✨ Funcionalidades
-
 - Interface institucional
 - Cadastro e listagem de atletas
 - Turmas e categorias
