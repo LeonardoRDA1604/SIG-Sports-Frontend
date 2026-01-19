@@ -113,7 +113,7 @@ O **[Jira](https://www.atlassian.com/br/software/jira)** foi utilizado para orga
 ---
 
 ## ⚡ Metodologias adotadas (Ágeis)
-Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *otimizar o fluxo de trabalho*, *priorizar tarefas* e *entrega de valor*, além de *garantir a qualidade técnica*. Utilizamos o framework ****Scrumban***, uma abordagem híbrida entre **Scrum** e **Kanban**, incorporando também práticas de **XP (eXtreme Programming)** e princípios **Lean**.
+Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *otimizar o fluxo de trabalho*, *priorizar tarefas* e *entrega de valor*, além de *garantir a qualidade técnica*. Utilizamos o framework ***Scrumban***, uma abordagem híbrida entre **Scrum** e **Kanban**, incorporando também práticas de **XP (eXtreme Programming)** e princípios **Lean**.
 
 - **Scrum** — Planejamento de sprints, acompanhamento de progresso, reuniões regulares de alinhamento, remoção de impedimentos, revisões e retrospectivas para aprendizado, ajustes de processos e evolução contínua do time
 
@@ -239,7 +239,7 @@ src/
       <td>Scrum Team</td>
       <td>Development</td>
       <td><a href="https://www.linkedin.com/in/jean-menino-dos-santos-j%C3%BAnior-507a48311/" target="_blank" rel="noopener noreferrer">/jean-menino-dos-santos</a></td>
-      <td><a href="hhttps://github.com/jeanwox" target="_blank" rel="noopener noreferrer">/jeanwox</a></td>
+      <td><a href="https://github.com/jeanwox" target="_blank" rel="noopener noreferrer">/jeanwox</a></td>
     </tr>
     <!-- Contribuidor 9 (Guilherme Manoel) -->
     <tr>
@@ -283,6 +283,13 @@ src/
       <td>Documentação de Requisitos</td>
       <td><a href="https://www.linkedin.com/in/gabriel-lucas-de-oliveira-xavier-507564358/" target="_blank" rel="noopener noreferrer">/gabriel-lucas</a></td>
       <td><a href="https://github.com/Ggeasy1574" target="_blank" rel="noopener noreferrer">/Ggeasy1574</a></td>
+    </tr>
+    <!-- Colaborador externo 3 (Samuel Victor) -->
+    <tr>
+      <td>Samuel Victor</td>
+      <td>Documentação do Projeto e Slides de Apresentação</td>
+      <td><a href="https://www.linkedin.com/in/samuel-victor-3426b3368/" target="_blank" rel="noopener noreferrer">/samuel-victorr</a></td>
+      <td><a href="https://github.com/SamuelVictorr" target="_blank" rel="noopener noreferrer">/SamuelVictorr</a></td>
     </tr>
 <!-- Fim do Corpo (Items da tabela) -->
   </tbody>
