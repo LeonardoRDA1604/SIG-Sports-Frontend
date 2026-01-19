@@ -111,6 +111,19 @@ O **[Jira](https://www.atlassian.com/br/software/jira)** foi utilizado para orga
 
 ---
 
+## ⚡ Metodologias adotadas (Ágeis)
+Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *otimizar o fluxo de trabalho*, *priorizar tarefas* e *entrega de valor*, além de *garantir a qualidade técnica*. Utilizamos o framework ****Scrumban***, uma abordagem híbrida entre **Scrum** e **Kanban**, incorporando também práticas de **XP (eXtreme Programming)** e princípios **Lean**.
+
+- **Scrum** — Planejamento de sprints, acompanhamento de progresso, reuniões regulares de alinhamento, remoção de impedimentos, revisões e retrospectivas para aprendizado, ajustes de processos e evolução contínua do time
+
+- **Kanban** — Controle visual do fluxo de tarefas (*Workflow*), priorização e gerenciamento contínuo do trabalho em andamento para evitar gargalos.
+
+- **XP (eXtreme Programming)** — Desenvolvimento baseado em Histórias do usuário, pair programming, integração contínua, feedback rápido, refatoração constante para assegurar a qualidade do código.
+
+- **Lean** — Foco na maximização do valor entregue ao usuário e na eliminação de desperdícios no processo desperdícios durante todo o ciclo de desenvolvimento.
+
+---
+
 ## 🧱 Arquitetura do Projeto (Frontend)
 
 ```
