@@ -1,9 +1,11 @@
 <div style="background-color: rgba(99, 122, 156, 0.48); padding: 20px;">
 <!-- <div style="background-color: rgba(2, 103, 255, 0.4); padding: 20px;"> -->
 
-# PS Sport’s – Sistema de Gestão (Frontend)
+<img src="./src/assets/icons/readme-icons/SIG Sports Logo.png" alt="Vite" width="800" height="450"/>
+
+# SIG Sports – Sistema Integrado de Gerenciamento Esportivo
 ### 📝 Descrição:
-Projeto desenvolvido para a escola de futebol [PS Sport's](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [Bolsa Futuro Digital (BFD)](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [Aponti](https://aponti.org.br/). A [PS Sport's](https://pssports.com.br/) é uma escola de futebol que necessita de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
+O **[<font color="blue">*SIG Sports*</font>](https://sites.google.com/view/ps-sports-frontend-project/)** foi desenvolvido para a escola de futebol [PS Sport's](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [Bolsa Futuro Digital (BFD)](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [Aponti](https://aponti.org.br/). A [PS Sport's](https://pssports.com.br/) é uma escola de futebol que necessita de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
 
 Diante dessa necessidade, este projeto tem como objetivo facilitar o gerenciamento de **atletas**, **responsáveis**, **interessados (leads)**, **treinadores**, **turmas**, **categorias** e **modalidades**, por meio de uma interface *moderna*, *responsiva* e *intuitiva*. O frontend foi desenvolvido para consumir APIs externas (Backend), permitindo a exibição dos dados de forma *clara*, *organizada* e *eficiente*.
 
@@ -52,23 +54,37 @@ O desenvolvimento envolveu *prototipação*, *implementação* e *validação de
 ---
 
 ### 🖥️ Tecnologias e Ferramentas Utilizadas
-- Colocar ícone **[*React.js*](https://react.dev/)**
-- Colocar ícone **[*JavaScript (ES6+)*](https://www.javascript.com/)**
-- Colocar ícone **[*SWC*](https://swc.rs/)** (Compilador em Rust para builds rápidos)
-- Colocar ícone **[*Vite*](https://vite.dev/)**
-- Colocar ícone **[*Node.js*](https://nodejs.org/)**
-- Colocar ícone **[*Tailwind CSS*](https://tailwindcss.com/)**
-- Colocar ícone **[*HTML5*](https://html.com/)**
-- Colocar ícone **[*CSS3*](https://www.w3.org/Style/CSS/)**
-- Colocar ícone **[*JSON Server*](https://my-json-server.typicode.com/)** (API fake para simulação de backend)
-- Colocar ícone **[*Git*](https://git-scm.com/) *&* [*GitHub*](https://github.com/)**
-- Colocar ícone **[*Figma*](https://www.figma.com/)**
-- Colocar ícone **[*Jira*](https://www.atlassian.com/br/software/jira)**
+<!-- React -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React" width="20" height="20"/> **[*React.js*](https://react.dev/)**
+<!-- JavaScript ES6+ -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="JavaScript" width="20" height="20"/> **[*JavaScript (ES6+)*](https://www.javascript.com/)**
+<!-- SWC (Rust-based Fast Compiler) -->
+- <img src="./src/assets/icons/readme-icons/swc-icon.png" alt="SWC" width="20" height="20"/> **[*SWC*](https://swc.rs/)** (Compilador em Rust para builds rápidos)
+<!-- Vite -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vitejs/vitejs-original.svg" alt="Vite" width="20" height="20"/> **[*Vite*](https://vite.dev/)**
+<!-- Node.js -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="20" height="20"/> **[*Node.js*](https://nodejs.org/)**
+<!-- Tailwind CSS -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg" width="20" height="20" alt="Tailwind"/> **[*Tailwind CSS*](https://tailwindcss.com/)**
+<!-- HTML5 -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" alt="HTML5" width="20" height="20"/> **[*HTML5*](https://html.com/)**
+<!-- CSS3 -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" alt="CSS3" width="20" height="20"/> **[*CSS3*](https://www.w3.org/Style/CSS/)**
+<!-- JSON Server -->
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/json/json-original.svg" alt="JSON" width="20" height="20"/> **[*JSON Server*](https://my-json-server.typicode.com/)** (API fake para simulação de backend)
+<!-- Git -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" alt="Git" width="20" height="20"/> **[*Git*](https://git-scm.com/)**
+<!-- Github -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>  **[*GitHub*](https://github.com/)**
+<!-- Figma -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/figma/figma-original.svg" alt="Figma" width="20" height="20"/> **[*Figma*](https://www.figma.com/)**
+<!-- Jira -->
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/jira/jira-original.svg" alt="Jira" width="20" height="20"/> **[*Jira*](https://www.atlassian.com/br/software/jira)**
 
 ---
 
 ## 🎨 Prototipação (Figma)
-Todas as telas foram prototipadas no **Figma**, garantindo:
+Todas as telas foram prototipadas no **[*Figma*](https://www.figma.com/)**, garantindo:
 - Padronização visual
 - Melhor UX/UI
 - Redução de retrabalho
@@ -144,7 +160,7 @@ src/
     <!-- Contribuidor 1 (Leonardo Rafael) -->
     <tr>
       <td>Leonardo Rafael</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Scrum Master; DevOps; QA</td>
       <td>DevOps & QA; Docs; Development; Design; Communication</td>
       <td><a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank" rel="noopener noreferrer">/leonardorafael1604</a></td>
@@ -153,7 +169,7 @@ src/
     <!-- Contribuidor 2 (Leandro Wilke) -->
     <tr>
       <td>Leandro Wilke</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Tech Leader and DevOps</td>
       <td>Development; DevOps & QA; Communication</td>
       <td><a href="https://www.linkedin.com/in/leandro-wilke/" target="_blank" rel="noopener noreferrer">/leandro-wilke/</a></td>
@@ -162,7 +178,7 @@ src/
     <!-- Contribuidor 3 (Guilherme Henrique) -->
     <tr>
       <td>Guilherme Henrique</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
       <td><a href="https://www.linkedin.com/in/guilhermechroma/" target="_blank" rel="noopener noreferrer">/guilhermechroma</a></td>
@@ -171,7 +187,7 @@ src/
     <!-- Contribuidor 4 (Mateus Soares) -->
     <tr>
       <td>Mateus Soares</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
       <td><a href="https://www.linkedin.com/in/mateeussoares/" target="_blank" rel="noopener noreferrer">/mateeussoares/</a></td>
@@ -180,47 +196,47 @@ src/
     <!-- Contribuidor 5 (Luana Vitorino) -->
     <tr>
       <td>Luana Vitorino</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Scrum Team</td>
       <td>Docs; Development</td>
-      <td><a href="https://www.linkedin.com/in/" target="_blank" rel="noopener noreferrer">/usuário</a></td>
-      <td><a href="https://github.com/" target="_blank" rel="noopener noreferrer">/luanavitorino</a></td>
+      <td><a href="https://www.linkedin.com/in/luana-de-melo-527415352/" target="_blank" rel="noopener noreferrer">/luana-de-melo/</a></td>
+      <td><a href="https://github.com/luanavitorino" target="_blank" rel="noopener noreferrer">/luanavitorino</a></td>
     </tr>
     <!-- Contribuidor 6 (Gabriel Josimar) -->
     <tr>
       <td>Gabriel Josimar</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Scrum Team</td>
       <td>Docs</td>
-      <td><a href="https://www.linkedin.com/in/" target="_blank" rel="noopener noreferrer">/usuário</a></td>
-      <td><a href="https://github.com/" target="_blank" rel="noopener noreferrer">/GabrielJosimar123</a></td>
+      <td><a href="https://www.linkedin.com/in/gabriel-josimar-306000249/" target="_blank" rel="noopener noreferrer">/gabriel-josimar</a></td>
+      <td><a href="https://github.com/GabrielJosimar123" target="_blank" rel="noopener noreferrer">/GabrielJosimar123</a></td>
     </tr>
     <!-- Contribuidor 7 (Lucas Silva) -->
     <tr>
       <td>Lucas Silva</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Scrum Team</td>
       <td>Design</td>
-      <td><a href="https://www.linkedin.com/in/" target="_blank" rel="noopener noreferrer">/usuário</a></td>
-      <td><a href="https://github.com/" target="_blank" rel="noopener noreferrer">/lukaaszx</a></td>
+      <td><a href="http://www.linkedin.com/in/joselucasdg" target="_blank" rel="noopener noreferrer">/joselucasdg</a></td>
+      <td><a href="https://github.com/lukaaszx" target="_blank" rel="noopener noreferrer">/lukaaszx</a></td>
     </tr>
     <!-- Contribuidor 8 (Jean Menino) -->
     <tr>
       <td>Jean Menino</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Scrum Team</td>
       <td>Development</td>
-      <td><a href="https://www.linkedin.com/in/" target="_blank" rel="noopener noreferrer">/usuário</a></td>
-      <td><a href="https://github.com/" target="_blank" rel="noopener noreferrer">/jeanwox</a></td>
+      <td><a href="https://www.linkedin.com/in/jean-menino-dos-santos-j%C3%BAnior-507a48311/" target="_blank" rel="noopener noreferrer">/jean-menino-dos-santos</a></td>
+      <td><a href="hhttps://github.com/jeanwox" target="_blank" rel="noopener noreferrer">/jeanwox</a></td>
     </tr>
     <!-- Contribuidor 9 (Guilherme Manoel) -->
     <tr>
       <td>Guilherme Manoel</td>
-      <td>Contribuição</td>
+      <td>Add Contribuição</td>
       <td>Scrum Team</td>
       <td>Docs</td>
-      <td><a href="https://www.linkedin.com/in/" target="_blank" rel="noopener noreferrer">/usuário</a></td>
-      <td><a href="https://github.com/" target="_blank" rel="noopener noreferrer">/guizihn</a></td>
+      <td><a href="https://www.linkedin.com/in/guilherme-costa-825aa43a6/" target="_blank" rel="noopener noreferrer">/guilherme-costa</a></td>
+      <td><a href="https://github.com/guizihn" target="_blank" rel="noopener noreferrer">/guizihn</a></td>
     </tr>
 <!-- Fim do Corpo (Items da tabela) -->
   </tbody>
@@ -280,13 +296,13 @@ src/
 ## 📦 Dependências Necessárias
 1. Antes de iniciar, certifique-se de ter as seguintes ferramentas instaladas:
     - **[Git](https://git-scm.com/)** — Controle de versão
-        - Versão recomendada: **2.30 ou superior**
+        - Versão recomendada: [![Git](https://img.shields.io/badge/Git-2.30+-orange.svg)](https://git-scm.com/)
 
     - **[Node.js](https://nodejs.org/)** — Ambiente de execução JavaScript
-        - Versão recomendada: **18.x (LTS) ou superior**
+        - Versão recomendada: [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/) *(Versão LTS)*
 
     - **[npm (Node Package Manager)](https://www.npmjs.com/)** — Gerenciador de pacotes (instalado junto com o Node.js)
-        - Versão recomendada: **9.x ou superior**
+        - Versão recomendada: [![npm](https://img.shields.io/badge/npm-9.x+-red.svg)](https://www.npmjs.com/)
 
 > ℹ️ As demais dependências são instaladas automaticamente ao seguir o [tutorial de como baixar e utilizar o repositório](#️-como-baixar-e-utilizar-o-repositório), via `npm install`, conforme definido no arquivo [package.json](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/blob/main/package.json). \
 > ℹ️ As versões exatas podem ser consultadas [aqui](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/blob/main/package.json).
@@ -382,7 +398,6 @@ Em desenvolvimento.
   - LinkedIn: [/rudimacy-duprat-desenvolvimentosistemas](https://www.linkedin.com/in/rudimacy-duprat-desenvolvimentosistemas/)
   - Github: [/RudimacyDuprat](https://github.com/RudimacyDuprat)
 
-
 ---
 
 ## 🏷️ Versionamento
@@ -414,8 +429,7 @@ Ideias, sugestões de melhorias e feedbacks são sempre bem-vindos!
 
 ---
 
-
-
-
 ## 📄 Licença
 Este projeto está sob a [Licença MIT](https://opensource.org/license/mit) - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+[![License MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/license/mit)
