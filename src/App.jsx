@@ -8,13 +8,14 @@ import Financeiro from "./pages/Financeiro";
 import Presencas from "./pages/Presencas";
 import Interessados from "./pages/Interessados";
 import Relatorios from "./pages/Relatorios";
-import Administracao from "./pages/Administracao";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
 import "./index.css";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/admin-panel" element={<AdminPanel />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/cadastros" element={<Cadastros />} />
       <Route path="/cadastro" element={<Cadastro />} />
@@ -23,7 +24,6 @@ function App() {
       <Route path="/presencas" element={<Presencas />} />
       <Route path="/interessados" element={<Interessados />} />
       <Route path="/relatorios" element={<Relatorios />} />
-      <Route path="/administracao" element={<Administracao />} />
     </Routes>
   );
 }

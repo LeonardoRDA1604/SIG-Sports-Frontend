@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { HiChevronDown } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 
@@ -55,7 +56,7 @@ export default function ModalCadastroResponsavel({
 
     // Verifica se todos os campos obrigatórios têm conteúdo (removendo espaços vazios)
     const todosPreenchidos = camposObrigatorios.every(
-      (campo) => formData[campo]?.trim() !== ""
+      (campo) => formData[campo]?.trim() !== "",
     );
 
     // O botão só habilita se tudo estiver preenchido E não houver erro de formato de email
@@ -124,7 +125,7 @@ export default function ModalCadastroResponsavel({
 
     try {
       const response = await fetch(
-        `https://viacep.com.br/ws/${cepLimpo}/json/`
+        `https://viacep.com.br/ws/${cepLimpo}/json/`,
       );
       const data = await response.json();
 
@@ -167,21 +168,23 @@ export default function ModalCadastroResponsavel({
 
   // Padronização dos estilos dos inputs
   const inputStyle =
-    "w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition-all text-sm placeholder:text-gray-400";
+    "w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white";
   const selectStyle =
-    "w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none text-sm cursor-pointer";
+    "w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer";
 
   if (!aberto) return null; // Não renderiza nada quando estiver fechado
 
-  return (
+  return createPortal(
     // z-99999 (z-index: 99999) para o modal aparecer acima de tudo, independente de onde esteja no código
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center min-h-screen z-99999">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 flex flex-col max-h-[80vh]">
+      <div className="w-screen sm:w-full sm:max-w-md h-screen sm:h-auto bg-primary-50 rounded-none sm:rounded-2xl shadow-xl border-0 sm:border border-gray-200 flex flex-col max-h-screen sm:max-h-[80vh]">
         {/* Cabeçalho Fixo */}
-        <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100 sticky top-0 bg-white z-10 rounded-t-2xl">
-          <h2 className="text-xl font-bold text-[#101944]">Novo Responsável</h2>
+        <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100 sticky top-0 bg-primary-900 z-10 rounded-t-2xl">
+          <h2 className="text-xl font-bold text-primary-50">
+            Novo Responsável
+          </h2>
           <button
-            className="text-[#101944] hover:bg-gray-100 p-1 rounded-full transition-colors cursor-pointer"
+            className="text-primary-50 hover:bg-primary-800/60 p-1 rounded-full transition-colors cursor-pointer"
             onClick={handleClose}
           >
             <IoClose size={24} />
@@ -200,6 +203,7 @@ export default function ModalCadastroResponsavel({
               name="nome"
               value={formData.nome}
               onChange={handleChange}
+              placeholder="Digite o nome completo"
               className={inputStyle}
             />
           </div>
@@ -229,6 +233,7 @@ export default function ModalCadastroResponsavel({
               name="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="Digite o email"
               className={`${inputStyle} ${
                 emailErro
                   ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
@@ -266,6 +271,7 @@ export default function ModalCadastroResponsavel({
               name="nomeAtleta"
               value={formData.nomeAtleta}
               onChange={handleChange}
+              placeholder="Digite o nome do atleta"
               className={inputStyle}
             />
           </div>
@@ -282,9 +288,7 @@ export default function ModalCadastroResponsavel({
                 onChange={handleChange}
                 className={selectStyle}
               >
-                <option value="" disabled selected>
-                  Selecione
-                </option>
+                <option value="">Selecione o parentesco</option>
                 <option value="mae">Mãe</option>
                 <option value="pai">Pai</option>
                 <option value="avo_f">Avó</option>
@@ -328,6 +332,7 @@ export default function ModalCadastroResponsavel({
                 name="bairro"
                 value={formData.bairro}
                 onChange={handleChange}
+                placeholder="Digite o bairro"
                 className={inputStyle}
               />
             </div>
@@ -344,6 +349,7 @@ export default function ModalCadastroResponsavel({
                 name="cidade"
                 value={formData.cidade}
                 onChange={handleChange}
+                placeholder="Digite a cidade"
                 className={inputStyle}
               />
             </div>
@@ -358,9 +364,7 @@ export default function ModalCadastroResponsavel({
                   onChange={handleChange}
                   className={selectStyle}
                 >
-                  <option value="" disabled selected>
-                    Selecione
-                  </option>
+                  <option value="">Selecione o estado</option>
                   {[
                     "AC",
                     "AL",
@@ -412,6 +416,7 @@ export default function ModalCadastroResponsavel({
               name="logradouro"
               value={formData.logradouro}
               onChange={handleChange}
+              placeholder="Digite o logradouro"
               className={inputStyle}
             />
           </div>
@@ -425,34 +430,33 @@ export default function ModalCadastroResponsavel({
               name="complemento"
               value={formData.complemento}
               onChange={handleChange}
+              placeholder="Digite o complemento (opcional)"
               className={inputStyle}
             />
           </div>
         </div>
 
         {/* Rodapé Fixo */}
-        <div className="flex items-center justify-end space-x-6 px-6 py-5 border-t border-gray-100 bg-white rounded-b-2xl">
+        <div className="flex flex-col-reverse sm:flex-row gap-3 justify-end px-6 py-5 border-t border-gray-100 bg-primary-50 rounded-b-2xl">
           <button
             type="button"
-            className="text-[#101944] font-bold hover:underline transition-all cursor-pointer text-sm"
+            className="w-full sm:w-auto px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors text-sm"
             onClick={handleClose}
           >
             Cancelar
           </button>
+
           <button
             type="button"
-            className={`px-10 py-2.5 font-bold rounded-full transition-colors shadow-md text-sm ${
-              validarCampos()
-                ? "bg-[#003366] text-white hover:bg-[#002850] cursor-pointer"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none"
-            }`}
-            disabled={!validarCampos()}
             onClick={handleSalvar}
+            disabled={!validarCampos()}
+            className="w-full sm:w-auto px-6 py-2.5 bg-primary-900 text-white font-medium rounded-lg hover:bg-primary-800 transition-colors shadow-sm disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:shadow-none text-sm"
           >
             Salvar
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

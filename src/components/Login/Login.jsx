@@ -1,53 +1,85 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // Seus módulos
-import { carregarUsuarios } from "../../data/dadosUsuarios";
+import { login } from "../../data/api";
 import { MdLogin } from "react-icons/md";
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    tipoUsuario: "",
     email: "",
-    senha: "",
+    password: "",
   });
 
   const [mensagem, setMensagem] = useState("");
+  const [carregando, setCarregando] = useState(false);
   const navigate = useNavigate();
+
+  // Limpar o formulário ao carregar o componente
+  useEffect(() => {
+    setFormData({
+      email: "",
+      password: "",
+    });
+    setMensagem("");
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const validarSenha = (senha) => {
+    const temMaiuscula = /[A-Z]/.test(senha);
+    const temMinuscula = /[a-z]/.test(senha);
+    const temNumero = /[0-9]/.test(senha);
+    const temEspecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(senha);
+    const temComprimento = senha.length >= 8;
+
+    return (
+      temMaiuscula && temMinuscula && temNumero && temEspecial && temComprimento
+    );
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMensagem("");
+    setCarregando(true);
 
-    // CARREGA TODOS OS USUÁRIOS DO 'BANCO DE DADOS FAKE'
-    const todosUsuarios = carregarUsuarios();
-
-    const usuario = todosUsuarios.find(
-      (u) =>
-        u.email === formData.email &&
-        u.senha === formData.senha &&
-        u.tipoUsuario === formData.tipoUsuario
-    );
-
-    if (!usuario) {
-      setMensagem("Credenciais inválidas ou tipo de usuário incorreto.");
+    // Validar força da senha
+    if (!validarSenha(formData.password)) {
+      setMensagem(
+        "Senha deve conter no mínimo 8 caracteres, incluindo letra maiúscula, minúscula, número e caractere especial"
+      );
+      setCarregando(false);
       return;
     }
 
-    // SALVA INFORMAÇÕES DO USUÁRIO NO localStorage
-    localStorage.setItem(
-      "usuario",
-      JSON.stringify({
-        nome: usuario.nome,
-        email: usuario.email,
-        tipoUsuario: usuario.tipoUsuario,
-      })
-    );
+    try {
+      // Chama a rota de login no backend
+      const response = await login(formData.email, formData.password);
 
-    navigate("/dashboard");
+      // SALVA INFORMAÇÕES DO USUÁRIO NO localStorage
+      localStorage.setItem(
+        "usuario",
+        JSON.stringify({
+          id: response.user.id,
+          name: response.user.name,
+          email: response.user.email,
+          status: response.user.status,
+          role: response.user.role,
+        })
+      );
+
+      setMensagem("Login realizado com sucesso! Redirecionando...");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1500);
+    } catch (error) {
+      const mensagemErro =
+        error.message || "Erro ao conectar. Tente novamente.";
+      setMensagem(mensagemErro);
+      console.error("Erro de login:", error);
+      setCarregando(false);
+    }
   };
 
   return (
@@ -62,46 +94,12 @@ export default function Login() {
       <div className="bg-gray-800 shadow-2xl rounded-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row bg-opacity-90">
         {/* FORMULÁRIO (Lado Esquerdo) */}
         {/* Fundo do formulário claro para contraste com o dark-mode do cartão */}
-        <div className="w-full md:w-1/2 p-10 bg-gray-900 rounded-l-2xl flex flex-col justify-center">
-          <h2 className="text-2xl font-bold mb-8 text-center text-white tracking-wider">
+        <div className="w-full md:w-1/2 p-8 bg-gray-900 rounded-l-2xl flex flex-col justify-center">
+          <h2 className="text-2xl font-bold mb-6 text-center text-white tracking-wider">
             Acessar Conta
           </h2>
 
-          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-            {/* Campo Tipo de Usuário (Select) */}
-            <div className="relative">
-              <select
-                name="tipoUsuario"
-                value={formData.tipoUsuario}
-                onChange={handleChange}
-                autocomplete="off"
-                // Estilo do campo: Branco, arredondado e com padding
-                className="w-full p-3 border-none rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none pr-10"
-                required
-              >
-                <option value="">Quem está acessando?</option>
-                <option value="administrador">Administrador</option>
-                <option value="treinador">Treinador</option>
-              </select>
-              {/* Ícone para o Select */}
-              <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              </span>
-            </div>
-
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             {/* Campo E-mail */}
             <div className="relative">
               <input
@@ -110,8 +108,7 @@ export default function Login() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Endereço de Email"
-                autocomplete="new-email"
-                // Estilo do campo: Branco, arredondado e com padding
+                autoComplete="email"
                 className="w-full p-3 pr-10 border-none rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 required
               />
@@ -138,12 +135,11 @@ export default function Login() {
             <div className="relative">
               <input
                 type="password"
-                name="senha"
-                value={formData.senha}
+                name="password"
+                value={formData.password}
                 onChange={handleChange}
                 placeholder="Senha"
-                autocomplete="new-password"
-                // Estilo do campo: Branco, arredondado e com padding
+                autoComplete="current-password"
                 className="w-full p-3 pr-10 border-none rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 required
               />
@@ -173,28 +169,37 @@ export default function Login() {
 
             {/* Mensagem de Erro */}
             {mensagem && (
-              <p className="text-center text-red-400 font-medium text-sm">
+              <p
+                className={`text-center font-medium text-sm ${
+                  mensagem.includes("sucesso")
+                    ? "text-green-400"
+                    : "text-red-400"
+                }`}
+              >
                 {mensagem}
               </p>
             )}
 
             {/* Botão de Login: Estilo azul primário da imagem */}
             <button
-              className="cursor-pointer w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mt-2 hover:bg-blue-600 transition duration-300 ease-in-out shadow-md transform hover:scale-[1.01]"
+              className="cursor-pointer w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mt-1 hover:bg-blue-600 disabled:bg-blue-400 transition duration-300 ease-in-out shadow-md transform hover:scale-[1.01]"
               type="submit"
+              disabled={carregando}
             >
               <div className="flex items-center justify-center gap-2">
-                <MdLogin size={30} />
-                <span className="text-2xl">Entrar</span>
+                <MdLogin size={24} />
+                <span className="text-lg">
+                  {carregando ? "Conectando..." : "Entrar"}
+                </span>
               </div>
             </button>
 
-            <div className="flex flex-row justify-between mt-4">
+            <div className="flex flex-row justify-between mt-3 gap-2">
               {/* Link "Esqueci minha senha" */}
               <button
                 type="button"
                 onClick={() => navigate("/esqueci-senha")}
-                className="text-gray-200 hover:text-blue-400 hover:underline mt-2 text-center text-md cursor-pointer"
+                className="text-gray-200 hover:text-blue-400 hover:underline text-center text-sm cursor-pointer flex-1"
               >
                 Esqueci a senha
               </button>
@@ -202,7 +207,7 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => navigate("/cadastro")}
-                className="text-gray-200 hover:text-blue-400 hover:underline mt-2 text-center text-md cursor-pointer"
+                className="text-gray-200 hover:text-blue-400 hover:underline text-center text-sm cursor-pointer flex-1"
               >
                 Cadastre-se
               </button>

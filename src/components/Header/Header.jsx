@@ -14,52 +14,54 @@ const Header = ({
   const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   return (
-    <header className="min-h-14 sm:min-h-16 md:min-h-20 bg-primary-900 flex items-center justify-between px-3 sm:px-6 md:px-8 text-white w-full border-b border-white/10">
+    <header className="flex items-center px-10 py-4 bg-primary-900">
       {/* Lado Esquerdo: Título Dinâmico */}
-      <div className="text-center sm:text-left space-y-0.5 sm:space-y-1 flex-1">
+      <div className="text-center sm:text-left space-y-0 flex-1 py-2 sm:py-2 md:py-2 lg:py-3 overflow-hidden">
         <AnimatedTitle
           text={title || "Título"}
-          className="text-sm sm:text-lg md:text-2xl font-bold tracking-tight line-clamp-1"
+          className="text-sm sm:text-lg md:text-xl font-bold tracking-tight line-clamp-1"
         />
-        <p className="text-[10px] sm:text-xs md:text-sm text-gray-400 line-clamp-1">
+        <p className="text-xs sm:text-sm md:text-base text-gray-200 line-clamp-2 sm:line-clamp-1 leading-tight py-2.5">
           {subtitle || "Subtítulo"}
         </p>
       </div>
 
       {/* Lado Direito: Notificação, Perfil e Hamburger */}
-      <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 shrink-0">
+      <div className="flex items-center gap-4 sm:gap-6 md:gap-7 lg:gap-8 shrink-0 h-full">
         {/* Notificação */}
         <NotificationIcon
           count={3}
-          className="hover:bg-white/10 rounded-full p-1.5 sm:p-2 transition min-w-10 min-h-10 flex items-center justify-center"
+          className="hover:bg-white/10 rounded-full p-1.5 sm:p-2 transition flex items-center justify-center"
         />
 
         {/* Separador Vertical */}
-        <div className="hidden md:block h-6 w-px bg-white/20"></div>
+        <div className="hidden md:block h-5 w-px bg-white/20"></div>
 
         {/* Perfil do Usuário */}
-        <div className="hidden sm:flex items-center gap-2 md:gap-3">
+        <div className="hidden lg:flex items-center gap-3 md:gap-4 lg:gap-5 h-full text-primary-50">
           {/* Nome e Cargo (oculto em mobile) */}
-          <div className="hidden md:block text-right">
-            <p className="text-xs sm:text-sm font-semibold leading-tight truncate max-w-32.5">
-              {usuario?.nome || "Ricardo Silva"}
+          <div className="hidden lg:block text-right py-1 px-2">
+            <p className="text-xs sm:text-sm font-semibold leading-tight truncate max-w-40">
+              {usuario?.name
+                ? usuario.name.split(" ").slice(0, 2).join(" ")
+                : "Usuário"}
             </p>
-            <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-widest">
-              {usuario?.tipoUsuario || "Administrador"}
+            <p className="text-[9px] text-gray-400 uppercase tracking-widest leading-tight">
+              {usuario?.role || "Treinador"}
             </p>
           </div>
 
           {/* Avatar */}
           <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-blue-600 flex items-center justify-center ring-2 ring-white/20 overflow-hidden shrink-0">
             <span className="text-[10px] sm:text-xs font-bold">
-              {usuario?.nome
-                ? usuario.nome
+              {usuario?.name
+                ? usuario.name
                     .split(" ")
                     .map((word) => word.charAt(0))
                     .join("")
                     .toUpperCase()
                     .substring(0, 2)
-                : "RS"}
+                : "US"}
             </span>
           </div>
 
@@ -70,9 +72,9 @@ const Header = ({
         {/* Botão Hamburger (Mobile) - Menu Mobile */}
         <button
           onClick={onMobileMenuToggle}
-          className="lg:hidden flex items-center justify-center p-2 hover:bg-primary-800 rounded-lg transition"
+          className="lg:hidden flex items-center justify-center hover:bg-primary-800 rounded-lg transition text-primary-50 ml-3"
         >
-          {mobileMenuOpen ? <HiX size={24} /> : <HiMenu size={24} />}
+          <HiMenu size={34} />
         </button>
       </div>
     </header>

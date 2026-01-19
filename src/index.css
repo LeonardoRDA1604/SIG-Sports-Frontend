@@ -1,1 +1,41 @@
 @import "./styles/tokens.css";
+/* ========================================
+   RESPONSIVE: Navbar Fix para tablet
+   ======================================== */
+
+/* Tablet e Mobile: Até 1023px - Menu mobile deve ficar escondido por padrão */
+@media (max-width: 1023px) {
+  /* Navbar desktop nunca aparece em mobile/tablet */
+  aside.hidden.lg\:flex {
+    display: none !important;
+  }
+
+  /* Menu mobile - força comportamento de slide (não fixo) */
+  aside.lg\:hidden {
+    position: fixed !important;
+    width: 100% !important;
+  }
+
+  /* Remove o sm:translate-x-0 para que fique escondido por padrão */
+  aside.lg\:hidden.sm\:translate-x-0:not(.translate-x-0) {
+    transform: translateX(-100%) !important;
+  }
+
+  /* Quando está aberto (classe translate-x-0), mostra */
+  aside.lg\:hidden.translate-x-0 {
+    transform: translateX(0) !important;
+  }
+}
+
+/* Desktop: A partir de 1024px - Mostra navbar desktop */
+@media (min-width: 1024px) {
+  /* Navbar desktop aparece */
+  aside.hidden.lg\:flex {
+    display: flex !important;
+  }
+
+  /* Menu mobile desaparece completamente */
+  aside.lg\:hidden {
+    display: none !important;
+  }
+}

@@ -19,7 +19,7 @@ export default function AnimatedTitle({ text = " " }) {
 
   return (
     <MotionH1
-      className="text-3xl font-bold inline-flex"
+      className="text-4xl font-bold inline-flex text-primary-50"
       initial="hidden"
       animate="visible"
     >

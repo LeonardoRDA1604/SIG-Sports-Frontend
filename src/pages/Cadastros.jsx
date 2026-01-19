@@ -1,2357 +1,2046 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { list, create, remove, update } from '../data/api';
-import { temAcessoBloqueado } from '../utils/permissoes';
+import { FaUser } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
+import { FaPersonChalkboard } from "react-icons/fa6";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { FaTableList } from "react-icons/fa6";
+import { FaRunning } from "react-icons/fa";
+import { MdPersonAdd, MdAdd, MdSportsSoccer } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { IoLockClosed } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
+import BotaoAdicionar from "../components/BotaoAdicionar/BotaoAdicionar";
+import { list, create, remove, update } from "../data/api";
+import Layout from "../components/Navbar/Navbar";
+import ModalCadastroInteressado from "../modals/forms/ModalCadastroInteressado";
+import ModalCadastroAtleta from "../modals/forms/PlayerTemplateModal";
+import ModalCadastroResponsavel from "../modals/forms/ModalCadastroResponsavel";
+import ModalCadastroTreinador from "../modals/forms/ModalCadastroTreinador";
+import ModalCadastroTurma from "../modals/forms/ModalCadastroTurma";
+import ModalCadastroCategoria from "../modals/forms/ModalCadastroCategoria";
+import ModalCadastroModalidade from "../modals/forms/ModalCadastroModalidade";
+import ModalCadastroUsuario from "../modals/forms/ModalCadastroUsuario";
+import ModalVisualizarAtleta from "../modals/views/EditPlayersModal";
+import { temAcessoBloqueado } from "../utils/permissoes";
+import DataTable from "../components/DataTable/DataTable";
 
-// --- ÍCONES ---
-import { FaUser, FaUserFriends, FaRunning } from 'react-icons/fa';
-import { FaPersonChalkboard, FaTableList } from 'react-icons/fa6';
-import { HiMiniUserGroup } from 'react-icons/hi2';
-import { MdPersonAdd, MdDelete } from 'react-icons/md';
-import { IoInformationCircle, IoLockClosed } from 'react-icons/io5';
+import AnimatedTitle from "../modals/AnimatedTitle";
+// Dados dos atletas
+const athletesData = [];
 
-// --- COMPONENTES ---
-import Layout from '../components/Navbar/Navbar';
-import BotaoAdicionar from '../components/BotaoAdicionar/BotaoAdicionar';
+// Dados dos responsáveis
+const responsibleData = [];
 
-// --- MODALS ---
-import ModalCadastroInteressado from '../modals/forms/ModalCadastroInteressado';
-import ModalCadastroAtleta from '../modals/forms/ModalCadastroAtleta';
-import ModalCadastroResponsavel from '../modals/forms/ModalCadastroResponsavel';
-import ModalCadastroTreinador from '../modals/forms/ModalCadastroTreinador';
-import ModalCadastroTurma from '../modals/forms/ModalCadastroTurma';
-import ModalCadastroCategoria from '../modals/forms/ModalCadastroCategoria';
-import ModalCadastroModalidade from '../modals/forms/ModalCadastroModalidade';
-import ModalVisualizarAtleta from '../modals/views/ModalVisualizarAtleta';
-import ModalVisualizarResponsavel from '../modals/views/ModalVisualizarResponsavel';
-import ModalVisualizarTurma from '../modals/views/ModalVisualizarTurma';
-import ModalVisualizarCategoria from '../modals/views/ModalVisualizarCategoria';
-import ModalVisualizarModalidade from '../modals/views/ModalVisualizarModalidade';
-import ModalVisualizarInteressado from '../modals/views/ModalVisualizarInteressado';
-import ModalVisualizarTreinador from '../modals/views/ModalVisualizarTreinador';
-
-// Dados dos Atletas
-const athletesData = [
-	{
-		id: '1',
-		name: 'Mateus Alexander da Silva',
-		nascimento: '13/05/2013',
-		cpf: '123.456.789-10',
-		rg: '15.828.876-0',
-		email: 'mateusinho@email.com',
-		escola: 'Escola Municipal Recife',
-		modalidade: 'futebol',
-		age: 12,
-		category: 'Sub-12',
-		classes: 'B12',
-		cep: '50.968-305',
-		bairro: 'Recife Antigo',
-		cidade: 'Recife',
-		uf: 'PE',
-		logradouro: 'Rua do Bom Jesus, 123',
-		complemento: 'Casa D',
-		observacoes: 'Atleta com excelente drible.',
-		respCpf: '111.222.333-44',
-		respNome: 'Roberto Carlos da Silva',
-		respEmail: 'roberto.silva@email.com',
-		respTelefone: '(81) 98877-6655',
-		respParentesco: 'pai',
-	},
-	{
-		id: '2',
-		name: 'Gabriel Amaral Bezerra de Menezes',
-		nascimento: '20/10/2012',
-		cpf: '987.654.321-00',
-		rg: '12.345.678-9',
-		email: 'gabriel.b@email.com',
-		escola: 'Colégio Boa Viagem',
-		modalidade: 'futsal',
-		age: 13,
-		category: 'Sub-14',
-		classes: 'A14',
-		cep: '51.020-000',
-		bairro: 'Boa Viagem',
-		cidade: 'Recife',
-		uf: 'PE',
-		logradouro: 'Av. Boa Viagem, 500',
-		complemento: 'Apto 101',
-		observacoes: '',
-		respCpf: '222.333.444-55',
-		respNome: 'Ronaldo Ferreira Bezerra',
-		respEmail: 'ronaldo.f@gmail.com',
-		respTelefone: '(81) 99988-7766',
-		respParentesco: 'pai',
-	},
-	{
-		id: '3',
-		name: 'Enzo Gabriel dos Santos',
-		nascimento: '05/02/2010',
-		cpf: '111.222.333-44',
-		rg: '87.654.321-0',
-		email: 'enzo.g@hotmail.com',
-		escola: 'Escola Santo Amaro',
-		modalidade: 'beach soccer',
-		age: 15,
-		category: 'Sub-16',
-		classes: 'A16',
-		cep: '50050-000',
-		bairro: 'Santo Amaro',
-		cidade: 'Recife',
-		uf: 'PE',
-		logradouro: 'Rua da Aurora, 10',
-		complemento: 'Casa',
-		observacoes: 'Líder de equipe.',
-		respCpf: '333.444.555-66',
-		respNome: 'Miraildes Maria Mota dos Santos',
-		respEmail: 'miraildes.m@email.com',
-		respTelefone: '(81) 98765-4321',
-		respParentesco: 'mãe',
-	},
-	{
-		id: '4',
-		name: 'Thiago Pereira Lima',
-		nascimento: '15/08/2009',
-		cpf: '555.666.777-88',
-		rg: '11.222.333-4',
-		email: 'thiago.p@uol.com.br',
-		escola: 'Escola Graças',
-		modalidade: 'fut7',
-		age: 16,
-		category: 'Sub-16',
-		classes: 'B16',
-		cep: '52.011-050',
-		bairro: 'Graças',
-		cidade: 'Recife',
-		uf: 'PE',
-		logradouro: 'Rua Amélia, 45',
-		complemento: 'Bloco B',
-		observacoes: '',
-		respCpf: '444.555.666-77',
-		respNome: 'Thiago Souza Lima',
-		respEmail: 'thiago.souza@email.com',
-		respTelefone: '(81) 97766-5544',
-		respParentesco: 'pai',
-	},
-	{
-		id: '5',
-		name: 'Nathan Josué Albuquerque Cavalcanti',
-		nascimento: '30/12/2009',
-		cpf: '444.333.222-11',
-		rg: '99.888.777-6',
-		email: 'nathan.j@gmail.com',
-		escola: 'Colégio Aflitos',
-		modalidade: 'fut7',
-		age: 16,
-		category: 'Sub-16',
-		classes: 'B16',
-		cep: '52.050-000',
-		bairro: 'Aflitos',
-		cidade: 'Recife',
-		uf: 'PE',
-		logradouro: 'Rua do Futuro, 200',
-		complemento: '',
-		observacoes: '',
-		respCpf: '555.444.333-22',
-		respNome: 'Marta Vieira de Albuquerque',
-		respEmail: 'marta.alb@email.com',
-		respTelefone: '(81) 98811-2233',
-		respParentesco: 'mãe',
-	},
-	{
-		id: '6',
-		name: 'Wesley Santana de Oliveira Neto',
-		nascimento: '12/04/2008',
-		cpf: '777.888.999-00',
-		rg: '44.555.666-7',
-		email: 'wesley.s@outlook.com',
-		escola: 'Escola Casa Amarela',
-		modalidade: 'futebol',
-		age: 17,
-		category: 'Sub-18',
-		classes: 'B18',
-		cep: '52.051-380',
-		bairro: 'Casa Amarela',
-		cidade: 'Recife',
-		uf: 'PE',
-		logradouro: 'Estrada do Arraial, 1000',
-		complemento: 'Casa 2',
-		observacoes: '',
-		respCpf: '666.777.888-99',
-		respNome: 'Lionel Messi de Oliveira Neto',
-		respEmail: 'lionel.neto@email.com',
-		respTelefone: '(81) 99900-1122',
-		respParentesco: 'pai',
-	},
-	{
-		id: '7',
-		name: 'Leandro Wilke Alves De Melo',
-		nascimento: '07/05/1985',
-		cpf: '999.999.999-99',
-		rg: '99.999.999-9',
-		email: 'leandro@aponti.com',
-		escola: 'Aponti',
-		modalidade: 'futebol',
-		age: 16,
-		category: 'Sub-16',
-		classes: 'A16',
-		cep: '54310-302',
-		bairro: 'Prazeres',
-		cidade: 'Jaboatão Dos Guararapes',
-		uf: 'PE',
-		logradouro: '1ª Travessa Arão Lins De Andrade 45',
-		complemento: 'Casa',
-		observacoes: 'Atleta federado.',
-		respCpf: '888.777.666-55',
-		respNome: 'Adelmo Bezerra De Melo',
-		respEmail: 'adelmo@aponti.com',
-		respTelefone: '(81) 97766-5544',
-		respParentesco: 'pai',
-	},
-];
-
-// Dados dos Responsáveis
-const responsibleData = [
-	{
-		id: '1',
-		name: 'Roberto Carlos da Silva',
-		cpf: '111.222.333-44',
-		email: 'roberto.silva@email.com',
-		phoneNumber: '(81) 98877-6655',
-		birthDate: '15/06/1982',
-		kinship: 'Pai',
-		athletes: ['Mateus Alexander da Silva'],
-		address: {
-			street: 'Rua do Bom Jesus, 123',
-			neighborhood: 'Recife Antigo',
-			city: 'Recife',
-			uf: 'PE',
-			cep: '50.968-305',
-			complemento: 'Casa D',
-		},
-	},
-	{
-		id: '2',
-		name: 'Ronaldo Ferreira Bezerra',
-		cpf: '222.333.444-55',
-		email: 'ronaldo.f@gmail.com',
-		phoneNumber: '(81) 99988-7766',
-		birthDate: '20/10/1985',
-		kinship: 'Pai',
-		athletes: ['Gabriel Amaral Bezerra de Menezes'],
-		address: {
-			street: 'Av. Boa Viagem, 500',
-			neighborhood: 'Boa Viagem',
-			city: 'Recife',
-			uf: 'PE',
-			cep: '51.020-000',
-			complemento: 'Apto 101',
-		},
-	},
-	{
-		id: '3',
-		name: 'Miraildes Maria Mota dos Santos',
-		cpf: '333.444.555-66',
-		email: 'miraildes.m@email.com',
-		phoneNumber: '(81) 98765-4321',
-		birthDate: '12/03/1978',
-		kinship: 'Mãe',
-		athletes: [
-			'Enzo Gabriel dos Santos',
-			'Thiago Pereira Lima',
-			'Nathan Josué Albuquerque Cavalcanti',
-		],
-		address: {
-			street: 'Rua da Aurora, 10',
-			neighborhood: 'Santo Amaro',
-			city: 'Recife',
-			uf: 'PE',
-			cep: '50050-000',
-			complemento: 'Casa',
-		},
-	},
-	{
-		id: '4',
-		name: 'Thiago Souza Lima',
-		cpf: '444.555.666-77',
-		email: 'thiago.souza@email.com',
-		phoneNumber: '(81) 97766-5544',
-		birthDate: '25/11/1980',
-		kinship: 'Pai',
-		athletes: ['Thiago Pereira Lima'],
-		address: {
-			street: 'Rua Amélia, 45',
-			neighborhood: 'Graças',
-			city: 'Recife',
-			uf: 'PE',
-			cep: '52.011-050',
-			complemento: 'Bloco B',
-		},
-	},
-	{
-		id: '5',
-		name: 'Marta Vieira de Albuquerque',
-		cpf: '555.444.333-22',
-		email: 'marta.alb@email.com',
-		phoneNumber: '(81) 98811-2233',
-		birthDate: '08/09/1984',
-		kinship: 'Mãe',
-		athletes: ['Nathan Josué Albuquerque Cavalcanti'],
-		address: {
-			street: 'Rua do Futuro, 200',
-			neighborhood: 'Aflitos',
-			city: 'Recife',
-			uf: 'PE',
-			cep: '52.050-000',
-			complemento: '',
-		},
-	},
-	{
-		id: '6',
-		name: 'Lionel Messi de Oliveira Neto',
-		cpf: '666.777.888-99',
-		email: 'lionel.neto@email.com',
-		phoneNumber: '(81) 99900-1122',
-		birthDate: '24/06/1987',
-		kinship: 'Pai',
-		athletes: ['Wesley Santana de Oliveira Neto'],
-		address: {
-			street: 'Estrada do Arraial, 1000',
-			neighborhood: 'Casa Amarela',
-			city: 'Recife',
-			uf: 'PE',
-			cep: '52.051-380',
-			complemento: 'Casa 2',
-		},
-	},
-	{
-		id: '7',
-		name: 'Adelmo Bezerra De Melo',
-		cpf: '888.777.666-55',
-		email: 'adelmo@aponti.com',
-		phoneNumber: '(81) 97766-5544',
-		birthDate: '01/01/1960',
-		kinship: 'Pai',
-		athletes: ['Leandro Wilke Alves De Melo'],
-		address: {
-			street: 'Rua Nova, 10',
-			neighborhood: 'Centro',
-			city: 'Recife',
-			uf: 'PE',
-			cep: '50000-000',
-			complemento: '',
-		},
-	},
-];
-
-// Dados dos Treinadores
-const coachData = [
-	{
-		id: 1,
-		name: 'Pep Guardiola',
-		classes: ['A12', 'B12', 'C12'],
-		workTimes: '06:00 - 12:00',
-		phoneNumber: '(81) 91111-1111',
-	},
-	{
-		id: 2,
-		name: 'Carlo Ancelotti',
-		classes: ['A14', 'B14', 'C14'],
-		workTimes: '06:00 - 12:00',
-		phoneNumber: '(81) 92222-2222',
-	},
-	{
-		id: 3,
-		name: 'Xabi Alonso',
-		classes: ['A16', 'B16', 'C16'],
-		workTimes: '14:00 - 20:00',
-		phoneNumber: '(81) 93333-3333',
-	},
-	{
-		id: 4,
-		name: 'Mikel Arteta',
-		classes: ['A18', 'B18', 'C18'],
-		workTimes: '14:00 - 20:00',
-		phoneNumber: '(81) 94444-4444',
-	},
-];
+// Dados dos treinadores
+const coachData = [];
 
 // Dados das Turmas
-const classesData = [
-	// SUB-12 (Treinador: Pep Guardiola - Manhã)
-	{
-		id: 1,
-		nomeTurma: 'A12',
-		workTimes: '06:00 - 08:00',
-		coach: 'Pep Guardiola',
-		category: 'Sub-12',
-		modality: 'Futebol',
-		days: 'Segunda, Quarta e Sexta',
-		athletes: [],
-	},
-	{
-		id: 2,
-		nomeTurma: 'B12',
-		workTimes: '08:00 - 10:00',
-		coach: 'Pep Guardiola',
-		category: 'Sub-12',
-		modality: 'Futebol',
-		days: 'Terça e Quinta',
-		athletes: ['Mateus Alexander da Silva'],
-	},
-	{
-		id: 3,
-		nomeTurma: 'C12',
-		workTimes: '10:00 - 12:00',
-		coach: 'Pep Guardiola',
-		category: 'Sub-12',
-		modality: 'Futebol',
-		days: 'Segunda, Quarta e Sexta',
-		athletes: [],
-	},
-
-	// SUB-14 (Treinador: Carlo Ancelotti - Manhã)
-	{
-		id: 4,
-		nomeTurma: 'A14',
-		workTimes: '06:00 - 08:00',
-		coach: 'Carlo Ancelotti',
-		category: 'Sub-14',
-		modality: 'Futsal',
-		days: 'Segunda, Quarta e Sexta',
-		athletes: ['Gabriel Amaral Bezerra de Menezes'],
-	},
-	{
-		id: 5,
-		nomeTurma: 'B14',
-		workTimes: '08:00 - 10:00',
-		coach: 'Carlo Ancelotti',
-		category: 'Sub-14',
-		modality: 'Futsal',
-		days: 'Terça e Quinta',
-		athletes: [],
-	},
-	{
-		id: 6,
-		nomeTurma: 'C14',
-		workTimes: '10:00 - 12:00',
-		coach: 'Carlo Ancelotti',
-		category: 'Sub-14',
-		modality: 'Futsal',
-		days: 'Segunda, Quarta e Sexta',
-		athletes: [],
-	},
-
-	// SUB-16 (Treinador: Xabi Alonso - Tarde/Noite)
-	{
-		id: 7,
-		nomeTurma: 'A16',
-		workTimes: '14:00 - 16:00',
-		coach: 'Xabi Alonso',
-		category: 'Sub-16',
-		modality: 'Futebol',
-		days: 'Segunda, Quarta e Sexta',
-		athletes: ['Enzo Gabriel dos Santos', 'Leandro Wilke Alves De Melo'],
-	},
-	{
-		id: 8,
-		nomeTurma: 'B16',
-		workTimes: '16:00 - 18:00',
-		coach: 'Xabi Alonso',
-		category: 'Sub-16',
-		modality: 'Fut7',
-		days: 'Terça e Quinta',
-		athletes: ['Thiago Pereira Lima', 'Nathan Josué Albuquerque Cavalcanti'],
-	},
-	{
-		id: 9,
-		nomeTurma: 'C16',
-		workTimes: '18:00 - 20:00',
-		coach: 'Xabi Alonso',
-		category: 'Sub-16',
-		modality: 'Futebol',
-		days: 'Segunda, Quarta e Sexta',
-		athletes: [],
-	},
-
-	// SUB-18 (Treinador: Mikel Arteta - Tarde/Noite)
-	{
-		id: 10,
-		nomeTurma: 'A18',
-		workTimes: '14:00 - 16:00',
-		coach: 'Mikel Arteta',
-		category: 'Sub-18',
-		modality: 'Futebol',
-		days: 'Segunda, Quarta e Sexta',
-		athletes: [],
-	},
-	{
-		id: 11,
-		nomeTurma: 'B18',
-		workTimes: '16:00 - 18:00',
-		coach: 'Mikel Arteta',
-		category: 'Sub-18',
-		modality: 'Futebol',
-		days: 'Terça e Quinta',
-		athletes: ['Wesley Santana de Oliveira Neto'],
-	},
-	{
-		id: 12,
-		nomeTurma: 'C18',
-		workTimes: '18:00 - 20:00',
-		coach: 'Mikel Arteta',
-		category: 'Sub-18',
-		modality: 'Futebol',
-		days: 'Segunda, Quarta e Sexta',
-		athletes: [],
-	},
-];
+const classesData = [];
 
 // Dados das Categorias
-const categoriesData = [
-	{ id: 1, name: 'Sub-12', classes: 'A12, B12, C12', modality: 'Futebol' },
-	{ id: 2, name: 'Sub-14', classes: 'A14, B14, C14', modality: 'Futsal' },
-	{ id: 3, name: 'Sub-16', classes: 'A16, B16, C16', modality: 'Futebol' },
-	{ id: 4, name: 'Sub-18', classes: 'A18, B18, C18', modality: 'Futebol' },
-];
-
-// Dados das Modalidades
-const modalitiesData = [
-	{ id: 1, name: 'Futebol', category: 'Sub-12', classes: 'A12' },
-	{ id: 2, name: 'Futsal', category: 'Sub-14', classes: 'B14' },
-	{ id: 3, name: 'Beach Soccer', category: 'Sub-16', classes: 'A16' },
-	{ id: 4, name: 'Fut7', category: 'Sub-16', classes: 'B16' },
-];
+const categoriesData = [];
 
 // Dados dos Interessados
-const interestedData = [
-	{
-		id: 1,
-		nome: 'João Silva',
-		email: 'joao.silva@email.com',
-		telefone: '(81) 98877-6655',
-		modalidade: 'Futebol',
-	},
-	{
-		id: 2,
-		nome: 'Maria Santos',
-		email: 'maria.santos@gmail.com',
-		telefone: '(81) 99911-2233',
-		modalidade: 'Futsal',
-	},
-	{
-		id: 3,
-		nome: 'Pedro Oliveira',
-		email: 'pedro.oli@outlook.com',
-		telefone: '(81) 98765-4321',
-		modalidade: 'Beach Soccer',
-	},
-];
+const interestedData = [];
 
 // Mapeamento das abas
 const abas = [
-	{
-		id: 'atletas',
-		label: 'Atletas',
-		labelSingular: 'Atleta',
-		icon: <FaUser />,
-	},
-	{
-		id: 'responsaveis',
-		label: 'Responsáveis',
-		labelSingular: 'Responsável',
-		icon: <FaUserFriends />,
-	},
-	{
-		id: 'treinadores',
-		label: 'Treinadores',
-		labelSingular: 'Treinador',
-		icon: <FaPersonChalkboard />,
-	},
-	{
-		id: 'turmas',
-		label: 'Turmas',
-		labelSingular: 'Turma',
-		icon: <HiMiniUserGroup />,
-	},
-	{
-		id: 'categorias',
-		label: 'Categorias',
-		labelSingular: 'Categoria',
-		icon: <FaTableList />,
-	},
-	{
-		id: 'modalidades',
-		label: 'Modalidades',
-		labelSingular: 'Modalidade',
-		icon: <FaRunning />,
-	},
-	{
-		id: 'interessados',
-		label: 'Interessados',
-		labelSingular: 'Interessado',
-		icon: <MdPersonAdd />,
-	},
+  {
+    id: "players",
+    label: "Atletas",
+    labelSingular: "Atleta",
+    icon: <FaRunning />,
+  },
+  {
+    id: "guardians",
+    label: "Responsáveis",
+    labelSingular: "Responsável",
+    icon: <FaUserFriends />,
+  },
+  {
+    id: "trainers",
+    label: "Treinadores",
+    labelSingular: "Treinador",
+    icon: <FaPersonChalkboard />,
+  },
+  {
+    id: "classes",
+    label: "Turmas",
+    labelSingular: "Turma",
+    icon: <HiMiniUserGroup />,
+  },
+  {
+    id: "categories",
+    label: "Categorias",
+    labelSingular: "Categoria",
+    icon: <FaTableList />,
+  },
+  {
+    id: "modalities",
+    label: "Modalidades",
+    labelSingular: "Modalidade",
+    icon: <MdSportsSoccer />,
+  },
+  {
+    id: "leads",
+    label: "Interessados",
+    labelSingular: "Interessado",
+    icon: <MdPersonAdd />,
+  },
+  {
+    id: "usuarios",
+    label: "Usuários",
+    labelSingular: "Usuário",
+    icon: <FaUser />,
+  },
 ];
 
 const Cadastros = () => {
-	const [abaAtiva, setAbaAtiva] = useState('atletas');
-	const [termoPesquisa, setTermoPesquisa] = useState('');
-	const [athletes, setAthletes] = useState(athletesData);
-	const [responsaveis, setResponsaveis] = useState(responsibleData);
-	const [treinadores, setTreinadores] = useState(coachData);
-	const [turmas, setTurmas] = useState(classesData);
-	const [categorias, setCategorias] = useState(categoriesData);
-	const [modalidades, setModalidades] = useState(modalitiesData);
-	const [interessados, setInteressados] = useState(interestedData);
-	const [confirmDelete, setConfirmDelete] = useState({
-		aberto: false,
-		recurso: null,
-		id: null,
-		nome: null,
-	});
-
-	// Estados para abrir os modais de edição
-	const [abrirCadastroAtleta, setAbrirCadastroAtleta] = useState(false);
-	const [abrirCadastroResponsavel, setAbrirCadastroResponsavel] = useState(false);
-	const [abrirCadastroTreinador, setAbrirCadastroTreinador] = useState(false);
-	const [abrirCadastroTurma, setAbrirCadastroTurma] = useState(false);
-	const [abrirCadastroCategoria, setAbrirCadastroCategoria] = useState(false);
-	const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false);
-	const [abrirCadastroInteressado, setAbrirCadastroInteressado] = useState(false);
-
-	// Estado para armazenar o item sendo editado
-	const [itemEditando, setItemEditando] = useState(null);
-
-	// Estados para abrir os modais de visualização
-	const [abrirVisualizarAtleta, setAbrirVisualizarAtleta] = useState(false);
-	const [atletaSelecionado, setAtletaSelecionado] = useState(null);
-	const [abrirVisualizarResponsavel, setAbrirVisualizarResponsavel] = useState(false);
-	const [responsavelSelecionado, setResponsavelSelecionado] = useState(null);
-	const [abrirVisualizarTreinador, setAbrirVisualizarTreinador] = useState(false);
-	const [treinadorSelecionado, setTreinadorSelecionado] = useState(null);
-	const [abrirVisualizarTurma, setAbrirVisualizarTurma] = useState(false);
-	const [turmaSelecionada, setTurmaSelecionada] = useState(null);
-	const [abrirVisualizarCategoria, setAbrirVisualizarCategoria] = useState(false);
-	const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
-	const [abrirVisualizarModalidade, setAbrirVisualizarModalidade] = useState(false);
-	const [modalidadeSelecionada, setModalidadeSelecionada] = useState(null);
-	const [abrirVisualizarInteressado, setabrirVisualizarInteressado] = useState(false);
-	const [interessadoSelecionado, setInteressadoSelecionado] = useState(null);
-
-	// Verificar se o usuário é administrador
-	const usuarioAtual = JSON.parse(localStorage.getItem('usuario') || '{}');
-	const isAdmin = usuarioAtual.tipoUsuario === 'administrador';
-
-	// Carregar dados do servidor ao montar
-	useEffect(() => {
-		Promise.all([
-			list('atletas'),
-			list('responsaveis'),
-			list('treinadores'),
-			list('turmas'),
-			list('categorias'),
-			list('modalidades'),
-			list('interessados'),
-		])
-			.then(([a, r, t, tu, c, m, i]) => {
-				if (Array.isArray(a) && a.length) setAthletes(a);
-				if (Array.isArray(r) && r.length) setResponsaveis(r);
-				if (Array.isArray(t) && t.length) setTreinadores(t);
-				if (Array.isArray(tu) && tu.length) setTurmas(tu);
-				if (Array.isArray(c) && c.length) setCategorias(c);
-				if (Array.isArray(m) && m.length) setModalidades(m);
-				if (Array.isArray(i) && i.length) setInteressados(i);
-			})
-			.catch(() => {});
-	}, []);
-
-	// Lógica de Filtragem de Atletas
-	const athletesFiltrados =
-		termoPesquisa.length > 0 && abaAtiva === 'atletas'
-			? athletes.filter((athlete) =>
-					athlete.name.toLowerCase().includes(termoPesquisa.toLowerCase())
-			  )
-			: athletes;
-
-	// Lógica de Filtragem de Responsáveis
-	const responsibleFiltrados =
-		termoPesquisa.length > 0 && abaAtiva === 'responsaveis'
-			? responsaveis.filter((responsible) =>
-					responsible.name.toLowerCase().includes(termoPesquisa.toLowerCase())
-			  )
-			: responsaveis;
-
-	// Lógica de Filtragem de Treinadores
-	const coachFiltrados =
-		termoPesquisa.length > 0 && abaAtiva === 'treinadores'
-			? treinadores.filter((coach) =>
-					coach.name.toLowerCase().includes(termoPesquisa.toLowerCase())
-			  )
-			: treinadores;
-
-	// Lógica de Filtragem de Turmas
-	const classesFiltrados =
-		termoPesquisa.length > 0 && abaAtiva === 'turmas'
-			? turmas.filter((classes) =>
-					classes.classes.toLowerCase().includes(termoPesquisa.toLowerCase())
-			  )
-			: turmas;
-
-	// Lógica de Filtragem de Categorias
-	const categoriesFiltrados =
-		termoPesquisa.length > 0 && abaAtiva === 'categorias'
-			? categorias.filter((categories) =>
-					categories.name.toLowerCase().includes(termoPesquisa.toLowerCase())
-			  )
-			: categorias;
-
-	// Lógica de Filtragem de Modalidades
-	const modalitiesFiltrados =
-		termoPesquisa.length > 0 && abaAtiva === 'modalidades'
-			? modalidades.filter((modalities) =>
-					modalities.name.toLowerCase().includes(termoPesquisa.toLowerCase())
-			  )
-			: modalidades;
-
-	// Lógica de Filtragem de Interessados
-	const interessadosFiltrados =
-		termoPesquisa.length > 0 && abaAtiva === 'interessados'
-			? interessados.filter((interested) =>
-					interested.name.toLowerCase().includes(termoPesquisa.toLowerCase())
-			  )
-			: interessados;
-
-	const handleCreated = async (resource, data) => {
-		try {
-			const saved = await create(resource, data);
-			if (resource === 'atletas') setAthletes((prev) => [...prev, saved]);
-			if (resource === 'responsaveis') setResponsaveis((prev) => [...prev, saved]);
-			if (resource === 'treinadores') setTreinadores((prev) => [...prev, saved]);
-			if (resource === 'turmas') setTurmas((prev) => [...prev, saved]);
-			if (resource === 'categorias') setCategorias((prev) => [...prev, saved]);
-			if (resource === 'modalidades') setModalidades((prev) => [...prev, saved]);
-			if (resource === 'interessados') setInteressados((prev) => [...prev, saved]);
-		} catch (e) {
-			console.error('Erro ao salvar', resource, e);
-		}
-	};
-
-	const handleDeleteClick = (recurso, id, nome) => {
-		if (!isAdmin) {
-			alert('Apenas administradores podem deletar itens');
-			return;
-		}
-		setConfirmDelete({
-			aberto: true,
-			recurso,
-			id,
-			nome,
-		});
-	};
-
-	const handleConfirmDelete = async () => {
-		const { recurso, id } = confirmDelete;
-		try {
-			await remove(recurso, id);
-			
-			if (recurso === 'atletas') setAthletes((prev) => prev.filter((item) => item.id !== id));
-			if (recurso === 'responsaveis')
-				setResponsaveis((prev) => prev.filter((item) => item.id !== id));
-			if (recurso === 'treinadores')
-				setTreinadores((prev) => prev.filter((item) => item.id !== id));
-			if (recurso === 'turmas') setTurmas((prev) => prev.filter((item) => item.id !== id));
-			if (recurso === 'categorias')
-				setCategorias((prev) => prev.filter((item) => item.id !== id));
-			if (recurso === 'modalidades')
-				setModalidades((prev) => prev.filter((item) => item.id !== id));
-			if (recurso === 'interessados')
-				setInteressados((prev) => prev.filter((item) => item.id !== id));
-			setConfirmDelete({ aberto: false, recurso: null, id: null, nome: null });
-		} catch (e) {
-			console.error('Erro ao deletar', recurso, e);
-		}
-	};
-
-	// Funções de mapeamento para transformar dados da tabela no formato esperado pelos modais
-	const mapearDados = (recurso, item) => {
-		switch (recurso) {
-			case 'atletas':
-				return {
-					id: item.id,
-					nome: item.name || '',
-					nascimento: item.nascimento || '',
-					cpf: item.cpf || '',
-					rg: item.rg || '',
-					escola: item.escola || '',
-					modalidade: item.modalidade || '',
-					categoria: item.category || '',
-					turma: item.classes || '',
-					cep: item.cep || '',
-					bairro: item.bairro || '',
-					cidade: item.cidade || '',
-					uf: item.uf || '',
-					logradouro: item.logradouro || '',
-					complemento: item.complemento || '',
-					observacoes: item.observacoes || '',
-					respCpf: item.respCpf || '',
-					respNome: item.respNome || '',
-					respEmail: item.respEmail || '',
-					respTelefone: item.respTelefone || '',
-					respParentesco: item.respParentesco || '',
-					respCep: item.respCep || '',
-					respBairro: item.respBairro || '',
-					respCidade: item.respCidade || '',
-					respUf: item.respUf || '',
-					respLogradouro: item.respLogradouro || '',
-					respComplemento: item.respComplemento || '',
-				};
-			case 'responsaveis':
-				return {
-					id: item.id,
-					nome: item.name || '',
-					cpf: item.cpf || '',
-					email: item.email || '',
-					telefone: item.phoneNumber || '',
-					nomeAtleta: item.athletes?.[0] || '',
-					parentesco: item.kinship || '',
-					cep: item.cep || '',
-					bairro: item.bairro || '',
-					cidade: item.cidade || '',
-					uf: item.uf || '',
-					logradouro: item.logradouro || '',
-					complemento: item.complemento || '',
-				};
-			case 'treinadores':
-				return {
-					id: item.id,
-					name: item.name || '',
-					email: item.email || '',
-					cpf: item.cpf || '',
-					phoneNumber: item.phoneNumber || '',
-					birthDate: item.birthDate || '', // Adicionado
-					classes: Array.isArray(item.classes) ? item.classes : [],
-					workTimes: item.workTimes || '',
-					address: item.address || {
-						street: item.logradouro || '',
-						neighborhood: item.bairro || '',
-						city: item.cidade || '',
-						uf: item.uf || 'PE',
-						cep: item.cep || '',
-						complement: item.complemento || '',
-					},
-				};
-			case 'turmas':
-				return {
-					id: item.id,
-					nomeTurma: item.name || item.classes || '',
-					categoria: item.category || '',
-					modalidade: item.modality || '',
-					treinador: item.coach || '',
-					horarios: item.workTimes || [],
-				};
-			case 'categorias':
-				return {
-					id: item.id,
-					nomeCategoria: item.name || '',
-				};
-			case 'modalidades':
-				return {
-					id: item.id,
-					nomeModalidade: item.name || '',
-				};
-			case 'interessados':
-				return {
-					id: item.id,
-					nome: item.name || '',
-					email: item.email || '',
-					telefone: item.phoneNumber || '',
-					modalidade: item.modality || '',
-					dataInsercao: item.dataInsercao || '',
-				};
-			default:
-				return item;
-		}
-	};
-
-	const handleEditClick = (recurso, item) => {
-		if (!isAdmin) {
-			alert('Apenas administradores podem editar itens');
-			return;
-		}
-		const dadosMapeados = mapearDados(recurso, item);
-		setItemEditando(dadosMapeados);
-		if (recurso === 'atletas') setAbrirCadastroAtleta(true);
-		else if (recurso === 'responsaveis') setAbrirCadastroResponsavel(true);
-		else if (recurso === 'treinadores') setAbrirCadastroTreinador(true);
-		else if (recurso === 'turmas') setAbrirCadastroTurma(true);
-		else if (recurso === 'categorias') setAbrirCadastroCategoria(true);
-		else if (recurso === 'modalidades') setAbrirCadastroModalidade(true);
-		else if (recurso === 'interessados') setAbrirCadastroInteressado(true);
-	};
-
-	// Componente para Itens de Aba
-	const TabItem = ({ id, label, icon }) => {
-		const isActive = abaAtiva === id;
-		const activeClasses = 'text-blue-600 border-b-2 border-blue-600 font-semibold ';
-		const inactiveClasses = 'text-gray-500 hover:text-gray-700 cursor-pointer';
-
-		return (
-			<button
-				key={id}
-				className={`flex items-center space-x-2 px-7 py-5 text-sm whitespace-nowrap transition duration-150 ${
-					isActive ? activeClasses : inactiveClasses
-				}`}
-				onClick={() => {
-					setAbaAtiva(id); // Muda a aba ativa
-					setTermoPesquisa(''); // Reseta o termo de pesquisa ao mudar de aba
-					window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll para o topo
-				}}
-			>
-				<span className="text-xl">{icon}</span>
-				<span>{label}</span>
-			</button>
-		);
-	};
-
-	// Permite que modais aninhados acessem a criação de recursos
-	useEffect(() => {
-		window.handleCreatedExternal = handleCreated;
-		return () => delete window.handleCreatedExternal;
-	}, [handleCreated]);
-
-	return (
-		<Layout
-			title="Cadastros"
-			subtitle="Gerencie atletas, responsáveis, treinadores turmas, categorias e modalidades."
-		>
-			{/* CONTEÚDO PRINCIPAL */}
-			<div className="min-h-screen overflow-auto flex-1 ">
-				{/* Cabeçalho */}
-				<div className="mb-6">
-					{/* Navegação por Abas */}
-					<div className="flex border-b border-gray-200 overflow-x-auto scrollbar-hide">
-						{abas.map((aba) => (
-							<TabItem key={aba.id} {...aba} />
-						))}
-					</div>
-				</div>
-
-				{/* Área de Ações (Pesquisa e Novo Item) */}
-				<div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-					{/* Barra de Pesquisa */}
-					<div className="relative w-full sm:max-w-xs order-2 sm:order-1 ">
-						<input
-							type="text"
-							placeholder={`Buscar ${abas.find((a) => a.id === abaAtiva)?.label}...`}
-							className="
-              w-full pl-10 pr-4 py-2 border border-gray-300 bg-white
-              rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 text-xs sm:text-sm"
-							value={termoPesquisa}
-							onChange={(e) => setTermoPesquisa(e.target.value)}
-						/>
-						{/* Ícone de Busca (Lupa) */}
-						<svg
-							className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 sm:h-5 w-4 sm:w-5 text-gray-400"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-							></path>
-						</svg>
-					</div>
-
-					{/* Botão Adicionar Novo Item */}
-					{isAdmin ? (
-						<BotaoAdicionar
-							aba={abaAtiva}
-							label={abas.find((a) => a.id === abaAtiva)?.labelSingular}
-							onCreated={handleCreated}
-							turmasGlobais={turmas}
-							categoriasGlobais={categorias}
-							treinadoresGlobais={treinadores}
-						/>
-					) : (
-						<div className="text-xs sm:text-sm text-gray-500 italic">
-							Apenas administradores podem adicionar itens
-						</div>
-					)}
-				</div>
-
-				{/* 4. CONTEÚDO: Tabela/Dados */}
-				<div className="shadow-xl rounded-lg p-3 sm:p-4 md:p-6 border border-gray-100 overflow-x-auto -mx-4 sm:mx-0">
-					{/* Tabela Atletas */}
-					{abaAtiva === 'atletas' && (
-						<div className="rounded-lg overflow-x-auto">
-							<table className="w-full divide-y divide-gray-200">
-								<thead className="bg-white">
-									<tr>
-										<th
-											scope="col"
-											className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Nome
-										</th>
-										<th
-											scope="col"
-											className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Idade
-										</th>
-										<th
-											scope="col"
-											className="hidden sm:table-cell px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Categoria
-										</th>
-										<th
-											scope="col"
-											className="hidden md:table-cell px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Turma
-										</th>
-										<th
-											scope="col"
-											className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Ações
-										</th>
-									</tr>
-								</thead>
-								<tbody className="bg-white divide-y divide-gray-200">
-									{athletesFiltrados.map((athletes) => (
-										<tr key={athletes.id} className="hover:bg-blue-100">
-											<td className="px-3 sm:px-6 py-2 sm:py-4 text-xs sm:text-sm font-medium text-primary-900 truncate">
-												<button
-													onClick={() => {
-														setAtletaSelecionado(athletes);
-														setAbrirVisualizarAtleta(true);
-													}}
-													className="text-blue-600 hover:underline cursor-pointer"
-												>
-													{athletes.name}
-												</button>
-											</td>
-											<td className="px-3 sm:px-6 py-2 sm:py-4 text-xs sm:text-sm text-primary-900 font-medium">
-												{athletes.age}
-											</td>
-											<td className="hidden sm:table-cell px-3 sm:px-6 py-2 sm:py-4 text-xs sm:text-sm font-medium">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
-												>
-													{athletes.category}
-												</a>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
-												>
-													{athletes.classes}
-												</a>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
-												<button
-													disabled={!isAdmin}
-													onClick={() =>
-														handleDeleteClick(
-															'atletas',
-															athletes.id,
-															athletes.name
-														)
-													}
-													className={`transition-colors cursor-pointer ${
-														!isAdmin
-															? 'opacity-50 cursor-not-allowed'
-															: 'text-red-600 hover:text-red-800'
-													}`}
-													title={
-														isAdmin
-															? 'Deletar'
-															: 'Apenas administradores podem deletar'
-													}
-												>
-													{!isAdmin ? (
-														<IoLockClosed size={20} />
-													) : (
-														<MdDelete size={20} />
-													)}
-												</button>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-							{/* Mensagem de "Nenhum resultado" */}
-							{athletesFiltrados.length === 0 && termoPesquisa.length > 0 && (
-								<div className="p-6 text-center text-gray-500 ">
-									Nenhum atleta encontrado com o termo "{termoPesquisa}".
-								</div>
-							)}
-						</div>
-					)}
-
-					{/* Conteúdo para Abas RESPONSAVEIS */}
-					{abaAtiva === 'responsaveis' && (
-						<div className="bg-white rounded-lg overflow-x-auto">
-							<table className="w-full divide-y divide-gray-200">
-								<thead className="bg-white">
-									<tr>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Nome
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Atletas
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Parentesco
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Telefone
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Ações
-										</th>
-									</tr>
-								</thead>
-								<tbody className="bg-white divide-y divide-gray-200">
-									{responsibleFiltrados.map((item) => (
-										<tr key={item.id} className="hover:bg-blue-100">
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-												<button
-													onClick={() => {
-														setResponsavelSelecionado(item);
-														setAbrirVisualizarResponsavel(true);
-													}}
-													className="text-blue-600 hover:underline cursor-pointer"
-												>
-													{item.name}
-												</button>
-											</td>
-
-											<td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-												<div className="flex flex-wrap gap-x-1">
-													{/* Mapeando cada atleta para torná-los azuis com underline no hover */}
-													{(item.athletes || []).map((atleta, index) => (
-														<span key={index}>
-															<span className="text-blue-600 hover:underline cursor-pointer text-sm">
-																{atleta}
-															</span>
-															{index < item.athletes.length - 1 && (
-																<span className="text-gray-500">
-																	,
-																</span>
-															)}
-														</span>
-													))}
-												</div>
-											</td>
-
-											<td className="px-6 py-4 text-sm text-primary-900">
-												{item.kinship}
-											</td>
-											<td className="px-6 py-4 text-sm text-primary-900 font-medium">
-												{item.phoneNumber}
-											</td>
-											<td className="px-6 py-4 flex gap-3 items-center">
-												<button
-													onClick={() =>
-														handleDeleteClick(
-															'responsaveis',
-															item.id,
-															item.name
-														)
-													}
-													className="text-red-600"
-												>
-													<MdDelete size={20} />
-												</button>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-							{/* Mensagem de "Nenhum resultado" */}
-							{responsibleFiltrados.length === 0 && termoPesquisa.length > 0 && (
-								<div className="p-6 text-center text-gray-500">
-									Nenhum responsável encontrado com o termo "{termoPesquisa}".
-								</div>
-							)}
-						</div>
-					)}
-
-					{/* Conteúdo para Aba Treinador */}
-					{abaAtiva === 'treinadores' && (
-						<div className="bg-white rounded-lg overflow-x-auto">
-							<table className="w-full divide-y divide-gray-200">
-								<thead className="bg-white">
-									<tr>
-										<th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-											Nome
-										</th>
-										<th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-											Turmas
-										</th>
-										<th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-											Horários
-										</th>
-										<th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-											Telefone
-										</th>
-										<th className="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">
-											Ações
-										</th>
-									</tr>
-								</thead>
-
-								<tbody className="bg-white divide-y divide-gray-200">
-									{coachFiltrados.map((coach) => (
-										<tr key={coach.id} className="hover:bg-gray-50">
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<button
-													onClick={() => {
-														setTreinadorSelecionado(coach);
-														setAbrirVisualizarTreinador(true);
-													}}
-													className="text-blue-600 hover:underline cursor-pointer"
-												>
-													{coach.name}
-												</button>
-											</td>
-											<td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-												<div className="flex flex-wrap gap-x-1">
-													{(coach.classes || []).map(
-														(turmaNome, index) => (
-															<span key={index}>
-																<button
-																	onClick={() => {
-																		const turmaObj =
-																			turmas.find(
-																				(t) =>
-																					t.nomeTurma ===
-																					turmaNome
-																			);
-																		if (turmaObj) {
-																			setTurmaSelecionada(
-																				turmaObj
-																			);
-																			setAbrirVisualizarTurma(
-																				true
-																			);
-																		}
-																	}}
-																	className="text-blue-600 hover:underline cursor-pointer text-sm"
-																>
-																	{turmaNome}
-																</button>
-																{index <
-																	coach.classes.length - 1 && (
-																	<span className="text-gray-500">
-																		,{' '}
-																	</span>
-																)}
-															</span>
-														)
-													)}
-												</div>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-												{coach.workTimes}
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-												{coach.phoneNumber}
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-center">
-												<button
-													disabled={!isAdmin}
-													onClick={() =>
-														handleDeleteClick(
-															'treinadores',
-															coach.id,
-															coach.name
-														)
-													}
-													className={`transition-colors cursor-pointer ${
-														!isAdmin
-															? 'opacity-50 cursor-not-allowed'
-															: 'text-red-600 hover:text-red-800'
-													}`}
-												>
-													{isAdmin ? (
-														<MdDelete size={20} />
-													) : (
-														<IoLockClosed size={20} />
-													)}
-												</button>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
-					)}
-
-					{/* Conteúdo para Abas TURMAS */}
-					{abaAtiva === 'turmas' && (
-						<div className="bg-white rounded-lg overflow-x-auto">
-							<table className="w-full divide-y divide-gray-200">
-								<thead className="bg-white">
-									<tr>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Turma
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Horário
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Treinador
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Categoria
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Modalidade
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Ações
-										</th>
-									</tr>
-								</thead>
-
-								<tbody className="bg-white divide-y divide-gray-200">
-									{classesFiltrados.map((item) => (
-										<tr key={item.id} className="hover:bg-gray-50">
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-												<button
-													onClick={() => {
-														setTurmaSelecionada(item);
-														setAbrirVisualizarTurma(true);
-													}}
-													className="text-blue-600 hover:underline font-medium text-sm cursor-pointer"
-												>
-													{item.nomeTurma}
-												</button>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm text-primary-900 font-medium">
-												{item.workTimes}
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												{item.coach ? (
-													<a
-														href="#"
-														className="text-blue-600 hover:underline"
-													>
-														{item.coach}
-													</a>
-												) : (
-													<span className="inline-flex items-center gap-1 text-red-500 font-medium italic">
-														<IoInformationCircle size={14} /> Pendente
-													</span>
-												)}
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
-												>
-													{item.category}
-												</a>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
-												>
-													{item.modality}
-												</a>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
-												<button
-													disabled={!isAdmin}
-													onClick={() =>
-														handleDeleteClick(
-															'turmas',
-															item.id,
-															item.classes
-														)
-													}
-													className={`transition-colors cursor-pointer ${
-														!isAdmin
-															? 'opacity-50 cursor-not-allowed'
-															: 'text-red-600 hover:text-red-800'
-													}`}
-													title={
-														isAdmin
-															? 'Deletar'
-															: 'Apenas administradores podem deletar'
-													}
-												>
-													{!isAdmin ? (
-														<IoLockClosed size={20} />
-													) : (
-														<MdDelete size={20} />
-													)}
-												</button>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-							{/* Mensagem de "Nenhum resultado" */}
-							{coachFiltrados.length === 0 && termoPesquisa.length > 0 && (
-								<div className="p-6 text-center text-gray-500">
-									Nenhum treinador encontrado com o termo "{termoPesquisa}".
-								</div>
-							)}
-						</div>
-					)}
-
-					{/* Conteúdo para Abas CATEGORIAS */}
-					{abaAtiva === 'categorias' && (
-						<div className="bg-white rounded-lg overflow-x-auto">
-							<table className="w-full divide-y divide-gray-200">
-								<thead className="bg-white">
-									<tr>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Categoria
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Turmas
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Modalidade
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Ações
-										</th>
-									</tr>
-								</thead>
-								<tbody className="bg-white divide-y divide-gray-200">
-									{categoriesFiltrados.map((category) => (
-										<tr key={category.id} className="hover:bg-gray-50">
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-												<button
-													onClick={() => {
-														setCategoriaSelecionada(category);
-														setAbrirVisualizarCategoria(true);
-													}}
-													className="text-blue-600 hover:underline text-sm cursor-pointer"
-												>
-													{category.name}
-												</button>
-											</td>
-
-											{/* COLUNA TURMAS SEPARADAS (Estilo similar aos Atletas nos Responsáveis) */}
-											<td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-												<div className="flex flex-wrap gap-x-1">
-													{category.classes
-														?.split(', ')
-														.map((turma, index, array) => (
-															<span key={index}>
-																<span
-																	className="text-blue-600 hover:underline cursor-pointer text-sm"
-																	onClick={() => {
-																		// Opcional: Lógica para abrir o modal da turma específica aqui
-																		const turmaObj =
-																			turmas.find(
-																				(t) =>
-																					t.nomeTurma ===
-																					turma
-																			);
-																		if (turmaObj) {
-																			setTurmaSelecionada(
-																				turmaObj
-																			);
-																			setAbrirVisualizarTurma(
-																				true
-																			);
-																		}
-																	}}
-																>
-																	{turma}
-																</span>
-																{index < array.length - 1 && (
-																	<span className="text-gray-500">
-																		,{' '}
-																	</span>
-																)}
-															</span>
-														))}
-												</div>
-											</td>
-
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
-												{category.modality}
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
-												<button
-													disabled={!isAdmin}
-													onClick={() =>
-														handleDeleteClick(
-															'categorias',
-															category.id,
-															category.name
-														)
-													}
-													className={`transition-colors cursor-pointer ${
-														!isAdmin
-															? 'opacity-50 cursor-not-allowed'
-															: 'text-red-600 hover:text-red-800'
-													}`}
-													title={
-														isAdmin
-															? 'Deletar'
-															: 'Apenas administradores podem deletar'
-													}
-												>
-													{!isAdmin ? (
-														<IoLockClosed size={20} />
-													) : (
-														<MdDelete size={20} />
-													)}
-												</button>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-							{/* Mensagem de "Nenhum resultado" */}
-							{categoriesFiltrados.length === 0 && termoPesquisa.length > 0 && (
-								<div className="p-6 text-center text-gray-500">
-									Nenhuma categoria encontrada com o termo "{termoPesquisa}".
-								</div>
-							)}
-						</div>
-					)}
-
-					{/* Conteúdo para Abas MODALIDADES */}
-					{abaAtiva === 'modalidades' && (
-						<div className="bg-white rounded-lg overflow-x-auto">
-							<table className="w-full divide-y divide-gray-200">
-								<thead className="bg-white">
-									<tr>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Modalidade
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Categoria
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Turmas
-										</th>{' '}
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Ações
-										</th>{' '}
-									</tr>
-								</thead>
-
-								<tbody className="bg-white divide-y divide-gray-200">
-									{modalitiesFiltrados.map((modality) => (
-										<tr key={modality.id} className="hover:bg-gray-50">
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-												<button
-													onClick={() => {
-														setModalidadeSelecionada(modality);
-														setAbrirVisualizarModalidade(true);
-													}}
-													className="text-blue-600 hover:underline text-sm cursor-pointer"
-												>
-													{modality.name}
-												</button>
-											</td>
-
-											{/* COLUNA CATEGORIAS SEPARADAS */}
-											<td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-												<div className="flex flex-wrap gap-x-1">
-													{modality.category
-														?.split(', ')
-														.map((catNome, idx, arr) => (
-															<span key={idx}>
-																<span
-																	className="text-blue-600 hover:underline cursor-pointer text-sm"
-																	onClick={() => {
-																		const catObj =
-																			categorias.find(
-																				(c) =>
-																					c.name ===
-																					catNome
-																			);
-																		if (catObj) {
-																			setCategoriaSelecionada(
-																				catObj
-																			);
-																			setAbrirVisualizarCategoria(
-																				true
-																			);
-																		}
-																	}}
-																>
-																	{catNome}
-																</span>
-																{idx < arr.length - 1 && (
-																	<span className="text-gray-500">
-																		,{' '}
-																	</span>
-																)}
-															</span>
-														))}
-												</div>
-											</td>
-
-											{/* COLUNA TURMAS SEPARADAS */}
-											<td className="px-6 py-4 whitespace-wrap text-sm text-primary-900 font-medium max-w-xs">
-												<div className="flex flex-wrap gap-x-1">
-													{modality.classes
-														?.split(', ')
-														.map((turmaNome, idx, arr) => (
-															<span key={idx}>
-																<span
-																	className="text-blue-600 hover:underline cursor-pointer text-sm"
-																	onClick={() => {
-																		const turmaObj =
-																			turmas.find(
-																				(t) =>
-																					t.nomeTurma ===
-																					turmaNome
-																			);
-																		if (turmaObj) {
-																			setTurmaSelecionada(
-																				turmaObj
-																			);
-																			setAbrirVisualizarTurma(
-																				true
-																			);
-																		}
-																	}}
-																>
-																	{turmaNome}
-																</span>
-																{idx < arr.length - 1 && (
-																	<span className="text-gray-500">
-																		,{' '}
-																	</span>
-																)}
-															</span>
-														))}
-												</div>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
-												<button
-													disabled={!isAdmin}
-													onClick={() =>
-														handleDeleteClick(
-															'modalidades',
-															modality.id,
-															modality.name
-														)
-													}
-													className={`transition-colors cursor-pointer ${
-														!isAdmin
-															? 'opacity-50 cursor-not-allowed'
-															: 'text-red-600 hover:text-red-800'
-													}`}
-													title={
-														isAdmin
-															? 'Deletar'
-															: 'Apenas administradores podem deletar'
-													}
-												>
-													{!isAdmin ? (
-														<IoLockClosed size={20} />
-													) : (
-														<MdDelete size={20} />
-													)}
-												</button>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-							{/* Mensagem de "Nenhum resultado" */}
-							{modalitiesFiltrados.length === 0 && termoPesquisa.length > 0 && (
-								<div className="p-6 text-center text-gray-500">
-									Nenhuma modalidade encontrada com o termo "{termoPesquisa}".
-								</div>
-							)}
-						</div>
-					)}
-
-					{/* Conteúdo para Abas INTERESSADOS */}
-					{abaAtiva === 'interessados' && (
-						<div className="bg-white rounded-lg overflow-x-auto">
-							<table className="w-full divide-y divide-gray-200">
-								<thead className="bg-white">
-									<tr>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Nome
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Modalidade
-										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Telefone
-										</th>{' '}
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-										>
-											Ações
-										</th>{' '}
-									</tr>
-								</thead>
-
-								<tbody className="bg-white divide-y divide-gray-200">
-									{interessadosFiltrados.map((interested) => (
-										<tr key={interested.id} className="hover:bg-gray-50">
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-900">
-												<button
-													onClick={() => {
-														setInteressadoSelecionado(interested);
-														setabrirVisualizarInteressado(interested);
-													}}
-													className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-all cursor-pointer text-left"
-												>
-													{interested.name}
-												</button>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<a
-													href="#"
-													className="text-blue-600 hover:underline"
-												>
-													{interested.modality}
-												</a>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-												<a className="text-primary-900">
-													{interested.phoneNumber}
-												</a>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
-												<button
-													disabled={!isAdmin}
-													onClick={() =>
-														handleDeleteClick(
-															'interessados',
-															interested.id,
-															interested.name
-														)
-													}
-													className={`transition-colors cursor-pointer ${
-														!isAdmin
-															? 'opacity-50 cursor-not-allowed'
-															: 'text-red-600 hover:text-red-800'
-													}`}
-													title={
-														isAdmin
-															? 'Deletar'
-															: 'Apenas administradores podem deletar'
-													}
-												>
-													{!isAdmin ? (
-														<IoLockClosed size={20} />
-													) : (
-														<MdDelete size={20} />
-													)}
-												</button>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-							{/* Mensagem de "Nenhum resultado" */}
-							{interessadosFiltrados.length === 0 && termoPesquisa.length > 0 && (
-								<div className="p-6 text-center text-gray-500">
-									Nenhum interessado encontrado com o termo "{termoPesquisa}".
-								</div>
-							)}
-						</div>
-					)}
-				</div>
-
-				{/* Modal de Confirmação de Exclusão */}
-				{confirmDelete.aberto && (
-					<div className="fixed inset-0 bg-black/50 flex items-center justify-center z-99999">
-						<div className="bg-white rounded-lg shadow-xl p-6 max-w-sm mx-4">
-							<h3 className="text-lg font-bold text-gray-800 mb-4">
-								Confirmar Exclusão
-							</h3>
-							<p className="text-gray-600 mb-6">
-								Tem certeza que deseja deletar <strong>{confirmDelete.nome}</strong>
-								?
-							</p>
-							<p className="text-sm text-gray-500 mb-6">
-								Esta ação não pode ser desfeita.
-							</p>
-							<div className="flex gap-4 justify-end">
-								<button
-									onClick={() =>
-										setConfirmDelete({
-											aberto: false,
-											recurso: null,
-											id: null,
-											nome: null,
-										})
-									}
-									className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
-								>
-									Cancelar
-								</button>
-								<button
-									onClick={handleConfirmDelete}
-									className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
-								>
-									Deletar
-								</button>
-							</div>
-						</div>
-					</div>
-				)}
-
-				{/* --- MODALS DE CADASTRO --- */}
-				<ModalCadastroAtleta
-					aberto={abrirCadastroAtleta}
-					onClose={() => {
-						setAbrirCadastroAtleta(false);
-						setItemEditando(null);
-					}}
-					turmasGlobais={turmas}
-					categoriasGlobais={categorias}
-					onSave={async (atletaEditado) => {
-						try {
-							const numTurma = atletaEditado.classes.replace(/\D/g, '');
-							const categoriaNova = numTurma
-								? `Sub-${numTurma}`
-								: atletaEditado.category;
-							const dadosAtleta = { ...atletaEditado, category: categoriaNova };
-
-							// 1. Atualiza o Atleta globalmente
-							await update('atletas', dadosAtleta.id, dadosAtleta);
-							setAthletes((prev) =>
-								prev.map((a) => (a.id === dadosAtleta.id ? dadosAtleta : a))
-							);
-
-							// 2. SINCRONIZAÇÃO ENTRE TURMAS: Garante que ele só esteja na turma nova
-							const novasTurmas = turmas.map((t) => {
-								let listaAtletas = [...(t.athletes || [])];
-
-								if (t.nomeTurma === dadosAtleta.classes) {
-									// Adiciona na turma nova se não estiver lá
-									if (!listaAtletas.includes(dadosAtleta.name))
-										listaAtletas.push(dadosAtleta.name);
-								} else {
-									// Remove de TODAS as outras turmas
-									listaAtletas = listaAtletas.filter(
-										(name) => name !== dadosAtleta.name
-									);
-								}
-								return { ...t, athletes: listaAtletas };
-							});
-
-							// Persiste as mudanças em todas as turmas afetadas
-							for (const t of novasTurmas) {
-								await update('turmas', t.id, t);
-							}
-							setTurmas(novasTurmas);
-							setAtletaSelecionado(dadosAtleta);
-						} catch (e) {
-							console.error(e);
-						}
-					}}
-					atleta={itemEditando}
-				/>
-
-				<ModalCadastroResponsavel
-					aberto={abrirCadastroResponsavel}
-					onClose={() => {
-						setAbrirCadastroResponsavel(false);
-						setItemEditando(null);
-					}}
-					onSave={(data) => {
-						if (itemEditando?.id) {
-							setResponsaveis((prev) =>
-								prev.map((r) => (r.id === itemEditando.id ? { ...r, ...data } : r))
-							);
-						} else {
-							const newId = Math.max(...responsaveis.map((r) => r.id), 0) + 1;
-							setResponsaveis((prev) => [...prev, { id: newId, ...data }]);
-						}
-						setItemEditando(null);
-						setAbrirCadastroResponsavel(false);
-					}}
-					responsavel={itemEditando}
-				/>
-
-				<ModalCadastroTreinador
-					aberto={abrirCadastroTreinador}
-					onClose={() => {
-						setAbrirCadastroTreinador(false);
-						setItemEditando(null);
-					}}
-					onSave={(data) => {
-						if (itemEditando?.id) {
-							setTreinadores((prev) =>
-								prev.map((t) => (t.id === itemEditando.id ? { ...t, ...data } : t))
-							);
-						} else {
-							const newId = Math.max(...treinadores.map((t) => t.id), 0) + 1;
-							setTreinadores((prev) => [...prev, { id: newId, ...data }]);
-						}
-						setItemEditando(null);
-						setAbrirCadastroTreinador(false);
-					}}
-					treinador={itemEditando}
-				/>
-
-				<ModalCadastroTurma
-					aberto={abrirCadastroTurma}
-					onClose={() => {
-						setAbrirCadastroTurma(false);
-						setItemEditando(null);
-					}}
-					onSave={async (turmaEditada) => {
-						try {
-							// 1. Atualiza a Turma atual no banco e no estado
-							await update('turmas', turmaEditada.id, turmaEditada);
-
-							// 2. SINCRONIZAÇÃO ENTRE TURMAS: Se um atleta foi adicionado aqui,
-							// ele deve ser removido de qualquer outra turma automaticamente.
-							const turmasSincronizadas = turmas.map((t) => {
-								if (t.id === turmaEditada.id) return turmaEditada;
-
-								// Remove das outras turmas qualquer atleta que agora pertence à turmaEditada
-								const atletasLimpas = (t.athletes || []).filter(
-									(nomeAtleta) => !turmaEditada.athletes.includes(nomeAtleta)
-								);
-								return { ...t, athletes: atletasLimpas };
-							});
-
-							for (const t of turmasSincronizadas) {
-								await update('turmas', t.id, t);
-							}
-							setTurmas(turmasSincronizadas);
-
-							// 3. Atualiza os Atletas: muda 'classes' e 'category' de quem entrou ou saiu
-							const novosAtletas = athletes.map((a) => {
-								if (turmaEditada.athletes.includes(a.name)) {
-									return {
-										...a,
-										classes: turmaEditada.nomeTurma,
-										category: turmaEditada.category,
-									};
-								}
-								// Se o atleta constava como dessa turma mas não está mais na lista, limpa o campo
-								if (
-									a.classes === turmaEditada.nomeTurma &&
-									!turmaEditada.athletes.includes(a.name)
-								) {
-									return { ...a, classes: '', category: '' };
-								}
-								return a;
-							});
-
-							for (const a of novosAtletas) {
-								await update('atletas', a.id, a);
-							}
-							setAthletes(novosAtletas);
-							setTurmaSelecionada(turmaEditada);
-							setAbrirVisualizarTurma(false);
-						} catch (e) {
-							console.error(e);
-						}
-					}}
-					turma={itemEditando}
-				/>
-
-				<ModalCadastroCategoria
-					aberto={abrirCadastroCategoria}
-					onClose={() => {
-						setAbrirCadastroCategoria(false);
-						setItemEditando(null);
-					}}
-					onSave={(data) => {
-						if (itemEditando?.id) {
-							setCategorias((prev) =>
-								prev.map((c) => (c.id === itemEditando.id ? { ...c, ...data } : c))
-							);
-						} else {
-							const newId = Math.max(...categorias.map((c) => c.id), 0) + 1;
-							setCategorias((prev) => [...prev, { id: newId, ...data }]);
-						}
-						setItemEditando(null);
-						setAbrirCadastroCategoria(false);
-					}}
-					categoria={itemEditando}
-				/>
-
-				<ModalCadastroModalidade
-					aberto={abrirCadastroModalidade}
-					onClose={() => {
-						setAbrirCadastroModalidade(false);
-						setItemEditando(null);
-					}}
-					onSave={(data) => {
-						if (itemEditando?.id) {
-							setModalidades((prev) =>
-								prev.map((m) => (m.id === itemEditando.id ? { ...m, ...data } : m))
-							);
-						} else {
-							const newId = Math.max(...modalidades.map((m) => m.id), 0) + 1;
-							setModalidades((prev) => [...prev, { id: newId, ...data }]);
-						}
-						setItemEditando(null);
-						setAbrirCadastroModalidade(false);
-					}}
-					modalidade={itemEditando}
-				/>
-
-				<ModalCadastroInteressado
-					aberto={abrirCadastroInteressado}
-					onClose={() => {
-						setAbrirCadastroInteressado(false);
-						setItemEditando(null);
-					}}
-					onSave={(data) => {
-						if (itemEditando?.id) {
-							setInteressados((prev) =>
-								prev.map((i) => (i.id === itemEditando.id ? { ...i, ...data } : i))
-							);
-						} else {
-							const newId = Math.max(...interessados.map((i) => i.id), 0) + 1;
-							setInteressados((prev) => [...prev, { id: newId, ...data }]);
-						}
-						setItemEditando(null);
-						setAbrirCadastroInteressado(false);
-					}}
-					interessado={itemEditando}
-				/>
-
-				{/* --- MODALS DE VISUALIZAÇÕES --- */}
-				<ModalVisualizarAtleta
-					aberto={abrirVisualizarAtleta}
-					onClose={() => setAbrirVisualizarAtleta(false)}
-					atleta={atletaSelecionado}
-					turmasGlobais={turmas}
-					categoriasGlobais={categorias}
-					onSave={async (atletaEditado) => {
-						try {
-							const numTurma = atletaEditado.classes.replace(/\D/g, '');
-							const categoriaNova = numTurma
-								? `Sub-${numTurma}`
-								: atletaEditado.category;
-							const dadosAtleta = { ...atletaEditado, category: categoriaNova };
-
-							// Atualiza Atleta no Banco e no Estado
-							await update('atletas', dadosAtleta.id, dadosAtleta);
-							setAthletes((prev) =>
-								prev.map((a) => (a.id === dadosAtleta.id ? dadosAtleta : a))
-							);
-
-							// LIMPEZA GLOBAL: Garante que o nome só exista na turma atual
-							const turmasAtualizadas = turmas.map((t) => {
-								let lista = [...(t.athletes || [])];
-								if (t.nomeTurma === dadosAtleta.classes) {
-									if (!lista.includes(dadosAtleta.name))
-										lista.push(dadosAtleta.name);
-								} else {
-									// Remove de qualquer outra turma que não seja a selecionada
-									lista = lista.filter((n) => n !== dadosAtleta.name);
-								}
-								return { ...t, athletes: lista };
-							});
-
-							for (const t of turmasAtualizadas) await update('turmas', t.id, t);
-							setTurmas(turmasAtualizadas);
-							setAtletaSelecionado(dadosAtleta);
-							setAbrirVisualizarAtleta(false);
-						} catch (e) {
-							console.error(e);
-						}
-					}}
-				/>
-
-				<ModalVisualizarResponsavel
-					aberto={abrirVisualizarResponsavel}
-					onClose={() => {
-						setAbrirVisualizarResponsavel(false);
-						setResponsavelSelecionado(null);
-					}}
-					turmasGlobais={turmas}
-					categoriasGlobais={categorias}
-					responsavel={responsavelSelecionado}
-					onSave={async (dadosAtualizados) => {
-						try {
-							// 1. Atualiza o responsável
-							await update('responsaveis', dadosAtualizados.id, dadosAtualizados);
-							setResponsaveis((prev) =>
-								prev.map((r) =>
-									r.id === dadosAtualizados.id ? dadosAtualizados : r
-								)
-							);
-
-							// 2. Lógica Adicional: Se o nome do atleta novo não existir na lista global de atletas,
-							// você precisará garantir que ele foi criado via handleCreatedExternal
-							// ou atualizar o estado manualmente aqui se necessário.
-
-							setAbrirVisualizarResponsavel(false);
-						} catch (e) {
-							console.error('Erro ao atualizar responsável', e);
-						}
-					}}
-				/>
-
-				<ModalVisualizarTreinador
-					aberto={abrirVisualizarTreinador}
-					onClose={() => {
-						setAbrirVisualizarTreinador(false);
-						setTreinadorSelecionado(null);
-					}}
-					treinador={treinadorSelecionado}
-					onSave={async (dadosAtualizados) => {
-						try {
-							// 1. Atualiza o treinador
-							await update('treinadores', dadosAtualizados.id, dadosAtualizados);
-							setTreinadores((prev) =>
-								prev.map((r) =>
-									r.id === dadosAtualizados.id ? dadosAtualizados : r
-								)
-							);
-
-							// 2. Lógica Adicional: Se o nome do atleta novo não existir na lista global de atletas,
-							// você precisará garantir que ele foi criado via handleCreatedExternal
-							// ou atualizar o estado manualmente aqui se necessário.
-
-							setAbrirVisualizarTreinador(false);
-						} catch (e) {
-							console.error('Erro ao atualizar treinador', e);
-						}
-					}}
-				/>
-
-				<ModalVisualizarTurma
-					aberto={abrirVisualizarTurma}
-					onClose={() => setAbrirVisualizarTurma(false)}
-					turma={turmaSelecionada}
-					atletasGlobais={athletes}
-					treinadoresGlobais={treinadores}
-					onSave={async (turmaEditada) => {
-						try {
-							// LIMPEZA GLOBAL: Remove os atletas adicionados aqui de qualquer outra turma
-							const turmasSincronizadas = turmas.map((t) => {
-								if (t.id === turmaEditada.id) return turmaEditada;
-								// Se o atleta está na lista da turma que estamos salvando agora,
-								// ele deve ser removido desta outra turma 't'
-								const atletasRestantes = (t.athletes || []).filter(
-									(nome) => !turmaEditada.athletes.includes(nome)
-								);
-								return { ...t, athletes: atletasRestantes };
-							});
-
-							// Persiste todas as turmas alteradas
-							for (const t of turmasSincronizadas) await update('turmas', t.id, t);
-							setTurmas(turmasSincronizadas);
-
-							// Atualiza o cadastro individual de cada atleta (Turma e Categoria)
-							const atletasAtualizados = athletes.map((a) => {
-								if (turmaEditada.athletes.includes(a.name)) {
-									return {
-										...a,
-										classes: turmaEditada.nomeTurma,
-										category: turmaEditada.category,
-									};
-								}
-								// Se o atleta estava nesta turma mas foi removido, limpa os campos dele
-								if (
-									a.classes === turmaSelecionada.nomeTurma &&
-									!turmaEditada.athletes.includes(a.name)
-								) {
-									return { ...a, classes: '', category: '' };
-								}
-								return a;
-							});
-
-							for (const a of atletasAtualizados) await update('atletas', a.id, a);
-							setAthletes(atletasAtualizados);
-							setAbrirVisualizarTurma(false);
-						} catch (e) {
-							console.error(e);
-						}
-					}}
-				/>
-
-				<ModalVisualizarCategoria
-					aberto={abrirVisualizarCategoria}
-					onClose={() => setAbrirVisualizarCategoria(false)}
-					categoria={categoriaSelecionada}
-					turmasGlobais={turmas}
-					modalidadesGlobais={modalidades}
-					onSave={async (categoriaEditada) => {
-						try {
-							// 1. Atualiza a Categoria no Banco e no Estado
-							await update('categorias', categoriaEditada.id, categoriaEditada);
-							setCategorias((prev) =>
-								prev.map((c) =>
-									c.id === categoriaEditada.id ? categoriaEditada : c
-								)
-							);
-
-							// 2. SINCRONIZAR TURMAS: Atualiza o campo 'category' de cada turma
-							const nomesTurmasNaCategoria = categoriaEditada.classes.split(', ');
-
-							const novasTurmas = turmas.map((t) => {
-								// Se a turma foi incluída nesta categoria, atualiza o vínculo
-								if (nomesTurmasNaCategoria.includes(t.nomeTurma)) {
-									return { ...t, category: categoriaEditada.name };
-								}
-								// Se a turma pertencia a esta categoria mas foi removida no modal, limpa o vínculo
-								if (
-									t.category === categoriaEditada.name &&
-									!nomesTurmasNaCategoria.includes(t.nomeTurma)
-								) {
-									return { ...t, category: '' };
-								}
-								return t;
-							});
-
-							for (const t of novasTurmas) {
-								await update('turmas', t.id, t);
-							}
-							setTurmas(novasTurmas);
-
-							// 3. SINCRONIZAR ATLETAS: Atualiza a categoria do aluno baseada na sua Turma
-							const novosAtletas = athletes.map((a) => {
-								// Encontra a turma atual do atleta na lista recém-atualizada
-								const turmaDoAtleta = novasTurmas.find(
-									(t) => t.nomeTurma === a.classes
-								);
-								if (turmaDoAtleta) {
-									return { ...a, category: turmaDoAtleta.category };
-								}
-								return a;
-							});
-
-							for (const a of novosAtletas) {
-								await update('atletas', a.id, a);
-							}
-							setAthletes(novosAtletas);
-
-							setAbrirVisualizarCategoria(false);
-						} catch (e) {
-							console.error('Erro na sincronização de categoria:', e);
-						}
-					}}
-				/>
-
-				<ModalVisualizarModalidade
-					aberto={abrirVisualizarModalidade}
-					onClose={() => setAbrirVisualizarModalidade(false)}
-					modalidade={modalidadeSelecionada}
-					categoriasGlobais={categorias}
-					turmasGlobais={turmas}
-					onSave={async (dados) => {
-						try {
-							await update('modalidades', dados.id, dados);
-							setModalidades((prev) =>
-								prev.map((m) => (m.id === dados.id ? dados : m))
-							);
-
-							// Sincronização: Atualiza a modalidade dentro das Categorias afetadas
-							const novasCategorias = categorias.map((c) => {
-								if (dados.category.includes(c.name))
-									return { ...c, modality: dados.name };
-								return c;
-							});
-							for (const c of novasCategorias) await update('categorias', c.id, c);
-							setCategorias(novasCategorias);
-
-							setAbrirVisualizarModalidade(false);
-						} catch (e) {
-							console.error(e);
-						}
-					}}
-				/>
-
-				{/* Modal de Visualização */}
-				<ModalVisualizarInteressado
-					aberto={abrirVisualizarInteressado}
-					onClose={() => setabrirVisualizarInteressado(false)}
-					interessado={interessadoSelecionado}
-				/>
-			</div>
-		</Layout>
-	);
+  // Função para formatar telefone para exibição: (XX) XXXXX-XXXX
+  const formatarTelefoneExibicao = (telefone) => {
+    if (!telefone) return "—";
+    const apenasNumeros = telefone.replace(/\D/g, "");
+
+    if (apenasNumeros.length !== 11) return telefone;
+
+    return `(${apenasNumeros.slice(0, 2)}) ${apenasNumeros.slice(
+      2,
+      7,
+    )}-${apenasNumeros.slice(7)}`;
+  };
+
+  const [abaAtiva, setAbaAtiva] = useState(() => {
+    // Recuperar aba ativa do localStorage ou usar padrão
+    return localStorage.getItem("abaPrincipalAtiva") || "players";
+  });
+  const [termoPesquisa, setTermoPesquisa] = useState("");
+  const [buscarMobileAberto, setBuscarMobileAberto] = useState(false);
+  const [players, setPlayers] = useState(athletesData);
+  const [guardians, setGuardians] = useState(responsibleData);
+  const [trainers, setTrainers] = useState(coachData);
+  const [classes, setClasses] = useState(classesData);
+  const [categories, setCategories] = useState(categoriesData);
+  const [modalities, setModalities] = useState([]);
+  const [leads, setLeads] = useState(interestedData);
+  const [usuarios, setUsuarios] = useState([]);
+  const [abrirModalUsuario, setAbrirModalUsuario] = useState(false);
+  const [editandoUsuario, setEditandoUsuario] = useState(null);
+  const [formDataUsuario, setFormDataUsuario] = useState({
+    name: "",
+    email: "",
+    birthDate: "",
+    cpf: "",
+    rg: "",
+    role: "",
+    status: "Ativo",
+    password: "",
+    phone: "",
+  });
+  const [confirmDeleteUsuario, setConfirmDeleteUsuario] = useState({
+    aberto: false,
+    usuarioId: null,
+    usuarioNome: "",
+  });
+  const [confirmDelete, setConfirmDelete] = useState({
+    aberto: false,
+    recurso: null,
+    id: null,
+    nome: null,
+  });
+
+  // Estados para abrir os modais de edição
+  const [abrirCadastroAtleta, setAbrirCadastroAtleta] = useState(false);
+  const [abrirCadastroResponsavel, setAbrirCadastroResponsavel] =
+    useState(false);
+  const [abrirCadastroTreinador, setAbrirCadastroTreinador] = useState(false);
+  const [abrirCadastroTurma, setAbrirCadastroTurma] = useState(false);
+  const [abrirCadastroCategoria, setAbrirCadastroCategoria] = useState(false);
+  const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false);
+  const [abrirCadastroInteressado, setAbrirCadastroInteressado] =
+    useState(false);
+
+  // Estado para armazenar o item sendo editado
+  const [itemEditando, setItemEditando] = useState(null);
+
+  // Estado para visualizar atleta
+  const [abrirVisualizarAtleta, setAbrirVisualizarAtleta] = useState(false);
+  const [atletaSelecionado, setAtletaSelecionado] = useState(null);
+
+  // Verificar se o usuário é administrador
+  const usuarioAtual = JSON.parse(localStorage.getItem("usuario") || "{}");
+  const isAdmin = usuarioAtual.role === "Administrador";
+
+  // Carregar dados do servidor ao montar
+  useEffect(() => {
+    Promise.all([
+      list("players"),
+      list("guardians"),
+      list("trainers"),
+      list("classes"),
+      list("categories"),
+      list("leads"),
+      list("modalities"),
+      list("users"),
+    ])
+      .then(([a, r, t, tu, c, i, m, u]) => {
+        if (Array.isArray(a) && a.length) setPlayers(a);
+        if (Array.isArray(r) && r.length) setGuardians(r);
+        if (Array.isArray(t) && t.length) setTrainers(t);
+        if (Array.isArray(tu) && tu.length) setClasses(tu);
+        if (Array.isArray(c) && c.length) setCategories(c);
+        if (Array.isArray(i) && i.length) setLeads(i);
+        if (Array.isArray(m) && m.length) setModalities(m);
+        if (Array.isArray(u) && u.length) {
+          console.log("Usuários carregados:", u);
+          console.log("Primeiro usuário:", u[0]);
+          setUsuarios(u);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  // Salvar aba ativa no localStorage sempre que mudar
+  useEffect(() => {
+    localStorage.setItem("abaPrincipalAtiva", abaAtiva);
+  }, [abaAtiva]);
+
+  // Lógica de Filtragem de Atletas
+  const athletesFiltrados =
+    termoPesquisa.length > 0 && abaAtiva === "players"
+      ? players.filter((athlete) =>
+          athlete.name.toLowerCase().includes(termoPesquisa.toLowerCase()),
+        )
+      : players;
+
+  // Lógica de Filtragem de Responsáveis
+  const responsibleFiltrados =
+    termoPesquisa.length > 0 && abaAtiva === "guardians"
+      ? guardians.filter((responsible) =>
+          responsible.name.toLowerCase().includes(termoPesquisa.toLowerCase()),
+        )
+      : guardians;
+
+  // Lógica de Filtragem de Treinadores
+  const coachFiltrados =
+    termoPesquisa.length > 0 && abaAtiva === "trainers"
+      ? trainers.filter((coach) =>
+          coach.name.toLowerCase().includes(termoPesquisa.toLowerCase()),
+        )
+      : trainers;
+
+  // Lógica de Filtragem de Turmas
+  const classesFiltrados =
+    termoPesquisa.length > 0 && abaAtiva === "classes"
+      ? classes.filter((classe) =>
+          classe.name.toLowerCase().includes(termoPesquisa.toLowerCase()),
+        )
+      : classes;
+
+  // Lógica de Filtragem de Categorias
+  const categoriesFiltrados =
+    termoPesquisa.length > 0 && abaAtiva === "categories"
+      ? categories.filter((category) =>
+          category.name.toLowerCase().includes(termoPesquisa.toLowerCase()),
+        )
+      : categories;
+
+  // Lógica de Filtragem de Modalidades
+  const modalitiesFiltrados =
+    termoPesquisa.length > 0 && abaAtiva === "modalities"
+      ? modalities.filter((modality) =>
+          modality.name.toLowerCase().includes(termoPesquisa.toLowerCase()),
+        )
+      : modalities;
+
+  // Lógica de Filtragem de Interessados
+  const interessadosFiltrados =
+    termoPesquisa.length > 0 && abaAtiva === "leads"
+      ? leads.filter((interested) =>
+          interested.name.toLowerCase().includes(termoPesquisa.toLowerCase()),
+        )
+      : leads;
+
+  // Lógica de Filtragem de Usuários
+  const usuariosFiltrados =
+    termoPesquisa.length > 0 && abaAtiva === "usuarios"
+      ? usuarios.filter((user) =>
+          user.name.toLowerCase().includes(termoPesquisa.toLowerCase()),
+        )
+      : usuarios;
+
+  const handleCreated = async (resource, data) => {
+    try {
+      console.log(`Salvando ${resource}:`, data);
+      const saved = await create(resource, data);
+      console.log(`${resource} salvo com sucesso:`, saved);
+
+      if (resource === "players") setPlayers((prev) => [...prev, saved]);
+      if (resource === "guardians") setGuardians((prev) => [...prev, saved]);
+      if (resource === "trainers") setTrainers((prev) => [...prev, saved]);
+      if (resource === "classes") setClasses((prev) => [...prev, saved]);
+      if (resource === "categories") setCategories((prev) => [...prev, saved]);
+      if (resource === "modalities") setModalities((prev) => [...prev, saved]);
+      if (resource === "leads") setLeads((prev) => [...prev, saved]);
+
+      alert(`${resource} cadastrado com sucesso!`);
+    } catch (e) {
+      console.error("Erro ao salvar", resource, e);
+      alert(`Erro ao cadastrar: ${e.message}`);
+    }
+  };
+
+  const handleDeleteClick = (recurso, id, nome) => {
+    if (!isAdmin) {
+      alert("Apenas administradores podem deletar itens");
+      return;
+    }
+    setConfirmDelete({
+      aberto: true,
+      recurso,
+      id,
+      nome,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    const { recurso, id } = confirmDelete;
+
+    // Mapear nomes do frontend para nomes do backend
+    const recursoMap = {
+      players: "players",
+      guardians: "guardians",
+      trainers: "trainers",
+      classes: "classes",
+      categories: "categories",
+      modalities: "modalities",
+      leads: "leads",
+    };
+
+    const recursoBackend = recursoMap[recurso] || recurso;
+
+    if (!id) {
+      alert("Erro: ID não encontrado. Tente novamente.");
+      setConfirmDelete({ aberto: false, recurso: null, id: null, nome: null });
+      return;
+    }
+
+    try {
+      console.log(`Deletando ${recurso} (${recursoBackend}) com ID:`, id);
+      await remove(recursoBackend, id);
+      console.log(`${recurso} deletado com sucesso`);
+
+      if (recurso === "players")
+        setPlayers((prev) => prev.filter((item) => item.id !== id));
+      if (recurso === "guardians")
+        setGuardians((prev) => prev.filter((item) => item.id !== id));
+      if (recurso === "trainers")
+        setTrainers((prev) => prev.filter((item) => item.id !== id));
+      if (recurso === "classes")
+        setClasses((prev) => prev.filter((item) => item.id !== id));
+      if (recurso === "categories")
+        setCategories((prev) => prev.filter((item) => item.id !== id));
+      if (recurso === "modalities")
+        setModalities((prev) => prev.filter((item) => item.id !== id));
+      if (recurso === "leads")
+        setLeads((prev) => prev.filter((item) => item.id !== id));
+
+      alert(`${recurso} deletado com sucesso!`);
+      setConfirmDelete({ aberto: false, recurso: null, id: null, nome: null });
+    } catch (e) {
+      console.error("Erro ao deletar", recurso, e);
+      alert(`Erro ao deletar: ${e.message}`);
+    }
+  };
+
+  // Funções para gerenciar Usuários
+  const abrirModalAdicionarUsuario = () => {
+    if (!isAdmin) {
+      alert("Apenas administradores podem gerenciar usuários");
+      return;
+    }
+    setEditandoUsuario(null);
+    setFormDataUsuario({
+      name: "",
+      email: "",
+      birthDate: "",
+      cpf: "",
+      rg: "",
+      role: "",
+      status: "Ativo",
+      password: "",
+      phone: "",
+    });
+    setAbrirModalUsuario(true);
+  };
+
+  const abrirModalEditarUsuario = (usuario) => {
+    if (!isAdmin) {
+      alert("Apenas administradores podem editar usuários");
+      return;
+    }
+    console.log("Usuário selecionado para edição:", usuario);
+    setEditandoUsuario(usuario);
+    setFormDataUsuario({
+      name: usuario.name,
+      email: usuario.email,
+      birthDate: usuario.birth_date || "",
+      cpf: usuario.cpf || "",
+      rg: usuario.rg || "",
+      role: usuario.role,
+      status: usuario.status || "Ativo",
+      password: "",
+      phone: usuario.phone || "",
+    });
+    console.log("FormData setado:", { phone: usuario.phone || "" });
+    setAbrirModalUsuario(true);
+  };
+
+  const handleChangeUsuario = (e) => {
+    const { name, value } = e.target;
+    let novoValor = value;
+
+    // Formatar CPF
+    if (name === "cpf") {
+      // Remove tudo que não é número
+      const apenasNumeros = value.replace(/\D/g, "");
+
+      // Limita a 11 dígitos
+      if (apenasNumeros.length > 11) {
+        return;
+      }
+
+      // Formata conforme vai digitando: XXX.XXX.XXX-XX
+      if (apenasNumeros.length <= 3) {
+        novoValor = apenasNumeros;
+      } else if (apenasNumeros.length <= 6) {
+        novoValor = `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(3)}`;
+      } else if (apenasNumeros.length <= 9) {
+        novoValor = `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(
+          3,
+          6,
+        )}.${apenasNumeros.slice(6)}`;
+      } else {
+        novoValor = `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(
+          3,
+          6,
+        )}.${apenasNumeros.slice(6, 9)}-${apenasNumeros.slice(9)}`;
+      }
+    }
+
+    // Formatar RG
+    if (name === "rg") {
+      // Remove tudo que não é número
+      const apenasNumeros = value.replace(/\D/g, "");
+
+      // Limita a 7 dígitos
+      if (apenasNumeros.length > 7) {
+        return;
+      }
+
+      // Formata conforme vai digitando: XXX.XXX.X
+      if (apenasNumeros.length <= 3) {
+        novoValor = apenasNumeros;
+      } else if (apenasNumeros.length <= 6) {
+        novoValor = `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(3)}`;
+      } else {
+        novoValor = `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(
+          3,
+          6,
+        )}.${apenasNumeros.slice(6)}`;
+      }
+    }
+
+    // Formatar telefone
+    if (name === "phone") {
+      // Remove tudo que não é número
+      const apenasNumeros = value.replace(/\D/g, "");
+
+      // Limita a 11 dígitos (padrão brasileiro)
+      if (apenasNumeros.length > 11) {
+        return;
+      }
+
+      // Formata conforme vai digitando
+      if (apenasNumeros.length <= 2) {
+        novoValor = apenasNumeros;
+      } else if (apenasNumeros.length <= 7) {
+        novoValor = `(${apenasNumeros.slice(0, 2)}) ${apenasNumeros.slice(2)}`;
+      } else {
+        novoValor = `(${apenasNumeros.slice(0, 2)}) ${apenasNumeros.slice(
+          2,
+          7,
+        )}-${apenasNumeros.slice(7, 11)}`;
+      }
+    }
+
+    setFormDataUsuario((prev) => ({
+      ...prev,
+      [name]: novoValor,
+    }));
+  };
+
+  // Validar força da senha
+  const validarSenha = (senha) => {
+    const temMaiuscula = /[A-Z]/.test(senha);
+    const temMinuscula = /[a-z]/.test(senha);
+    const temNumero = /[0-9]/.test(senha);
+    const temEspecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(senha);
+    const temComprimento = senha.length >= 8;
+
+    return (
+      temMaiuscula && temMinuscula && temNumero && temEspecial && temComprimento
+    );
+  };
+
+  const handleSalvarUsuario = async () => {
+    if (
+      !formDataUsuario.name ||
+      !formDataUsuario.email ||
+      !formDataUsuario.birthDate ||
+      !formDataUsuario.cpf ||
+      !formDataUsuario.role ||
+      !formDataUsuario.status
+    ) {
+      alert(
+        "Nome, email, data de nascimento, CPF, função e status são obrigatórios",
+      );
+      return;
+    }
+
+    if (!editandoUsuario && !formDataUsuario.password) {
+      alert("Senha é obrigatória para criar novo usuário");
+      return;
+    }
+
+    // Validar força da senha apenas para novo usuário
+    if (!editandoUsuario && formDataUsuario.password) {
+      if (!validarSenha(formDataUsuario.password)) {
+        alert(
+          "Senha deve conter no mínimo 8 caracteres, incluindo letra maiúscula, minúscula, número e caractere especial",
+        );
+        return;
+      }
+    }
+
+    // Se está editando e mudou a senha, validar a nova senha
+    if (editandoUsuario && formDataUsuario.password) {
+      if (!validarSenha(formDataUsuario.password)) {
+        alert(
+          "Senha deve conter no mínimo 8 caracteres, incluindo letra maiúscula, minúscula, número e caractere especial",
+        );
+        return;
+      }
+    }
+
+    try {
+      if (editandoUsuario) {
+        // Atualizar usuário
+        const dataToUpdate = {
+          name: formDataUsuario.name,
+          email: formDataUsuario.email,
+          birthDate: formDataUsuario.birthDate,
+          cpf: formDataUsuario.cpf.replace(/\D/g, ""), // Remove formatação
+          rg: formDataUsuario.rg.replace(/\D/g, ""), // Remove formatação
+          role: formDataUsuario.role,
+          status: formDataUsuario.status,
+          phone: formDataUsuario.phone.replace(/\D/g, ""), // Remove formatação
+        };
+        if (formDataUsuario.password) {
+          dataToUpdate.password = formDataUsuario.password;
+        }
+        const updated = await update("users", editandoUsuario.id, dataToUpdate);
+        // Mapear os dados retornados da API para o formato esperado
+        const usuarioMapeado = {
+          id: updated.id || editandoUsuario.id,
+          name: updated.name,
+          email: updated.email,
+          birth_date: updated.birth_date || updated.birthDate,
+          birthDate: updated.birth_date || updated.birthDate,
+          cpf: updated.cpf,
+          rg: updated.rg,
+          role: updated.role,
+          status: updated.status,
+          phone: updated.phone,
+          created_at: updated.created_at,
+          updated_at: updated.updated_at,
+        };
+        console.log("Usuário mapeado:", usuarioMapeado);
+        setUsuarios((prev) => {
+          const updated_array = prev.map((u) =>
+            u.id === editandoUsuario.id ? usuarioMapeado : u,
+          );
+          console.log("Array após update:", updated_array);
+          return updated_array;
+        });
+        alert("Usuário atualizado com sucesso!");
+      } else {
+        // Criar novo usuário
+        const dataToCreate = {
+          name: formDataUsuario.name,
+          email: formDataUsuario.email,
+          birthDate: formDataUsuario.birthDate,
+          cpf: formDataUsuario.cpf.replace(/\D/g, ""), // Remove formatação
+          rg: formDataUsuario.rg.replace(/\D/g, ""), // Remove formatação
+          role: formDataUsuario.role,
+          status: formDataUsuario.status,
+          password: formDataUsuario.password,
+          phone: formDataUsuario.phone.replace(/\D/g, ""), // Remove formatação
+        };
+        console.log("Enviando dados para criar usuário:", dataToCreate);
+        const novoUsuario = await create("users", dataToCreate);
+        setUsuarios((prev) => [...prev, novoUsuario]);
+        alert("Usuário criado com sucesso!");
+      }
+      setAbrirModalUsuario(false);
+      setFormDataUsuario({
+        name: "",
+        email: "",
+        birthDate: "",
+        cpf: "",
+        rg: "",
+        role: "",
+        status: "Ativo",
+        password: "",
+        phone: "",
+      });
+    } catch (error) {
+      console.error("Erro ao salvar usuário:", error);
+      alert(`Erro ao salvar usuário: ${error.message}`);
+    }
+  };
+
+  const handleDeleteClickUsuario = (usuarioId, usuarioNome) => {
+    if (!isAdmin) {
+      alert("Apenas administradores podem deletar usuários");
+      return;
+    }
+    setConfirmDeleteUsuario({
+      aberto: true,
+      usuarioId,
+      usuarioNome,
+    });
+  };
+
+  const handleConfirmDeleteUsuario = async () => {
+    try {
+      await remove("users", confirmDeleteUsuario.usuarioId);
+      setUsuarios((prev) =>
+        prev.filter((u) => u.id !== confirmDeleteUsuario.usuarioId),
+      );
+      alert("Usuário deletado com sucesso!");
+      setConfirmDeleteUsuario({
+        aberto: false,
+        usuarioId: null,
+        usuarioNome: "",
+      });
+    } catch (error) {
+      console.error("Erro ao deletar usuário:", error);
+      alert(`Erro ao deletar usuário: ${error.message}`);
+    }
+  };
+
+  // Funções de mapeamento para transformar dados da tabela no formato esperado pelos modais
+  const mapearDados = (recurso, item) => {
+    switch (recurso) {
+      case "players":
+        return {
+          id: item.id,
+          nome: item.name || "",
+          nascimento: item.nascimento || "",
+          cpf: item.cpf || "",
+          rg: item.rg || "",
+          escola: item.escola || "",
+          modalidade: item.modalidade || "",
+          categoria: item.category || "",
+          turma: item.classes || "",
+          cep: item.cep || "",
+          bairro: item.bairro || "",
+          cidade: item.cidade || "",
+          uf: item.uf || "",
+          logradouro: item.logradouro || "",
+          complemento: item.complemento || "",
+          observacoes: item.observacoes || "",
+          respCpf: item.respCpf || "",
+          respNome: item.respNome || "",
+          respEmail: item.respEmail || "",
+          respTelefone: item.respTelefone || "",
+          respParentesco: item.respParentesco || "",
+          respCep: item.respCep || "",
+          respBairro: item.respBairro || "",
+          respCidade: item.respCidade || "",
+          respUf: item.respUf || "",
+          respLogradouro: item.respLogradouro || "",
+          respComplemento: item.respComplemento || "",
+        };
+      case "guardians":
+        return {
+          id: item.id,
+          nome: item.name || "",
+          cpf: item.cpf || "",
+          email: item.email || "",
+          telefone: item.phoneNumber || "",
+          nomeAtleta: item.athletes?.[0] || "",
+          parentesco: item.kinship || "",
+          cep: item.cep || "",
+          bairro: item.bairro || "",
+          cidade: item.cidade || "",
+          uf: item.uf || "",
+          logradouro: item.logradouro || "",
+          complemento: item.complemento || "",
+        };
+      case "trainers":
+        return {
+          id: item.id,
+          nome: item.name || "",
+          cpf: item.cpf || "",
+          email: item.email || "",
+          telefone: item.PhoneNumber || item.phoneNumber || "",
+          cep: item.cep || "",
+          bairro: item.bairro || "",
+          cidade: item.cidade || "",
+          uf: item.uf || "",
+          logradouro: item.logradouro || "",
+          complemento: item.complemento || "",
+          turmas: item.classes || [],
+          horarios: item.workTimes || [],
+        };
+      case "classes":
+        return {
+          id: item.id,
+          nomeTurma: item.name || "",
+          categoria: item.category || "",
+          modalidade: item.modality || "",
+          treinador: item.coach || "",
+          horarios: item.workTimes || [],
+        };
+      case "categories":
+        return {
+          id: item.id,
+          nomeCategoria: item.name || "",
+        };
+      case "modalities":
+        return {
+          id: item.id,
+          nomeModalidade: item.name || "",
+        };
+      case "leads":
+        return {
+          id: item.id,
+          nome: item.name || "",
+          email: item.email || "",
+          telefone: item.phone || item.phoneNumber || "",
+          modalidade: item.source || "",
+          dataInsercao: item.dataInsercao || "",
+        };
+      default:
+        return item;
+    }
+  };
+
+  const handleEditClick = (recurso, item) => {
+    if (!isAdmin) {
+      alert("Apenas administradores podem editar itens");
+      return;
+    }
+    const dadosMapeados = mapearDados(recurso, item);
+    setItemEditando(dadosMapeados);
+    if (recurso === "players") setAbrirCadastroAtleta(true);
+    else if (recurso === "guardians") setAbrirCadastroResponsavel(true);
+    else if (recurso === "trainers") setAbrirCadastroTreinador(true);
+    else if (recurso === "classes") setAbrirCadastroTurma(true);
+    else if (recurso === "categories") setAbrirCadastroCategoria(true);
+    else if (recurso === "modalities") setAbrirCadastroModalidade(true);
+    else if (recurso === "leads") setAbrirCadastroInteressado(true);
+  };
+
+  // Componente para Itens de Aba
+  const TabItem = ({ id, label, icon }) => {
+    const isActive = abaAtiva === id;
+    const activeClasses = "text-white bg-blue-600 font-semibold ";
+    const inactiveClasses =
+      "text-white hover:bg-primary-800 hover:text-primary-200 cursor-pointer";
+
+    return (
+      <button
+        key={id}
+        className={`w-full flex flex-col sm:flex-row items-center justify-center space-y-0 sm:space-y-0 sm:space-x-2 px-1 sm:px-2 md:px-3 py-2 sm:py-3 md:py-4 text-xs sm:text-sm whitespace-nowrap transition duration-150 ${
+          isActive ? activeClasses : inactiveClasses
+        }`}
+        onClick={() => {
+          setAbaAtiva(id); // Muda a aba ativa
+          setTermoPesquisa(""); // Reseta o termo de pesquisa ao mudar de aba
+          window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll para o topo
+        }}
+      >
+        <span className="text-2xl sm:text-lg md:text-xl">{icon}</span>
+        <span className="hidden lg:inline">{label}</span>
+      </button>
+    );
+  };
+
+  return (
+    <Layout
+      title="Cadastros"
+      subtitle="Gerencie atletas, responsáveis, treinadores turmas, categorias e modalidades."
+    >
+      {/* CONTEÚDO PRINCIPAL */}
+      <div className="flex flex-1 flex-col overflow-hidden">
+        {/* Abas Fixas - Apenas Desktop */}
+        <div className="hidden lg:flex flex-col flex-1 overflow-hidden w-full max-h-max relative z-10 ">
+          {/* Navegação por Abas */}
+          <div className="flex bg-primary-900 border-b border-gray-200 scrollbar-hide min-h-min relative z-20 w-full overflow-x-hidden overflow-y-hidden">
+            {abas.map((aba, index) => (
+              <div key={aba.id} className="flex flex-1 items-stretch">
+                <TabItem {...aba} />
+                {index < abas.length - 1 && (
+                  <div className="w-px bg-white/20"></div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Área de Ações (Pesquisa e Novo Item) */}
+          <div className="flex flex-col gap-1.5 sm:gap-2.5 px-6 sm:px-8 md:px-10 lg:px-20 py-2 sm:py-2.5 md:py-3 bg-white shadow-lg sm:flex-row sm:justify-between sm:items-center lg:grid lg:grid-cols-[minmax(0,1.5fr)_auto] lg:items-center relative z-20 w-full">
+            {/* Barra de Pesquisa */}
+            <div className="relative w-full sm:max-w-sm order-2 sm:order-1 lg:order-none lg:justify-self-stretch">
+              <input
+                type="text"
+                placeholder={`Buscar ${
+                  abas.find((a) => a.id === abaAtiva)?.label
+                }...`}
+                className="w-full pl-10 sm:pl-11 pr-12 sm:pr-13 py-2.5 sm:py-3 border-2 border-gray-200 bg-white focus:outline-none focus:border-primary-400 text-xs sm:text-sm font-medium placeholder:text-gray-400 transition-all duration-300 rounded-full shadow-sm hover:shadow-md focus:shadow-md focus:shadow-primary-100 hover:border-gray-300"
+                value={termoPesquisa}
+                onChange={(e) => setTermoPesquisa(e.target.value)}
+              />
+              {/* Ícone de Busca (Lupa) */}
+              <svg
+                className="absolute left-3 sm:left-3.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.5"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+              {/* Botão de Pesquisar */}
+              <button
+                className="absolute right-2 top-2 bottom-2 bg-primary-500 hover:bg-primary-600 text-white px-3 py-2.5 rounded-full transition-colors duration-200 text-xs sm:text-sm font-medium flex items-center"
+                title="Pesquisar"
+              >
+                Pesquisar
+              </button>
+            </div>
+
+            {/* Botão Adicionar Novo Item */}
+            {abaAtiva === "usuarios" ? (
+              isAdmin ? (
+                <button
+                  onClick={abrirModalAdicionarUsuario}
+                  className={`w-full sm:w-auto flex items-center justify-center space-x-2 font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 order-1 sm:order-2 bg-blue-600 text-white hover:bg-blue-700 cursor-pointer text-xs sm:text-sm`}
+                >
+                  <MdAdd className="text-3xl" />
+                  <span>Adicionar Usuário</span>
+                </button>
+              ) : (
+                <div className="text-xs text-gray-500 italic p-2">
+                  Apenas administradores podem adicionar itens
+                </div>
+              )
+            ) : isAdmin ? (
+              <BotaoAdicionar
+                aba={abaAtiva}
+                label={abas.find((a) => a.id === abaAtiva)?.labelSingular}
+                onCreated={handleCreated}
+                modalidades={modalities}
+              />
+            ) : (
+              <div className="text-xs text-gray-500 italic p-2">
+                Apenas administradores podem adicionar itens
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 4. CONTEÚDO: Tabela/Dados */}
+        <div className="flex-1 overflow-hidden flex flex-col w-full">
+          {/* Título da Aba Ativa - Mobile até 1023px */}
+          <div className="lg:hidden pt-5 pb-3 px-6 bg-primary-100 flex items-center justify-between gap-6">
+            {!buscarMobileAberto ? (
+              <>
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <span className="text-3xl text-primary-900 flex-shrink-0">
+                    {abas.find((a) => a.id === abaAtiva)?.icon}
+                  </span>
+                  <h2 className="text-2xl font-bold text-primary-900 truncate">
+                    {abas.find((a) => a.id === abaAtiva)?.label || "Cadastros"}
+                  </h2>
+                </div>
+
+                <button
+                  onClick={() => setBuscarMobileAberto(true)}
+                  className="flex items-center justify-center text-primary-900 hover:text-primary-700 transition flex-shrink-0"
+                  title="Buscar"
+                >
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    ></path>
+                  </svg>
+                </button>
+
+                {/* Botão Adicionar - Mobile */}
+                {abaAtiva === "usuarios" ? (
+                  isAdmin ? (
+                    <button
+                      onClick={abrirModalAdicionarUsuario}
+                      className="flex items-center justify-center bg-blue-600 text-white hover:bg-blue-700 rounded p-2.5 transition flex-shrink-0"
+                      title="Adicionar Usuário"
+                    >
+                      <MdAdd className="text-2xl" />
+                    </button>
+                  ) : null
+                ) : isAdmin ? (
+                  <button
+                    onClick={() => {
+                      if (abaAtiva === "players") setAbrirCadastroAtleta(true);
+                      else if (abaAtiva === "guardians")
+                        setAbrirCadastroResponsavel(true);
+                      else if (abaAtiva === "trainers")
+                        setAbrirCadastroTreinador(true);
+                      else if (abaAtiva === "classes")
+                        setAbrirCadastroTurma(true);
+                      else if (abaAtiva === "categories")
+                        setAbrirCadastroCategoria(true);
+                      else if (abaAtiva === "modalities")
+                        setAbrirCadastroModalidade(true);
+                      else if (abaAtiva === "leads")
+                        setAbrirCadastroInteressado(true);
+                    }}
+                    className="flex items-center justify-center bg-blue-600 text-white hover:bg-blue-700 rounded p-2.5 transition flex-shrink-0"
+                    title={`Adicionar ${
+                      abas.find((a) => a.id === abaAtiva)?.labelSingular
+                    }`}
+                  >
+                    <MdAdd className="text-2xl" />
+                  </button>
+                ) : null}
+              </>
+            ) : (
+              <div className="relative w-full flex items-center gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    placeholder={`Buscar ${
+                      abas.find((a) => a.id === abaAtiva)?.label
+                    }...`}
+                    className="w-full pl-12 pr-14 py-3.5 bg-white border-2 border-gray-200 focus:outline-none focus:border-primary-400 text-sm font-medium placeholder:text-gray-400 transition-all duration-300 rounded-full shadow-sm hover:shadow-md focus:shadow-md focus:shadow-primary-100 hover:border-gray-300"
+                    value={termoPesquisa}
+                    onChange={(e) => setTermoPesquisa(e.target.value)}
+                    autoFocus
+                  />
+                  <svg
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-primary-500 pointer-events-none"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    ></path>
+                  </svg>
+                  {/* Botão de Pesquisar */}
+                  <button
+                    className="absolute right-2 top-2 bottom-2 bg-primary-500 hover:bg-primary-600 text-white px-3 py-2.5 rounded-full transition-colors duration-200 text-sm font-medium flex items-center"
+                    title="Pesquisar"
+                  >
+                    Pesquisar
+                  </button>
+                </div>
+                <button
+                  onClick={() => {
+                    setBuscarMobileAberto(false);
+                    setTermoPesquisa("");
+                  }}
+                  className="flex items-center justify-center text-gray-600 hover:text-gray-800 transition flex-shrink-0"
+                  title="Fechar busca"
+                >
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="shadow-xl w-full">
+            <div className="overflow-x-auto w-full">
+              {/* Tabela Atletas */}
+              {abaAtiva === "players" && (
+                <DataTable
+                  columns={[
+                    {
+                      key: "name",
+                      label: "Nome",
+                      isNameColumn: true,
+                      render: (value, row) => (
+                        <button
+                          onClick={() => {
+                            setAtletaSelecionado(row);
+                            setAbrirVisualizarAtleta(true);
+                          }}
+                          className="text-blue-600 hover:underline cursor-pointer"
+                        >
+                          {value}
+                        </button>
+                      ),
+                    },
+                    { key: "age", label: "Idade" },
+                    {
+                      key: "respNome",
+                      label: "Responsável",
+                    },
+                    {
+                      key: "modalidade",
+                      label: "Modalidade",
+                      render: (value) => {
+                        const modalidade = modalities.find(
+                          (m) =>
+                            String(m.id) === String(value) ||
+                            m.nome === value ||
+                            m.name === value,
+                        );
+                        return modalidade
+                          ? modalidade.nome || modalidade.name
+                          : value || "—";
+                      },
+                    },
+                    {
+                      key: "weigth",
+                      label: "Peso (kg)",
+                    },
+                    {
+                      key: "heigth",
+                      label: "Altura (cm)",
+                    },
+                    {
+                      key: "primary_position",
+                      label: "Posição Primária",
+                    },
+                    {
+                      key: "second_position",
+                      label: "Posição Secundária",
+                    },
+                    {
+                      key: "dominant_foot",
+                      label: "Pé Dominante",
+                    },
+                    {
+                      key: "sport_status",
+                      label: "Status",
+                    },
+                    {
+                      key: "user_id",
+                      label: "Usuário Responsável",
+                      render: (value, row) => {
+                        // Tenta buscar pelo id, se não achar tenta pelo nome
+                        const usuario = usuarios.find(
+                          (u) =>
+                            String(u.id) === String(row.user_id) ||
+                            u.name === row.user_id ||
+                            u.nome === row.user_id,
+                        );
+                        return usuario
+                          ? usuario.name || usuario.nome
+                          : row.user_id || "—";
+                      },
+                    },
+                    {
+                      key: "category",
+                      label: "Categoria",
+                      render: (value, row) => {
+                        const categoria = categories.find(
+                          (c) =>
+                            String(c.id) === String(row.category) ||
+                            c.nome === row.category ||
+                            c.name === row.category,
+                        );
+                        return categoria
+                          ? categoria.nome || categoria.name
+                          : row.category || "—";
+                      },
+                    },
+                    {
+                      key: "classes",
+                      label: "Turma",
+                      render: (value) => {
+                        const turma = classes.find(
+                          (t) =>
+                            String(t.id) === String(value) ||
+                            t.nome === value ||
+                            t.name === value,
+                        );
+                        return turma ? turma.nome || turma.name : value || "—";
+                      },
+                    },
+                  ]}
+                  data={athletesFiltrados.map((a) => ({
+                    ...a,
+                    age:
+                      a.age ??
+                      (a.nascimento
+                        ? Math.floor(
+                            (new Date() - new Date(a.nascimento)) /
+                              (365.25 * 24 * 60 * 60 * 1000),
+                          )
+                        : "—"),
+                    modalidade: a.modalidade || a.modality || "—",
+                    user_id: a.user_id || a.userId || "—",
+                    category: a.category || a.categoria || "—",
+                    respNome: a.respNome || a.responsavel || "—",
+                    weigth: a.weigth ?? "—",
+                    heigth: a.heigth ?? "—",
+                    primary_position: a.primary_position || "—",
+                    second_position: a.second_position || "—",
+                    dominant_foot: a.dominant_foot || "—",
+                    sport_status: a.sport_status || "—",
+                  }))}
+                  renderActions={(row) => (
+                    <button
+                      disabled={!isAdmin}
+                      onClick={() =>
+                        handleDeleteClick("players", row.id, row.name)
+                      }
+                      className={`transition-colors cursor-pointer ${
+                        !isAdmin
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-red-600 hover:text-red-800"
+                      }`}
+                      title={
+                        isAdmin
+                          ? "Deletar"
+                          : "Apenas administradores podem deletar"
+                      }
+                    >
+                      {!isAdmin ? (
+                        <IoLockClosed size={18} />
+                      ) : (
+                        <MdDelete size={18} />
+                      )}
+                    </button>
+                  )}
+                  emptyMessage={
+                    termoPesquisa.length > 0
+                      ? `Nenhum atleta encontrado com o termo "${termoPesquisa}".`
+                      : "Nenhum atleta cadastrado."
+                  }
+                />
+              )}
+
+              {/* Conteúdo para Abas RESPONSAVEIS */}
+              {abaAtiva === "guardians" && (
+                <DataTable
+                  columns={[
+                    {
+                      key: "name",
+                      label: "Nome",
+                      isNameColumn: true,
+                      render: (value) => (
+                        <a href="#" className="text-blue-600 hover:underline">
+                          {value}
+                        </a>
+                      ),
+                    },
+                    {
+                      key: "athletes",
+                      label: "Atletas",
+                      render: (value) => value.join(", "),
+                    },
+                    {
+                      key: "kinship",
+                      label: "Parentesco",
+                    },
+                    {
+                      key: "phoneNumber",
+                      label: "Telefone",
+                      render: (value) => (
+                        <a href="#" className="text-blue-600 hover:underline">
+                          {value}
+                        </a>
+                      ),
+                    },
+                  ]}
+                  data={responsibleFiltrados}
+                  renderActions={(row) => (
+                    <button
+                      disabled={!isAdmin}
+                      onClick={() =>
+                        handleDeleteClick("guardians", row.id, row.name)
+                      }
+                      className={`transition-colors cursor-pointer ${
+                        !isAdmin
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-red-600 hover:text-red-800"
+                      }`}
+                      title={
+                        isAdmin
+                          ? "Deletar"
+                          : "Apenas administradores podem deletar"
+                      }
+                    >
+                      {!isAdmin ? (
+                        <IoLockClosed size={18} />
+                      ) : (
+                        <MdDelete size={18} />
+                      )}
+                    </button>
+                  )}
+                  emptyMessage={
+                    termoPesquisa.length > 0
+                      ? `Nenhum responsável encontrado com o termo "${termoPesquisa}".`
+                      : "Nenhum responsável cadastrado."
+                  }
+                />
+              )}
+
+              {/* Conteúdo para Aba Treinador */}
+              {abaAtiva === "trainers" && (
+                <DataTable
+                  columns={[
+                    {
+                      key: "name",
+                      label: "Nome",
+                      isNameColumn: true,
+                      render: (value, row) => (
+                        <button
+                          onClick={() => {
+                            setItemEditando(row);
+                            setAbrirCadastroTreinador(true);
+                          }}
+                          className="text-blue-600 hover:underline cursor-pointer font-medium"
+                        >
+                          {value || "-"}
+                        </button>
+                      ),
+                    },
+                    {
+                      key: "phone",
+                      label: "Telefone",
+                    },
+                    {
+                      key: "license_level",
+                      label: "Nível",
+                      render: (value) => (
+                        <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                          {value || "-"}
+                        </span>
+                      ),
+                    },
+                    {
+                      key: "specialty",
+                      label: "Especialidade",
+                    },
+                  ]}
+                  data={coachFiltrados}
+                  renderActions={(row) => (
+                    <button
+                      disabled={!isAdmin}
+                      onClick={() =>
+                        handleDeleteClick("trainers", row.id, row.name)
+                      }
+                      className={`transition-colors cursor-pointer ${
+                        !isAdmin
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-red-600 hover:text-red-800"
+                      }`}
+                      title={
+                        isAdmin
+                          ? "Deletar"
+                          : "Apenas administradores podem deletar"
+                      }
+                    >
+                      {!isAdmin ? (
+                        <IoLockClosed size={18} />
+                      ) : (
+                        <MdDelete size={18} />
+                      )}
+                    </button>
+                  )}
+                  emptyMessage={
+                    termoPesquisa.length > 0
+                      ? `Nenhum treinador encontrado com o termo "${termoPesquisa}".`
+                      : "Nenhum treinador cadastrado."
+                  }
+                />
+              )}
+
+              {/* Conteúdo para Abas TURMAS */}
+              {abaAtiva === "classes" && (
+                <DataTable
+                  columns={[
+                    {
+                      key: "name",
+                      label: "Nome",
+                      isNameColumn: true,
+                    },
+                    {
+                      key: "weekdays",
+                      label: "Dias da Semana",
+                    },
+                    {
+                      key: "schedule",
+                      label: "Horário",
+                      render: (value) =>
+                        value
+                          ? new Date(value).toLocaleString("pt-BR", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : "-",
+                    },
+                    {
+                      key: "status",
+                      label: "Status",
+                      render: (value) => (
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                            value === "Ativa"
+                              ? "bg-green-100 text-green-800"
+                              : value === "Inativa"
+                                ? "bg-gray-100 text-gray-800"
+                                : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {value}
+                        </span>
+                      ),
+                    },
+                    {
+                      key: "modality_id",
+                      label: "Modalidade",
+                      render: (value, row) => row.modalidade || value || "-",
+                    },
+                    {
+                      key: "category_id",
+                      label: "Categoria",
+                      render: (value, row) => row.categoria || value || "-",
+                    },
+                    {
+                      key: "trainer_id",
+                      label: "Treinador",
+                      render: (value, row) => row.treinador || value || "-",
+                    },
+                  ]}
+                  data={classesFiltrados}
+                  renderActions={(row) => (
+                    <button
+                      disabled={!isAdmin}
+                      onClick={() =>
+                        handleDeleteClick("classes", row.id, row.name)
+                      }
+                      className={`transition-colors cursor-pointer ${
+                        !isAdmin
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-red-600 hover:text-red-800"
+                      }`}
+                      title={
+                        isAdmin
+                          ? "Deletar"
+                          : "Apenas administradores podem deletar"
+                      }
+                    >
+                      {!isAdmin ? (
+                        <IoLockClosed size={18} />
+                      ) : (
+                        <MdDelete size={18} />
+                      )}
+                    </button>
+                  )}
+                  emptyMessage={
+                    termoPesquisa.length > 0
+                      ? `Nenhuma turma encontrada com o termo "${termoPesquisa}".`
+                      : "Nenhuma turma cadastrada."
+                  }
+                />
+              )}
+
+              {/* Conteúdo para Abas CATEGORIAS */}
+              {abaAtiva === "categories" && (
+                <DataTable
+                  columns={[
+                    {
+                      key: "name",
+                      label: "Nome",
+                      isNameColumn: true,
+                      render: (value) => (
+                        <a
+                          href="#"
+                          className="text-blue-600 hover:underline font-medium"
+                        >
+                          {value}
+                        </a>
+                      ),
+                    },
+                    {
+                      key: "min_age",
+                      label: "Idade Mínima",
+                      render: (value) => value ?? "-",
+                    },
+                    {
+                      key: "max_age",
+                      label: "Idade Máxima",
+                      render: (value) => value ?? "-",
+                    },
+                  ]}
+                  data={categoriesFiltrados}
+                  renderActions={(row) => (
+                    <button
+                      disabled={!isAdmin}
+                      onClick={() =>
+                        handleDeleteClick("categories", row.id, row.name)
+                      }
+                      className={`transition-colors cursor-pointer ${
+                        !isAdmin
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-red-600 hover:text-red-800"
+                      }`}
+                      title={
+                        isAdmin
+                          ? "Deletar"
+                          : "Apenas administradores podem deletar"
+                      }
+                    >
+                      {!isAdmin ? (
+                        <IoLockClosed size={18} />
+                      ) : (
+                        <MdDelete size={18} />
+                      )}
+                    </button>
+                  )}
+                  emptyMessage={
+                    termoPesquisa.length > 0
+                      ? `Nenhuma categoria encontrada com o termo "${termoPesquisa}".`
+                      : "Nenhuma categoria cadastrada."
+                  }
+                />
+              )}
+
+              {/* Conteúdo para Abas MODALIDADES */}
+              {abaAtiva === "modalities" && (
+                <DataTable
+                  columns={[
+                    {
+                      key: "name",
+                      label: "Nome",
+                      isNameColumn: true,
+                      render: (value, row) => (
+                        <button
+                          onClick={() => {
+                            setItemEditando(row);
+                            setAbrirCadastroModalidade(true);
+                          }}
+                          className="text-blue-600 hover:underline cursor-pointer font-medium bg-none border-none p-0"
+                        >
+                          {value}
+                        </button>
+                      ),
+                    },
+                  ]}
+                  data={modalitiesFiltrados}
+                  renderActions={(row) => (
+                    <button
+                      disabled={!isAdmin}
+                      onClick={() =>
+                        handleDeleteClick("modalities", row.id, row.name)
+                      }
+                      className={`transition-colors cursor-pointer ${
+                        !isAdmin
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-red-600 hover:text-red-800"
+                      }`}
+                      title={
+                        isAdmin
+                          ? "Deletar"
+                          : "Apenas administradores podem deletar"
+                      }
+                    >
+                      {!isAdmin ? (
+                        <IoLockClosed size={18} />
+                      ) : (
+                        <MdDelete size={18} />
+                      )}
+                    </button>
+                  )}
+                  emptyMessage={
+                    termoPesquisa.length > 0
+                      ? `Nenhuma modalidade encontrada com o termo "${termoPesquisa}".`
+                      : "Nenhuma modalidade cadastrada."
+                  }
+                />
+              )}
+
+              {/* Conteúdo para Abas INTERESSADOS */}
+              {abaAtiva === "leads" && (
+                <DataTable
+                  columns={[
+                    {
+                      key: "name",
+                      label: "Nome",
+                      isNameColumn: true,
+                      render: (value, row) => (
+                        <button
+                          onClick={() => handleEditClick("leads", row)}
+                          className="text-blue-600 hover:underline cursor-pointer font-medium"
+                        >
+                          {value}
+                        </button>
+                      ),
+                    },
+                    {
+                      key: "phone",
+                      label: "Telefone",
+                      render: (value, row) => (
+                        <a href="#" className="text-blue-600 hover:underline">
+                          {value || row.phoneNumber}
+                        </a>
+                      ),
+                    },
+                    {
+                      key: "source",
+                      label: "Modalidade",
+                    },
+                  ]}
+                  data={interessadosFiltrados}
+                  renderActions={(row) => (
+                    <button
+                      disabled={!isAdmin}
+                      onClick={() =>
+                        handleDeleteClick("leads", row.id, row.name)
+                      }
+                      className={`transition-colors cursor-pointer ${
+                        !isAdmin
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-red-600 hover:text-red-800"
+                      }`}
+                      title={
+                        isAdmin
+                          ? "Deletar"
+                          : "Apenas administradores podem deletar"
+                      }
+                    >
+                      {!isAdmin ? (
+                        <IoLockClosed size={18} />
+                      ) : (
+                        <MdDelete size={18} />
+                      )}
+                    </button>
+                  )}
+                  emptyMessage={
+                    termoPesquisa.length > 0
+                      ? `Nenhum interessado encontrado com o termo "${termoPesquisa}".`
+                      : "Nenhum interessado cadastrado."
+                  }
+                />
+              )}
+
+              {/* Conteúdo para Abas USUÁRIOS */}
+              {abaAtiva === "usuarios" && (
+                <>
+                  {!isAdmin ? (
+                    <div className="p-8 text-center bg-yellow-50 rounded-lg border border-yellow-200 mt-5">
+                      <p className="text-gray-700">
+                        <IoLockClosed className="inline mr-2" size={20} />
+                        Apenas administradores podem gerenciar usuários
+                      </p>
+                    </div>
+                  ) : (
+                    <DataTable
+                      columns={[
+                        {
+                          key: "name",
+                          label: "Nome",
+                          isNameColumn: true,
+                          render: (value, row) => (
+                            <button
+                              onClick={() => abrirModalEditarUsuario(row)}
+                              className="text-blue-600 hover:underline cursor-pointer font-medium bg-none border-none p-0"
+                            >
+                              {value}
+                            </button>
+                          ),
+                        },
+                        {
+                          key: "phone",
+                          label: "Telefone",
+                          render: (value) => formatarTelefoneExibicao(value),
+                        },
+                        {
+                          key: "role",
+                          label: "Função",
+                          render: (value) => (
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                                value === "Administrador"
+                                  ? "bg-red-100 text-red-800"
+                                  : "bg-blue-100 text-blue-800"
+                              }`}
+                            >
+                              {value}
+                            </span>
+                          ),
+                        },
+                        {
+                          key: "status",
+                          label: "Status",
+                          render: (value) => (
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                                value === "Ativo"
+                                  ? "bg-green-100 text-green-800"
+                                  : value === "Inativo"
+                                    ? "bg-gray-100 text-gray-800"
+                                    : "bg-yellow-100 text-yellow-800"
+                              }`}
+                            >
+                              {value}
+                            </span>
+                          ),
+                        },
+                      ]}
+                      data={usuariosFiltrados}
+                      renderActions={(row) => (
+                        <button
+                          onClick={() =>
+                            handleDeleteClickUsuario(row.id, row.name)
+                          }
+                          className="text-red-600 hover:text-red-800 transition-colors cursor-pointer"
+                          title="Deletar"
+                        >
+                          <MdDelete size={18} />
+                        </button>
+                      )}
+                      emptyMessage={
+                        termoPesquisa.length > 0
+                          ? `Nenhum usuário encontrado com o termo "${termoPesquisa}".`
+                          : "Nenhum usuário cadastrado."
+                      }
+                    />
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Modal de Confirmação de Exclusão */}
+        {confirmDelete.aberto && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-99999">
+            <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm mx-4">
+              <h3 className="text-lg font-bold text-gray-800 mb-4">
+                Confirmar Exclusão
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Tem certeza que deseja deletar{" "}
+                <strong>{confirmDelete.nome}</strong>?
+              </p>
+              <p className="text-sm text-gray-500 mb-6">
+                Esta ação não pode ser desfeita.
+              </p>
+              <div className="flex gap-4 justify-end">
+                <button
+                  onClick={() =>
+                    setConfirmDelete({
+                      aberto: false,
+                      recurso: null,
+                      id: null,
+                      nome: null,
+                    })
+                  }
+                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleConfirmDelete}
+                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Deletar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal de Confirmação de Exclusão de Usuário */}
+        {confirmDeleteUsuario.aberto && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-99999">
+            <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm mx-4">
+              <h3 className="text-lg font-bold text-gray-800 mb-4">
+                Confirmar Exclusão
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Tem certeza que deseja deletar o usuário{" "}
+                <strong>{confirmDeleteUsuario.usuarioNome}</strong>?
+              </p>
+              <p className="text-sm text-gray-500 mb-6">
+                Esta ação não pode ser desfeita.
+              </p>
+              <div className="flex gap-4 justify-end">
+                <button
+                  onClick={() =>
+                    setConfirmDeleteUsuario({
+                      aberto: false,
+                      usuarioId: null,
+                      usuarioNome: "",
+                    })
+                  }
+                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleConfirmDeleteUsuario}
+                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Deletar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal de Criar/Editar Usuário */}
+        <ModalCadastroUsuario
+          aberto={abrirModalUsuario}
+          editandoUsuario={editandoUsuario}
+          formDataUsuario={formDataUsuario}
+          onChange={handleChangeUsuario}
+          onSalvar={handleSalvarUsuario}
+          onCancelar={() => {
+            setAbrirModalUsuario(false);
+            setEditandoUsuario(null);
+            setFormDataUsuario({
+              name: "",
+              email: "",
+              birthDate: "",
+              cpf: "",
+              rg: "",
+              role: "",
+              status: "Ativo",
+              password: "",
+              phone: "",
+            });
+          }}
+        />
+
+        {/* Modais de Cadastro/Edição */}
+        <ModalCadastroAtleta
+          aberto={abrirCadastroAtleta}
+          editandoAtleta={!!itemEditando}
+          formDataAtleta={itemEditando || {}}
+          onClose={() => {
+            setAbrirCadastroAtleta(false);
+            setItemEditando(null);
+          }}
+          onSave={async (data) => {
+            try {
+              if (itemEditando?.id) {
+                // Atualizar atleta existente
+                const atualizado = await update(
+                  "players",
+                  itemEditando.id,
+                  data,
+                );
+                setPlayers((prev) =>
+                  prev.map((a) => (a.id === atualizado.id ? atualizado : a)),
+                );
+                alert("Atleta atualizado com sucesso!");
+              } else {
+                // Criar novo atleta
+                const criado = await create("players", data);
+                setPlayers((prev) => [...prev, criado]);
+                alert("Atleta cadastrado com sucesso!");
+              }
+              setItemEditando(null);
+              setAbrirCadastroAtleta(false);
+            } catch (e) {
+              alert("Erro ao salvar atleta: " + (e.message || e));
+            }
+          }}
+          atleta={itemEditando}
+        />
+
+        <ModalCadastroResponsavel
+          aberto={abrirCadastroResponsavel}
+          onClose={() => {
+            setAbrirCadastroResponsavel(false);
+            setItemEditando(null);
+          }}
+          onSave={(data) => {
+            if (itemEditando?.id) {
+              setResponsaveis((prev) =>
+                prev.map((r) =>
+                  r.id === itemEditando.id ? { ...r, ...data } : r,
+                ),
+              );
+            } else {
+              const newId = Math.max(...responsaveis.map((r) => r.id), 0) + 1;
+              setResponsaveis((prev) => [...prev, { id: newId, ...data }]);
+            }
+            setItemEditando(null);
+            setAbrirCadastroResponsavel(false);
+          }}
+          responsavel={itemEditando}
+        />
+
+        <ModalCadastroTreinador
+          aberto={abrirCadastroTreinador}
+          onClose={() => {
+            setAbrirCadastroTreinador(false);
+            setItemEditando(null);
+          }}
+          onSave={(data) => {
+            console.log("onSave do modal de treinador recebeu:", data);
+            if (itemEditando?.id) {
+              // Atualizar treinador existente
+              console.log("Atualizando treinador existente:", itemEditando.id);
+              setTreinadores((prev) =>
+                prev.map((t) =>
+                  t.id === itemEditando.id ? { ...t, ...data } : t,
+                ),
+              );
+            } else {
+              // Adicionar novo treinador com dados retornados do backend
+              console.log("Adicionando novo treinador:", data);
+              setTreinadores((prev) => [...prev, data]);
+            }
+            setItemEditando(null);
+            setAbrirCadastroTreinador(false);
+          }}
+          treinador={itemEditando}
+        />
+
+        <ModalCadastroTurma
+          aberto={abrirCadastroTurma}
+          onClose={() => {
+            setAbrirCadastroTurma(false);
+            setItemEditando(null);
+          }}
+          onSave={async (data) => {
+            try {
+              if (itemEditando?.id) {
+                await update("classes", itemEditando.id, data);
+                setClasses((prev) =>
+                  prev.map((t) =>
+                    t.id === itemEditando.id ? { ...t, ...data } : t,
+                  ),
+                );
+              } else {
+                const saved = await create("classes", data);
+                setClasses((prev) => [...prev, saved]);
+              }
+              alert("Turma salva com sucesso!");
+              setItemEditando(null);
+              setAbrirCadastroTurma(false);
+            } catch (e) {
+              alert(`Erro ao salvar turma: ${e.message}`);
+            }
+          }}
+          turma={itemEditando}
+        />
+
+        <ModalCadastroCategoria
+          aberto={abrirCadastroCategoria}
+          onClose={() => {
+            setAbrirCadastroCategoria(false);
+            setItemEditando(null);
+          }}
+          onSave={async (data) => {
+            try {
+              if (itemEditando?.id) {
+                await update("categories", itemEditando.id, data);
+                setCategories((prev) =>
+                  prev.map((c) =>
+                    c.id === itemEditando.id ? { ...c, ...data } : c,
+                  ),
+                );
+              } else {
+                const saved = await create("categories", data);
+                setCategories((prev) => [...prev, saved]);
+              }
+              alert("Categoria salva com sucesso!");
+              setItemEditando(null);
+              setAbrirCadastroCategoria(false);
+            } catch (e) {
+              alert(`Erro ao salvar categoria: ${e.message}`);
+            }
+          }}
+          categoria={itemEditando}
+        />
+
+        <ModalCadastroModalidade
+          aberto={abrirCadastroModalidade}
+          onClose={() => {
+            setAbrirCadastroModalidade(false);
+            setItemEditando(null);
+          }}
+          onSave={async (data) => {
+            try {
+              if (itemEditando?.id) {
+                await update("modalities", itemEditando.id, data);
+                setModalities((prev) =>
+                  prev.map((m) =>
+                    m.id === itemEditando.id ? { ...m, ...data } : m,
+                  ),
+                );
+              } else {
+                const saved = await create("modalities", data);
+                setModalities((prev) => [...prev, saved]);
+              }
+              alert("Modalidade salva com sucesso!");
+              setItemEditando(null);
+              setAbrirCadastroModalidade(false);
+            } catch (e) {
+              alert(`Erro ao salvar modalidade: ${e.message}`);
+            }
+          }}
+          modalidade={itemEditando}
+        />
+
+        <ModalCadastroInteressado
+          aberto={abrirCadastroInteressado}
+          onClose={() => {
+            setAbrirCadastroInteressado(false);
+            setItemEditando(null);
+          }}
+          onSave={async (data) => {
+            try {
+              if (itemEditando?.id) {
+                await update("leads", itemEditando.id, data);
+                setLeads((prev) =>
+                  prev.map((i) =>
+                    i.id === itemEditando.id ? { ...i, ...data } : i,
+                  ),
+                );
+              } else {
+                const saved = await create("leads", data);
+                setLeads((prev) => [...prev, saved]);
+              }
+              alert("Interessado salvo com sucesso!");
+              setItemEditando(null);
+              setAbrirCadastroInteressado(false);
+            } catch (e) {
+              alert(`Erro ao salvar interessado: ${e.message}`);
+            }
+          }}
+          interessado={itemEditando}
+          modalidades={modalities}
+        />
+
+        {/* Modal Visualizar Atleta */}
+        <ModalVisualizarAtleta
+          aberto={abrirVisualizarAtleta}
+          onClose={() => {
+            setAbrirVisualizarAtleta(false);
+            setAtletaSelecionado(null);
+          }}
+          atleta={atletaSelecionado}
+          onSave={async (atletaAtualizado) => {
+            try {
+              // Mapear os dados do formato do modal para o formato da API
+              const dataToSave = {
+                name: atletaAtualizado.name,
+                email: atletaAtualizado.email,
+                cpf: atletaAtualizado.cpf,
+                rg: atletaAtualizado.rg,
+                nascimento: atletaAtualizado.birthDate,
+                age: atletaAtualizado.age,
+                category: atletaAtualizado.category,
+                classes: atletaAtualizado.classes,
+                escola: atletaAtualizado.escola,
+                modalidade: atletaAtualizado.modality,
+                cep: atletaAtualizado.address?.cep,
+                bairro: atletaAtualizado.address?.neighborhood,
+                cidade: atletaAtualizado.address?.city,
+                uf: atletaAtualizado.address?.uf,
+                logradouro: atletaAtualizado.address?.street,
+                complemento: atletaAtualizado.address?.complement,
+                observacoes: atletaAtualizado.observations,
+                respCpf: atletaAtualizado.respCpf,
+                respNome: atletaAtualizado.respNome,
+                respEmail: atletaAtualizado.respEmail,
+                respTelefone: atletaAtualizado.respTelefone,
+                respParentesco: atletaAtualizado.respParentesco,
+                respCep: atletaAtualizado.respCep,
+                respBairro: atletaAtualizado.respBairro,
+                respCidade: atletaAtualizado.respCidade,
+                respUf: atletaAtualizado.respUf,
+                respLogradouro: atletaAtualizado.respLogradouro,
+                respComplemento: atletaAtualizado.respComplemento,
+              };
+
+              console.log("Atualizando atleta com dados:", dataToSave);
+              await update("players", atletaAtualizado.id, dataToSave);
+
+              setPlayers((prev) =>
+                prev.map((a) =>
+                  a.id === atletaAtualizado.id ? { ...a, ...dataToSave } : a,
+                ),
+              );
+              alert("Atleta atualizado com sucesso!");
+              setAbrirVisualizarAtleta(false);
+              setAtletaSelecionado(null);
+            } catch (e) {
+              console.error("Erro ao atualizar atleta", e);
+              alert(`Erro ao atualizar atleta: ${e.message}`);
+            }
+          }}
+          onOpenAddResponsible={() => {
+            // Aqui você pode adicionar lógica para abrir modal de responsável se necessário
+          }}
+        />
+
+        {/* Footer com Abas - Apenas Mobile até 1023px */}
+        <div className="fixed bottom-0 left-0 right-0 flex lg:hidden bg-primary-900 border-t border-gray-200 overflow-x-hidden z-30 h-16">
+          {abas.map((aba) => (
+            <TabItem key={aba.id} {...aba} />
+          ))}
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default Cadastros;

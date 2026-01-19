@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { HiChevronDown } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
+import { FiAlertCircle } from "react-icons/fi";
+import { create, update, list } from "../../data/api";
 
 export default function ModalCadastroTreinador({
   aberto,
@@ -8,323 +11,225 @@ export default function ModalCadastroTreinador({
   onSave,
   treinador,
 }) {
+  const [loading, setLoading] = useState(false);
+  const [usuarios, setUsuarios] = useState([]);
+  const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);
+  const [erro, setErro] = useState("");
+
   const estadoInicial = {
-    nome: "",
-    cpf: "",
-    email: "",
-    telefone: "",
-    cep: "",
-    bairro: "",
-    cidade: "",
-    uf: "",
-    logradouro: "",
-    complemento: "",
+    license_level: "",
+    specialty: "",
+    user_id: "",
   };
 
   const [formData, setFormData] = useState(estadoInicial);
-  const [emailErro, setEmailErro] = useState(false);
 
-  // Preencher dados quando estiver editando
   useEffect(() => {
-    if (aberto && treinador) {
-      setFormData(treinador);
-    } else {
-      setFormData(estadoInicial);
+    if (aberto) {
+      setErro("");
+      carregarOpcoes();
+      if (treinador) {
+        setFormData({
+          license_level: treinador.license_level || "",
+          specialty: treinador.specialty || "",
+          user_id: treinador.user_id || "",
+        });
+        // Procurar o usuário selecionado após carregar
+        const userSelecionado = usuarios.find(
+          (u) => u.id === treinador.user_id,
+        );
+        if (userSelecionado) {
+          setUsuarioSelecionado(userSelecionado);
+        }
+      } else {
+        setFormData(estadoInicial);
+        setUsuarioSelecionado(null);
+      }
     }
-  }, [aberto, treinador]);
+  }, [aberto]);
 
-  // Função para fechar e resetar
+  // Atualizar usuarioSelecionado quando formData.user_id muda
+  useEffect(() => {
+    if (formData.user_id && usuarios.length > 0) {
+      const usuario = usuarios.find((u) => u.id === formData.user_id);
+      setUsuarioSelecionado(usuario || null);
+    }
+  }, [formData.user_id, usuarios]);
+
+  const carregarOpcoes = async () => {
+    try {
+      const usuariosData = await list("users");
+      console.log("✓ Usuários carregados:", usuariosData?.length);
+      if (usuariosData?.length > 0) {
+        console.log(
+          "📞 Primeiro usuário com dados:",
+          JSON.stringify(usuariosData[0], null, 2),
+        );
+      }
+      setUsuarios(usuariosData || []);
+    } catch (error) {
+      console.error("Erro ao carregar opções:", error);
+      setErro("Erro ao carregar usuários");
+    }
+  };
+
   const handleClose = () => {
     setFormData(estadoInicial);
-    setEmailErro(false);
+    setUsuarioSelecionado(null);
+    setErro("");
     onClose();
   };
 
-  const handleSalvar = () => {
-    if (!validarCampos()) return;
-    const payload = {
-      name: formData.nome,
-      cpf: formData.cpf,
-      email: formData.email,
-      PhoneNumber: formData.telefone,
-      cep: formData.cep,
-      bairro: formData.bairro,
-      cidade: formData.cidade,
-      uf: formData.uf,
-      logradouro: formData.logradouro,
-      complemento: formData.complemento,
-      classes: formData.turmas || "",
-      workTimes: formData.horarios || "",
-    };
-    onSave?.(payload);
-    handleClose();
+  const validarCampos = () => {
+    const isLicenseLevelValid =
+      formData.license_level && formData.license_level.trim().length > 0;
+    const isSpecialtyValid =
+      formData.specialty && formData.specialty.trim().length > 0;
+    const isUserIdValid =
+      formData.user_id && formData.user_id.trim().length > 0;
+
+    return isLicenseLevelValid && isSpecialtyValid && isUserIdValid;
   };
 
-  // Máscaras
-  const maskCPF = (v) =>
-    v
-      .replace(/\D/g, "")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d{1,2})/, "$1-$2")
-      .substring(0, 14);
-  const maskTelefone = (v) =>
-    v
-      .replace(/\D/g, "")
-      .replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")
-      .substring(0, 15);
-  const maskCEP = (v) =>
-    v
-      .replace(/\D/g, "")
-      .replace(/(\d{5})(\d{3})/, "$1-$2")
-      .substring(0, 9);
-
-  // Validação de formato de Email
-  const validarEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  // Buscar endereço pela API ViaCEP
-  const buscarEnderecoPorCEP = async (cep) => {
-    const cepLimpo = cep.replace(/\D/g, "");
-    if (cepLimpo.length !== 8) return;
-
-    try {
-      const response = await fetch(
-        `https://viacep.com.br/ws/${cepLimpo}/json/`
-      );
-      const data = await response.json();
-
-      if (!data.erro) {
-        setFormData((prev) => ({
-          ...prev,
-          logradouro: data.logradouro || "",
-          bairro: data.bairro || "",
-          cidade: data.localidade || "",
-          uf: data.uf || "",
-        }));
-      }
-    } catch (error) {
-      console.error("Erro ao buscar CEP:", error);
-    }
-  };
+  // Usar useMemo para evitar recalcular a validade a cada render
+  const camposValidos = useMemo(() => validarCampos(), [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let maskedValue = value;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
-    if (name === "cpf") maskedValue = maskCPF(value);
-    if (name === "telefone") maskedValue = maskTelefone(value);
-    if (name === "cep") {
-      maskedValue = maskCEP(value);
-      // Buscar endereço quando o CEP estiver completo
-      const cepLimpo = maskedValue.replace(/\D/g, "");
-      if (cepLimpo.length === 8) {
-        buscarEnderecoPorCEP(maskedValue);
+    // Se mudou o usuário, atualiza o usuarioSelecionado
+    if (name === "user_id") {
+      const usuario = usuarios.find((u) => u.id === value);
+      setUsuarioSelecionado(usuario || null);
+      console.log("✓ Usuário selecionado:", usuario?.name);
+    }
+
+    // Limpar erro ao digitar
+    if (erro) setErro("");
+  };
+
+  const handleSalvar = async () => {
+    if (!camposValidos) {
+      setErro("Por favor, preencha todos os campos obrigatórios");
+      return;
+    }
+
+    if (!usuarioSelecionado?.id) {
+      setErro("Nenhum usuário foi selecionado corretamente");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const payload = {
+        license_level: formData.license_level.trim(),
+        specialty: formData.specialty.trim(),
+        user_id: formData.user_id.trim(),
+      };
+
+      console.log("====== CADASTRANDO TREINADOR ======");
+      console.log("📝 Dados enviados:", payload);
+      console.log("👤 Usuário:", usuarioSelecionado?.name);
+      console.log("====================================");
+
+      let resultado;
+      if (treinador?.id) {
+        console.log("🔄 Atualizando treinador ID:", treinador.id);
+        resultado = await update("trainers", treinador.id, payload);
+        setErro("");
+        alert("✅ Treinador atualizado com sucesso!");
+      } else {
+        console.log("✨ Criando novo treinador");
+        resultado = await create("trainers", payload);
+        setErro("");
+        alert("✅ Treinador cadastrado com sucesso!");
       }
-    }
 
-    if (name === "email") {
-      setEmailErro(!validarEmail(value) && value !== "");
+      console.log("✅ Resposta da API:", resultado);
+      onSave?.(resultado);
+      handleClose();
+    } catch (error) {
+      console.error("❌ Erro ao salvar treinador:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Erro ao salvar treinador";
+      setErro(errorMessage);
+      alert(`❌ ${errorMessage}`);
+    } finally {
+      setLoading(false);
     }
-
-    setFormData({ ...formData, [name]: maskedValue });
   };
 
-  // Verificação de campos obrigatórios
-  const validarCampos = () => {
-    const obrigatorios = [
-      "nome",
-      "cpf",
-      "email",
-      "telefone",
-      "cep",
-      "bairro",
-      "cidade",
-      "uf",
-      "logradouro",
-    ];
-    const preenchidos = obrigatorios.every(
-      (campo) => formData[campo].trim() !== ""
-    );
-    return preenchidos && !emailErro;
-  };
-
-  // Estilos padronizados
   const inputStyle =
-    "w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition-all text-sm placeholder:text-gray-400";
+    "w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white";
+
   const selectStyle =
-    "w-full px-4 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none text-sm cursor-pointer";
+    "w-full px-3.5 py-2.5 border border-gray-300 rounded-xl appearance-none bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer";
 
   if (!aberto) return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center min-h-screen z-99999">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 flex flex-col max-h-[80vh]">
-        {/* Cabeçalho */}
-        <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100 sticky top-0 bg-white z-10 rounded-t-2xl">
-          <h2 className="text-xl font-bold text-[#101944]">Novo Treinador</h2>
+      <div className="w-screen sm:w-full sm:max-w-lg h-screen sm:h-auto bg-primary-50 rounded-none sm:rounded-2xl shadow-xl border-0 sm:border border-gray-200 flex flex-col max-h-screen sm:max-h-[80vh]">
+        {/* Header */}
+        <div className="flex justify-between items-start px-6 py-5 border-b border-gray-100 sticky top-0 z-10 rounded-t-2xl bg-primary-900">
+          <div>
+            <h2 className="text-xl font-bold text-primary-50">
+              {treinador?.id ? "Editar Treinador" : "Novo Treinador"}
+            </h2>
+            <p className="text-xs text-primary-100/80 mt-1">
+              {treinador?.id
+                ? "Atualize os dados do treinador"
+                : "Preencha os dados do novo treinador"}
+            </p>
+          </div>
           <button
-            className="text-[#101944] hover:bg-gray-100 p-1 rounded-full transition-colors cursor-pointer"
+            className="text-primary-50 hover:bg-primary-800/60 p-1 rounded-full transition-colors cursor-pointer"
             onClick={handleClose}
+            disabled={loading}
           >
             <IoClose size={24} />
           </button>
         </div>
 
-        {/* Formulário Scrollável */}
-        <div className="overflow-y-auto custom-scrollbar p-6 space-y-5">
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              Nome <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="nome"
-              value={formData.nome}
-              onChange={handleChange}
-              className={inputStyle}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              CPF <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="cpf"
-              value={formData.cpf}
-              onChange={handleChange}
-              placeholder="000.000.000-00"
-              className={inputStyle}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              E-mail <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`${inputStyle} ${
-                emailErro ? "border-red-500 focus:border-red-500" : ""
-              }`}
-            />
-            {emailErro && (
-              <span className="text-[10px] text-red-500 mt-1">
-                E-mail inválido
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              Telefone <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="telefone"
-              value={formData.telefone}
-              onChange={handleChange}
-              placeholder="(00) 00000-0000"
-              className={inputStyle}
-            />
-          </div>
-
-          <h3 className="text-lg font-bold text-[#101944] pt-4 border-t border-gray-50">
-            Endereço
-          </h3>
-
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              CEP <span className="text-red-500">*</span>
-            </label>
-            <input
-              name="cep"
-              value={formData.cep}
-              onChange={handleChange}
-              placeholder="00000-000"
-              className={inputStyle}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-slate-600 mb-1">
-                Bairro <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="bairro"
-                value={formData.bairro}
-                onChange={handleChange}
-                className={inputStyle}
+        {/* Content */}
+        <div className="overflow-y-auto custom-scrollbar p-6 space-y-5 flex-1">
+          {/* Mensagem de Erro */}
+          {erro && (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex gap-3">
+              <FiAlertCircle
+                className="text-red-500 flex-shrink-0 mt-0.5"
+                size={18}
               />
+              <p className="text-sm text-red-700">{erro}</p>
             </div>
-            <div>
-              <label className="block text-sm font-semibold text-slate-600 mb-1">
-                Cidade <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="cidade"
-                value={formData.cidade}
-                onChange={handleChange}
-                className={inputStyle}
-              />
-            </div>
-          </div>
+          )}
 
+          {/* Selecionar Usuário */}
           <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              UF <span className="text-red-500">*</span>
+            <label className="block text-sm font-semibold text-slate-600 mb-2">
+              Usuário <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <select
-                name="uf"
-                value={formData.uf}
+                name="user_id"
+                value={formData.user_id}
                 onChange={handleChange}
                 className={selectStyle}
               >
-                <option value="" disabled>
-                  Selecione
+                <option value="">
+                  {usuarios.length > 0
+                    ? "Selecione o usuário"
+                    : "Carregando usuários..."}
                 </option>
-                {[
-                  "AC",
-                  "AL",
-                  "AP",
-                  "AM",
-                  "BA",
-                  "CE",
-                  "DF",
-                  "ES",
-                  "GO",
-                  "MA",
-                  "MT",
-                  "MS",
-                  "MG",
-                  "PA",
-                  "PB",
-                  "PR",
-                  "PE",
-                  "PI",
-                  "RJ",
-                  "RN",
-                  "RS",
-                  "RO",
-                  "RR",
-                  "SC",
-                  "SP",
-                  "SE",
-                  "TO",
-                ].map((uf) => (
-                  <option key={uf} value={uf}>
-                    {uf}
+                {usuarios.map((usuario) => (
+                  <option key={usuario.id} value={usuario.id}>
+                    {usuario.name} ({usuario.email})
                   </option>
                 ))}
               </select>
@@ -333,58 +238,145 @@ export default function ModalCadastroTreinador({
                 size={20}
               />
             </div>
+            {usuarios.length === 0 && (
+              <p className="text-xs text-amber-600 mt-2">
+                ⚠️ Nenhum usuário disponível. Crie um usuário primeiro.
+              </p>
+            )}
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              Logradouro <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="logradouro"
-              value={formData.logradouro}
-              onChange={handleChange}
-              className={inputStyle}
-            />
-          </div>
+          {/* Dados do Usuário Selecionado (readonly) */}
+          {usuarioSelecionado && (
+            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+              <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                📋 Dados do usuário
+              </p>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              Complemento
-            </label>
-            <input
-              type="text"
-              name="complemento"
-              value={formData.complemento}
-              onChange={handleChange}
-              className={inputStyle}
-            />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Nome
+                  </label>
+                  <input
+                    type="text"
+                    value={usuarioSelecionado.name || ""}
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-xs font-medium text-slate-700 cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={usuarioSelecionado.email || ""}
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-xs font-medium text-slate-700 cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                  Telefone
+                </label>
+                <input
+                  type="tel"
+                  value={usuarioSelecionado.phone || ""}
+                  readOnly
+                  placeholder="Nenhum telefone cadastrado"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-xs font-medium text-slate-700 cursor-not-allowed placeholder:text-gray-400"
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="border-t border-gray-200 pt-4 mt-4">
+            <h3 className="text-sm font-semibold text-gray-700 mb-4">
+              📚 Dados Profissionais
+            </h3>
+
+            {/* Nível de Licença */}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-slate-600 mb-2">
+                Nível de Licença <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <select
+                  name="license_level"
+                  value={formData.license_level}
+                  onChange={handleChange}
+                  className={selectStyle}
+                >
+                  <option value="">Selecione o nível de licença</option>
+                  <option value="A">Nível A</option>
+                  <option value="B">Nível B</option>
+                  <option value="C">Nível C</option>
+                  <option value="Iniciante">Iniciante</option>
+                  <option value="Intermediário">Intermediário</option>
+                  <option value="Avançado">Avançado</option>
+                  <option value="Certificado">Certificado</option>
+                  <option value="Mestrado">Mestrado</option>
+                  <option value="Doutorado">Doutorado</option>
+                </select>
+                <HiChevronDown
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                  size={20}
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Certificação ou nível de qualificação do treinador
+              </p>
+            </div>
+
+            {/* Especialidade */}
+            <div>
+              <label className="block text-sm font-semibold text-slate-600 mb-2">
+                Especialidade <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="specialty"
+                value={formData.specialty}
+                onChange={handleChange}
+                placeholder="Ex: Futebol, Basquete, Natação..."
+                className={inputStyle}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Esporte ou área de especialização do treinador
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Rodapé Dinâmico */}
-        <div className="flex items-center justify-end space-x-6 px-6 py-5 border-t border-gray-100 bg-white rounded-b-2xl">
+        {/* Footer */}
+        <div className="flex items-center justify-end space-x-4 px-6 py-5 border-t border-gray-100 bg-primary-50 rounded-b-2xl sticky bottom-0">
           <button
             type="button"
-            className="text-[#101944] font-bold hover:underline transition-all cursor-pointer text-sm"
+            className="px-6 py-2.5 font-medium text-gray-700 hover:bg-gray-100 rounded-full transition-colors text-sm"
             onClick={handleClose}
+            disabled={loading}
           >
             Cancelar
           </button>
+
           <button
             type="button"
-            disabled={!validarCampos()}
-            className={`px-10 py-2.5 font-bold rounded-full transition-colors shadow-md text-sm ${
-              validarCampos()
-                ? "bg-[#003366] text-white hover:bg-[#002850] cursor-pointer shadow-blue-900/20"
+            className={`px-8 py-2.5 font-semibold rounded-full transition-all text-sm ${
+              camposValidos && !loading
+                ? "bg-primary-900 text-white hover:bg-primary-800 shadow-lg cursor-pointer"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
+            disabled={!camposValidos || loading}
             onClick={handleSalvar}
           >
-            Salvar
+            {loading ? "Salvando..." : treinador?.id ? "Atualizar" : "Criar"}
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -1,42 +1,50 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdEmail, MdLockReset } from "react-icons/md"; // Ícones
+import { list } from "../../data/api";
 
 export default function EsqueciSenha() {
   const [email, setEmail] = useState("");
   const [mensagem, setMensagem] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMensagem("");
 
-    // 1. Lógica de Solicitação de Reset (Apenas para demonstração)
-    console.log(`Solicitação de redefinição de senha para: ${email}`);
+    try {
+      // Carrega usuários do banco de dados
+      const usuarios = await list("usuarios");
 
-    // Em uma aplicação real, aqui você faria uma chamada de API
-    // para enviar um email com um token de redefinição.
-    
-    // Simulação de Sucesso
-    setMensagem("Se o e-mail estiver cadastrado, um link de redefinição foi enviado!");
-    setEmail(""); // Limpa o campo após o envio
+      // Verifica se o email existe
+      const usuarioEncontrado = usuarios.find((u) => u.email === email);
 
-    // Opcional: Redirecionar após um tempo ou manter na tela
-    /*
-    setTimeout(() => {
-        navigate("/");
-    }, 5000);
-    */
+      // Mensagem sempre igual para segurança (não revela se o email existe ou não)
+      setMensagem(
+        "Se o e-mail estiver cadastrado, um link de redefinição foi enviado!"
+      );
+      setEmail(""); // Limpa o campo após o envio
+
+      // Aqui você poderia integrar um serviço de email real
+      if (usuarioEncontrado) {
+        console.log(`Token de redefinição enviado para: ${email}`);
+      }
+    } catch (error) {
+      setMensagem("Erro ao processar solicitação. Tente novamente.");
+      console.error(error);
+    }
   };
 
   return (
     // Fundo gradiente escuro (igual ao Login)
-    <div className="min-h-screen flex items-center justify-center p-4"
-         style={{ background: 'radial-gradient(circle at 50% 50%, #0036cc, #000125)' }}>
-      
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        background: "radial-gradient(circle at 50% 50%, #0036cc, #000125)",
+      }}
+    >
       {/* Cartão de Recuperação de Senha */}
       <div className="bg-gray-800 shadow-2xl rounded-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row bg-opacity-90">
-
         {/* FORMULÁRIO (Lado Esquerdo) - Adaptado para Esqueci a Senha */}
         <div className="w-full md:w-1/2 p-10 bg-gray-900 rounded-l-2xl flex flex-col justify-center">
           <h2 className="text-2xl font-bold mb-4 text-center text-white tracking-wider">
@@ -47,7 +55,6 @@ export default function EsqueciSenha() {
           </p>
 
           <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-
             {/* Campo E-mail */}
             <div className="relative">
               <input
@@ -67,9 +74,13 @@ export default function EsqueciSenha() {
 
             {/* Mensagem de Erro/Sucesso */}
             {mensagem && (
-              <p className={`text-center font-medium text-sm ${
-                mensagem.includes("enviado") ? "text-green-400" : "text-red-400"
-              }`}>
+              <p
+                className={`text-center font-medium text-sm ${
+                  mensagem.includes("enviado")
+                    ? "text-green-400"
+                    : "text-red-400"
+                }`}
+              >
                 {mensagem}
               </p>
             )}
@@ -84,7 +95,7 @@ export default function EsqueciSenha() {
                 <span>Enviar Link de Redefinição</span>
               </div>
             </button>
-            
+
             {/* Link "Voltar ao Login" */}
             <button
               type="button"
@@ -98,7 +109,7 @@ export default function EsqueciSenha() {
 
         {/* IMAGEM (Lado Direito) - Mantido igual ao Login */}
         <div className="hidden md:block md:w-1/2 rounded-r-2xl overflow-hidden">
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-gray-800 via-white to-gray-900 p-8">
+          <div className="w-full h-full flex items-center justify-center bg-linear-to-b from-gray-800 via-white to-gray-900 p-8">
             <img
               src="/src/assets/icons/ps-sports-logo-color.svg"
               alt="Logo da Aplicação"
@@ -106,7 +117,6 @@ export default function EsqueciSenha() {
             />
           </div>
         </div>
-
       </div>
     </div>
   );

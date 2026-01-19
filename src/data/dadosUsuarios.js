@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'appUsuarios'; 
+const STORAGE_KEY = "appUsuarios";
 
 // Lista de usuários iniciais
 const USUARIOS_INICIAIS = [
@@ -6,13 +6,7 @@ const USUARIOS_INICIAIS = [
     nome: "Leandro Wilke",
     email: "admin@app.com",
     senha: "123",
-    tipoUsuario: "administrador"
-  },
-  {
-    nome: "Leonardo Rafael",
-    email: "treinador@teste.com",
-    senha: "123",
-    tipoUsuario: "treinador"
+    tipoUsuario: "administrador",
   },
 ];
 
@@ -23,12 +17,12 @@ const USUARIOS_INICIAIS = [
  */
 function carregarUsuarios() {
   const usuariosSalvos = localStorage.getItem(STORAGE_KEY);
-  
+
   if (usuariosSalvos) {
     return JSON.parse(usuariosSalvos);
   } else {
     // Inicializa e salva a lista padrão no localStorage
-    salvarUsuarios(USUARIOS_INICIAIS); 
+    salvarUsuarios(USUARIOS_INICIAIS);
     return USUARIOS_INICIAIS;
   }
 }
@@ -41,7 +35,4 @@ function salvarUsuarios(usuarios) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(usuarios));
 }
 
-export {
-  carregarUsuarios,
-  salvarUsuarios,
-};
+export { carregarUsuarios, salvarUsuarios };

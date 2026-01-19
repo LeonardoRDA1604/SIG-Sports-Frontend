@@ -18,16 +18,14 @@ import {
 import { Card } from "../components/Card";
 import { AcaoRapida } from "../components/AcaoRapida/index";
 import Layout from "../components/Navbar/Navbar";
-import ModalCadastroAtleta from "../modals/forms/ModalCadastroAtleta";
+import ModalCadastroAtleta from "../modals/forms/PlayerTemplateModal";
 import ModalCadastroResponsavel from "../modals/forms/ModalCadastroResponsavel";
 import ModalCadastroTreinador from "../modals/forms/ModalCadastroTreinador";
-import ModalCadastroTurma from "../modals/forms/ModalCadastroTurma";
-import ModalCadastroModalidade from "../modals/forms/ModalCadastroModalidade";
 import ModalCadastroCategoria from "../modals/forms/ModalCadastroCategoria";
 import ModalCadastroInteressado from "../modals/forms/ModalCadastroInteressado";
+import ModalCadastroTurma from "../modals/forms/ModalCadastroTurma";
+import ModalCadastroModalidade from "../modals/forms/ModalCadastroModalidade";
 import { create, list } from "../data/api";
-
-const API_BASE = "http://localhost:3001";
 
 // Hook para detectar tamanho da tela
 function useResponsive() {
@@ -54,57 +52,61 @@ function useResponsive() {
 
 export default function Dashboard() {
   const screenSize = useResponsive();
-  const [atletas, setAtletas] = useState([]);
-  const [responsaveis, setResponsaveis] = useState([]);
-  const [treinadores, setTreinadores] = useState([]);
-  const [turmas, setTurmas] = useState([]);
-  const [modalidades, setModalidades] = useState([]);
-  const [categorias, setCategorias] = useState([]);
-  const [interessados, setInteressados] = useState([]);
+  const [players, setPlayers] = useState([]);
+  const [guardians, setGuardians] = useState([]);
+  const [trainers, setTrainers] = useState([]);
+  const [schools, setSchools] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [leads, setLeads] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [modalities, setModalities] = useState([]);
 
   // Estados de abertura dos modais
   const [abrirCadastroAtleta, setAbrirCadastroAtleta] = useState(false);
   const [abrirCadastroResponsavel, setAbrirCadastroResponsavel] =
     useState(false);
   const [abrirCadastroTreinador, setAbrirCadastroTreinador] = useState(false);
-  const [abrirCadastroTurma, setAbrirCadastroTurma] = useState(false);
-  const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false);
   const [abrirCadastroCategoria, setAbrirCadastroCategoria] = useState(false);
   const [abrirCadastroInteressado, setAbrirCadastroInteressado] =
     useState(false);
+  const [abrirCadastroTurma, setAbrirCadastroTurma] = useState(false);
+  const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false);
 
   // Verificar se o usuário é administrador
   const usuarioAtual = JSON.parse(localStorage.getItem("usuario") || "{}");
-  const isAdmin = usuarioAtual.tipoUsuario === "administrador";
+  const isAdmin = usuarioAtual.role === "Administrador";
 
   // 🔵 Buscar dados de todas as coleções
   const carregarDados = async () => {
     try {
       const [
-        atlData,
-        respData,
-        treiData,
-        turmaData,
-        modData,
-        catData,
-        intData,
+        playersData,
+        guardiansData,
+        trainersData,
+        schoolsData,
+        categoriesData,
+        leadsData,
+        classesData,
+        modalitiesData,
       ] = await Promise.all([
-        list("atletas"),
-        list("responsaveis"),
-        list("treinadores"),
-        list("turmas"),
-        list("modalidades"),
-        list("categorias"),
-        list("interessados"),
+        list("players"),
+        list("guardians"),
+        list("trainers"),
+        list("schools"),
+        list("categories"),
+        list("leads"),
+        list("classes"),
+        list("modalities"),
       ]);
 
-      setAtletas(atlData);
-      setResponsaveis(respData);
-      setTreinadores(treiData);
-      setTurmas(turmaData);
-      setModalidades(modData);
-      setCategorias(catData);
-      setInteressados(intData);
+      setPlayers(playersData || []);
+      setGuardians(guardiansData || []);
+      setTrainers(trainersData || []);
+      setSchools(schoolsData || []);
+      setCategories(categoriesData || []);
+      setLeads(leadsData || []);
+      setClasses(classesData || []);
+      setModalities(modalitiesData || []);
     } catch (err) {
       console.error("Erro ao carregar dados:", err);
     }
@@ -117,7 +119,7 @@ export default function Dashboard() {
   // Funções de cadastro
   const handleSalvarAtleta = async (data) => {
     try {
-      await create("atletas", data);
+      await create("players", data);
       carregarDados();
     } catch (err) {
       console.error("Erro ao cadastrar atleta:", err);
@@ -126,7 +128,7 @@ export default function Dashboard() {
 
   const handleSalvarResponsavel = async (data) => {
     try {
-      await create("responsaveis", data);
+      await create("guardians", data);
       carregarDados();
     } catch (err) {
       console.error("Erro ao cadastrar responsável:", err);
@@ -135,34 +137,16 @@ export default function Dashboard() {
 
   const handleSalvarTreinador = async (data) => {
     try {
-      await create("treinadores", data);
+      await create("trainers", data);
       carregarDados();
     } catch (err) {
       console.error("Erro ao cadastrar treinador:", err);
     }
   };
 
-  const handleSalvarTurma = async (data) => {
-    try {
-      await create("turmas", data);
-      carregarDados();
-    } catch (err) {
-      console.error("Erro ao cadastrar turma:", err);
-    }
-  };
-
-  const handleSalvarModalidade = async (data) => {
-    try {
-      await create("modalidades", data);
-      carregarDados();
-    } catch (err) {
-      console.error("Erro ao cadastrar modalidade:", err);
-    }
-  };
-
   const handleSalvarCategoria = async (data) => {
     try {
-      await create("categorias", data);
+      await create("categories", data);
       carregarDados();
     } catch (err) {
       console.error("Erro ao cadastrar categoria:", err);
@@ -171,10 +155,28 @@ export default function Dashboard() {
 
   const handleSalvarInteressado = async (data) => {
     try {
-      await create("interessados", data);
+      await create("leads", data);
       carregarDados();
     } catch (err) {
       console.error("Erro ao cadastrar interessado:", err);
+    }
+  };
+
+  const handleSalvarTurma = async (data) => {
+    try {
+      await create("classes", data);
+      carregarDados();
+    } catch (err) {
+      console.error("Erro ao cadastrar turma:", err);
+    }
+  };
+
+  const handleSalvarModalidade = async (data) => {
+    try {
+      await create("modalities", data);
+      carregarDados();
+    } catch (err) {
+      console.error("Erro ao cadastrar modalidade:", err);
     }
   };
 
@@ -194,16 +196,6 @@ export default function Dashboard() {
     setAbrirCadastroTreinador(false);
   };
 
-  const abrirFechasTurma = (salvo) => {
-    if (salvo) handleSalvarTurma(salvo);
-    setAbrirCadastroTurma(false);
-  };
-
-  const abrirFechasModalidade = (salvo) => {
-    if (salvo) handleSalvarModalidade(salvo);
-    setAbrirCadastroModalidade(false);
-  };
-
   const abrirFechasCategoria = (salvo) => {
     if (salvo) handleSalvarCategoria(salvo);
     setAbrirCadastroCategoria(false);
@@ -214,10 +206,20 @@ export default function Dashboard() {
     setAbrirCadastroInteressado(false);
   };
 
+  const abrirFechasTurma = (salvo) => {
+    if (salvo) handleSalvarTurma(salvo);
+    setAbrirCadastroTurma(false);
+  };
+
+  const abrirFechasModalidade = (salvo) => {
+    if (salvo) handleSalvarModalidade(salvo);
+    setAbrirCadastroModalidade(false);
+  };
+
   return (
     <Layout title="Dashboard" subtitle="Visão geral do PS Sport’s">
       {/* MAIN */}
-      <main className="flex-1 transition-all duration-300 px-4 sm:px-6 md:px-8">
+      <main className="flex-1 transition-all duration-300 px-4 sm:px-6 md:px-8 pt-8 sm:pt-5 md:pt-5">
         <section className="cards">
           {/* AÇÕES RÁPIDAS */}
           <div className="acoes-rapidas mt-6 sm:mt-8 md:mt-10">
@@ -242,16 +244,6 @@ export default function Dashboard() {
                 disabled={!isAdmin}
               />
               <AcaoRapida
-                subTitle="Cadastrar Turma"
-                onClick={() => setAbrirCadastroTurma(true)}
-                disabled={!isAdmin}
-              />
-              <AcaoRapida
-                subTitle="Cadastrar Modalidade"
-                onClick={() => setAbrirCadastroModalidade(true)}
-                disabled={!isAdmin}
-              />
-              <AcaoRapida
                 subTitle="Cadastrar Categoria"
                 onClick={() => setAbrirCadastroCategoria(true)}
                 disabled={!isAdmin}
@@ -261,19 +253,30 @@ export default function Dashboard() {
                 onClick={() => setAbrirCadastroInteressado(true)}
                 disabled={!isAdmin}
               />
+              <AcaoRapida
+                subTitle="Cadastrar Turma"
+                onClick={() => setAbrirCadastroTurma(true)}
+                disabled={!isAdmin}
+              />
+              <AcaoRapida
+                subTitle="Cadastrar Modalidade"
+                onClick={() => setAbrirCadastroModalidade(true)}
+                disabled={!isAdmin}
+              />
             </div>
           </div>
 
           {/* CARDS DE ESTATÍSTICAS */}
           <div className="overflow-x-auto -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-2 sm:gap-3 md:gap-4 mb-6">
-              <Card title="Atletas" value={atletas.length} />
-              <Card title="Responsáveis" value={responsaveis.length} />
-              <Card title="Treinadores" value={treinadores.length} />
-              <Card title="Turmas" value={turmas.length} />
-              <Card title="Modalidades" value={modalidades.length} />
-              <Card title="Categorias" value={categorias.length} />
-              <Card title="Interessados" value={interessados.length} />
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-2 sm:gap-3 md:gap-4 mb-6">
+              <Card title="Atletas" value={players.length} />
+              <Card title="Responsáveis" value={guardians.length} />
+              <Card title="Treinadores" value={trainers.length} />
+              <Card title="Escolas" value={schools.length} />
+              <Card title="Categorias" value={categories.length} />
+              <Card title="Interessados" value={leads.length} />
+              <Card title="Turmas" value={classes.length} />
+              <Card title="Modalidades" value={modalities.length} />
             </div>
           </div>
 
@@ -289,19 +292,20 @@ export default function Dashboard() {
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart
                   data={[
-                    { name: "Atletas", value: atletas.length },
-                    { name: "Responsáveis", value: responsaveis.length },
-                    { name: "Treinadores", value: treinadores.length },
-                    { name: "Turmas", value: turmas.length },
-                    { name: "Modalidades", value: modalidades.length },
-                    { name: "Categorias", value: categorias.length },
-                    { name: "Interessados", value: interessados.length },
+                    { name: "Atletas", value: players.length },
+                    { name: "Guardians", value: guardians.length },
+                    { name: "Treinadores", value: trainers.length },
+                    { name: "Escolas", value: schools.length },
+                    { name: "Categorias", value: categories.length },
+                    { name: "Interessados", value: leads.length },
+                    { name: "Turmas", value: classes.length },
+                    { name: "Modalidades", value: modalities.length },
                   ]}
                   margin={{ top: 5, right: 10, left: 10, bottom: 60 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="name" 
+                  <XAxis
+                    dataKey="name"
                     angle={-45}
                     textAnchor="end"
                     height={80}
@@ -313,10 +317,11 @@ export default function Dashboard() {
                     <Cell fill="#003366" />
                     <Cell fill="#0066cc" />
                     <Cell fill="#0099ff" />
-                    <Cell fill="#00ccff" />
+                    <Cell fill="#00cc99" />
                     <Cell fill="#66ddff" />
                     <Cell fill="#99eeff" />
                     <Cell fill="#ff6b6b" />
+                    <Cell fill="#ffb3b3" />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
@@ -327,13 +332,14 @@ export default function Dashboard() {
                   data={[
                     {
                       name: "Dados",
-                      atletas: atletas.length,
-                      responsaveis: responsaveis.length,
-                      treinadores: treinadores.length,
-                      turmas: turmas.length,
-                      modalidades: modalidades.length,
-                      categorias: categorias.length,
-                      interessados: interessados.length,
+                      players: players.length,
+                      guardians: guardians.length,
+                      trainers: trainers.length,
+                      schools: schools.length,
+                      categories: categories.length,
+                      leads: leads.length,
+                      classes: classes.length,
+                      modalities: modalities.length,
                     },
                   ]}
                   margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
@@ -345,44 +351,50 @@ export default function Dashboard() {
                   <Legend />
                   <Line
                     type="monotone"
-                    dataKey="atletas"
+                    dataKey="players"
                     stroke="#003366"
                     strokeWidth={2}
                   />
                   <Line
                     type="monotone"
-                    dataKey="responsaveis"
+                    dataKey="guardians"
                     stroke="#0066cc"
                     strokeWidth={2}
                   />
                   <Line
                     type="monotone"
-                    dataKey="treinadores"
+                    dataKey="trainers"
                     stroke="#0099ff"
                     strokeWidth={2}
                   />
                   <Line
                     type="monotone"
-                    dataKey="turmas"
-                    stroke="#66ccff"
+                    dataKey="schools"
+                    stroke="#00cc99"
                     strokeWidth={2}
                   />
                   <Line
                     type="monotone"
-                    dataKey="modalidades"
-                    stroke="#99ddff"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="categorias"
+                    dataKey="categories"
                     stroke="#ccecff"
                     strokeWidth={2}
                   />
                   <Line
                     type="monotone"
-                    dataKey="interessados"
+                    dataKey="leads"
                     stroke="#ff6b6b"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="classes"
+                    stroke="#ffb3b3"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="modalities"
+                    stroke="#ffd9d9"
                     strokeWidth={2}
                   />
                 </LineChart>
@@ -393,13 +405,14 @@ export default function Dashboard() {
                 <PieChart>
                   <Pie
                     data={[
-                      { name: "Atletas", value: atletas.length },
-                      { name: "Responsáveis", value: responsaveis.length },
-                      { name: "Treinadores", value: treinadores.length },
-                      { name: "Turmas", value: turmas.length },
-                      { name: "Modalidades", value: modalidades.length },
-                      { name: "Categorias", value: categorias.length },
-                      { name: "Interessados", value: interessados.length },
+                      { name: "Players", value: players.length },
+                      { name: "Guardians", value: guardians.length },
+                      { name: "Trainers", value: trainers.length },
+                      { name: "Schools", value: schools.length },
+                      { name: "Categories", value: categories.length },
+                      { name: "Leads", value: leads.length },
+                      { name: "Classes", value: classes.length },
+                      { name: "Modalities", value: modalities.length },
                     ]}
                     cx="50%"
                     cy="50%"
@@ -411,10 +424,11 @@ export default function Dashboard() {
                     <Cell fill="#003366" />
                     <Cell fill="#0066cc" />
                     <Cell fill="#0099ff" />
-                    <Cell fill="#66ccff" />
-                    <Cell fill="#99ddff" />
-                    <Cell fill="#ccecff" />
+                    <Cell fill="#00cc99" />
+                    <Cell fill="#99eeff" />
                     <Cell fill="#ff6b6b" />
+                    <Cell fill="#ffb3b3" />
+                    <Cell fill="#ffd9d9" />
                   </Pie>
                   <Tooltip formatter={(value) => `${value} itens`} />
                   <Legend />
@@ -440,16 +454,6 @@ export default function Dashboard() {
         onClose={() => setAbrirCadastroTreinador(false)}
         onSave={handleSalvarTreinador}
       />
-      <ModalCadastroTurma
-        aberto={abrirCadastroTurma}
-        onClose={() => setAbrirCadastroTurma(false)}
-        onSave={handleSalvarTurma}
-      />
-      <ModalCadastroModalidade
-        aberto={abrirCadastroModalidade}
-        onClose={() => setAbrirCadastroModalidade(false)}
-        onSave={handleSalvarModalidade}
-      />
       <ModalCadastroCategoria
         aberto={abrirCadastroCategoria}
         onClose={() => setAbrirCadastroCategoria(false)}
@@ -459,6 +463,16 @@ export default function Dashboard() {
         aberto={abrirCadastroInteressado}
         onClose={() => setAbrirCadastroInteressado(false)}
         onSave={handleSalvarInteressado}
+      />
+      <ModalCadastroTurma
+        aberto={abrirCadastroTurma}
+        onClose={abrirFechasTurma}
+        onSave={abrirFechasTurma}
+      />
+      <ModalCadastroModalidade
+        aberto={abrirCadastroModalidade}
+        onClose={abrirFechasModalidade}
+        onSave={abrirFechasModalidade}
       />
     </Layout>
   );

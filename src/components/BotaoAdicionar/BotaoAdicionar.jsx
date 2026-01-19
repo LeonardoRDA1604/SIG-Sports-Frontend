@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { MdAdd } from "react-icons/md";
 import { IoLockClosed } from "react-icons/io5";
 import { temAcessoBloqueado } from "../../utils/permissoes";
 
-import ModalCadastroAtleta from "../../modals/forms/ModalCadastroAtleta";
+import ModalCadastroAtleta from "../../modals/forms/PlayerTemplateModal";
 import ModalCadastroResponsavel from "../../modals/forms/ModalCadastroResponsavel";
 import ModalCadastroTurma from "../../modals/forms/ModalCadastroTurma";
 import ModalCadastroCategoria from "../../modals/forms/ModalCadastroCategoria";
@@ -11,7 +11,12 @@ import ModalCadastroModalidade from "../../modals/forms/ModalCadastroModalidade"
 import ModalCadastroTreinador from "../../modals/forms/ModalCadastroTreinador";
 import ModalCadastroInteressado from "../../modals/forms/ModalCadastroInteressado";
 
-export default function BotaoAdicionar({ aba, label, onCreated, turmasGlobais = [], categoriasGlobais = [], treinadoresGlobais = []}) {
+export default function BotaoAdicionar({
+  aba,
+  label,
+  onCreated,
+  modalidades = [],
+}) {
   // Estados para cada popup de novo cadastro (a partir do botão "Adicionar ...")
   const [abrirCadastroAtleta, setAbrirCadastroAtleta] = useState(false); // Adicionar Atleta
   const [abrirCadastroResponsavel, setAbrirCadastroResponsavel] =
@@ -26,25 +31,25 @@ export default function BotaoAdicionar({ aba, label, onCreated, turmasGlobais = 
   // Função para identificar a aba ativa para o botão "Adicionar ..." acessar o popup respectivo
   function abrirCadastro() {
     switch (aba) {
-      case "atletas":
+      case "players":
         setAbrirCadastroAtleta(true);
         break;
-      case "responsaveis":
+      case "guardians":
         setAbrirCadastroResponsavel(true);
         break;
-      case "turmas":
+      case "classes":
         setAbrirCadastroTurma(true);
         break;
-      case "categorias":
+      case "categories":
         setAbrirCadastroCategoria(true);
         break;
-      case "modalidades":
+      case "modalities":
         setAbrirCadastroModalidade(true);
         break;
-      case "treinadores":
+      case "trainers":
         setAbrirCadastroTreinador(true);
         break;
-      case "interessados":
+      case "leads":
         setAbrirCadastroInteressado(true);
         break;
       default:
@@ -67,46 +72,40 @@ export default function BotaoAdicionar({ aba, label, onCreated, turmasGlobais = 
         {temAcessoBloqueado() ? (
           <IoLockClosed className="text-3xl" />
         ) : (
-          <IoIosAddCircleOutline className="text-3xl" />
+          <MdAdd className="text-3xl" />
         )}
-        <span className="text-sm sm:text-base">Adicionar {label}</span>
+        <span className="text-xs sm:text-sm">Adicionar {label}</span>
       </button>
 
       <ModalCadastroAtleta
         aberto={abrirCadastroAtleta}
         onClose={() => setAbrirCadastroAtleta(false)}
         onSave={(data) => {
-          onCreated?.("atletas", data);
+          onCreated?.("players", data);
         }}
-        turmasGlobais={turmasGlobais}
-    		categoriasGlobais={categoriasGlobais}
       />
 
       <ModalCadastroResponsavel
         aberto={abrirCadastroResponsavel}
         onClose={() => setAbrirCadastroResponsavel(false)}
         onSave={(data) => {
-          onCreated?.("responsaveis", data);
+          onCreated?.("guardians", data);
         }}
-        categoriasGlobais={categoriasGlobais}
-        turmasGlobais={turmasGlobais}
       />
 
       <ModalCadastroTurma
         aberto={abrirCadastroTurma}
         onClose={() => setAbrirCadastroTurma(false)}
         onSave={(data) => {
-          onCreated?.("turmas", data);
+          onCreated?.("classes", data);
         }}
-        treinadoresGlobais={treinadoresGlobais}
-        categoriasGlobais={categoriasGlobais}
       />
 
       <ModalCadastroCategoria
         aberto={abrirCadastroCategoria}
         onClose={() => setAbrirCadastroCategoria(false)}
         onSave={(data) => {
-          onCreated?.("categorias", data);
+          onCreated?.("categories", data);
         }}
       />
 
@@ -114,7 +113,7 @@ export default function BotaoAdicionar({ aba, label, onCreated, turmasGlobais = 
         aberto={abrirCadastroModalidade}
         onClose={() => setAbrirCadastroModalidade(false)}
         onSave={(data) => {
-          onCreated?.("modalidades", data);
+          onCreated?.("modalities", data);
         }}
       />
 
@@ -122,7 +121,7 @@ export default function BotaoAdicionar({ aba, label, onCreated, turmasGlobais = 
         aberto={abrirCadastroTreinador}
         onClose={() => setAbrirCadastroTreinador(false)}
         onSave={(data) => {
-          onCreated?.("treinadores", data);
+          onCreated?.("trainers", data);
         }}
       />
 
@@ -130,8 +129,9 @@ export default function BotaoAdicionar({ aba, label, onCreated, turmasGlobais = 
         aberto={abrirCadastroInteressado}
         onClose={() => setAbrirCadastroInteressado(false)}
         onSave={(data) => {
-          onCreated?.("interessados", data);
+          onCreated?.("leads", data);
         }}
+        modalidades={modalidades}
       />
     </>
   );

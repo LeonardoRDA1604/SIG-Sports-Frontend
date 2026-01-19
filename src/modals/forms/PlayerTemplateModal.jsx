@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { list } from "../../data/api";
 import { createPortal } from "react-dom";
 import { IoClose } from "react-icons/io5";
 
@@ -40,6 +41,28 @@ export default function ModalCadastroAtleta({
   onClose,
   atleta,
 }) {
+  const [formData, setFormData] = useState(formDataAtleta || {});
+  const [categorias, setCategorias] = useState([]);
+  const [modalidades, setModalidades] = useState([]);
+  const [turmas, setTurmas] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+  // Buscar dados do backend ao abrir modal
+  useEffect(() => {
+    if (aberto) {
+      list("categories")
+        .then(setCategorias)
+        .catch(() => setCategorias([]));
+      list("modalities")
+        .then(setModalidades)
+        .catch(() => setModalidades([]));
+      list("classes")
+        .then(setTurmas)
+        .catch(() => setTurmas([]));
+      list("users")
+        .then(setUsuarios)
+        .catch(() => setUsuarios([]));
+    }
+  }, [aberto]);
   const [step, setStep] = useState(0);
   const [isDirty, setIsDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,6 +82,7 @@ export default function ModalCadastroAtleta({
       setStep(0);
       setIsDirty(false);
       setIsLoading(false);
+      setFormData(formDataAtleta || {});
     }
   }, [aberto]);
 
@@ -67,7 +91,7 @@ export default function ModalCadastroAtleta({
     if (aberto) {
       setIsDirty(true);
     }
-  }, [formDataAtleta, aberto]);
+  }, [formData, aberto]);
 
   // Prevenção de fechamento acidental ao clicar fora
   function handleOverlayClick(e) {
@@ -174,29 +198,35 @@ export default function ModalCadastroAtleta({
   function handleChange(e) {
     const { name, value } = e.target;
     let newValue = value;
-    if (name === "name" || name === "respNome") {
-      newValue = onlyLetters(value);
+    switch (name) {
+      case "name":
+      case "respNome":
+        newValue = onlyLetters(value);
+        break;
+      case "cpf":
+      case "respCpf":
+        newValue = formatCPF(value);
+        break;
+      case "cep":
+        newValue = formatCEP(value);
+        break;
+      case "respTelefone":
+        newValue = formatPhone(value);
+        break;
+      case "rg":
+        newValue = value
+          .replace(/\D/g, "")
+          .replace(/(\d{2})(\d)/, "$1.$2")
+          .replace(/(\d{3})(\d)/, "$1.$2")
+          .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+          .slice(0, 12); // Ex: 12.345.678-9
+        break;
+      default:
+        break;
     }
-    if (name === "cpf" || name === "respCpf") {
-      newValue = formatCPF(value);
-    }
-    if (name === "rg") {
-      newValue = value
-        .replace(/\D/g, "")
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d{1})$/, "$1.$2")
-        .slice(0, 9);
-    }
-    if (name === "respTelefone") {
-      newValue = formatPhone(value);
-    }
-    if (name === "cep") {
-      newValue = formatCEP(value);
-    }
-    onChange({
-      ...formDataAtleta,
-      [name]: newValue,
-    });
+    const updated = { ...formData, [name]: newValue };
+    setFormData(updated);
+    if (onChange) onChange(updated);
   }
 
   // Navegação bloqueada se etapa não válida
@@ -262,7 +292,12 @@ export default function ModalCadastroAtleta({
                 setStep(step + 1);
               } else {
                 setIsLoading(true);
-                await onSave(formDataAtleta);
+                // Corrige user_id para string ou vazio
+                const dataToSend = {
+                  ...formData,
+                  user_id: formData.user_id ? Number(formData.user_id) : null,
+                };
+                await onSave(dataToSend);
                 setIsLoading(false);
               }
             }}
@@ -283,7 +318,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="name"
-                      value={formDataAtleta.name}
+                      value={formData.name || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Nome completo"
@@ -298,8 +333,8 @@ export default function ModalCadastroAtleta({
                     <input
                       type="email"
                       name="email"
-                      value={formDataAtleta.email}
-                      onChange={onChange}
+                      value={formData.email || ""}
+                      onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="nome@exemplo.com"
                     />
@@ -312,7 +347,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="cpf"
-                      value={formDataAtleta.cpf}
+                      value={formData.cpf || ""}
                       onChange={handleChange}
                       maxLength="14"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
@@ -328,7 +363,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="rg"
-                      value={formDataAtleta.rg}
+                      value={formData.rg || ""}
                       onChange={handleChange}
                       maxLength="9"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
@@ -343,7 +378,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="date"
                       name="nascimento"
-                      value={formDataAtleta.nascimento}
+                      value={formData.nascimento || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm bg-white"
                     />
@@ -357,7 +392,7 @@ export default function ModalCadastroAtleta({
                       type="number"
                       name="age"
                       value={
-                        formDataAtleta.nascimento
+                        formData.nascimento
                           ? Math.floor(
                               (new Date() -
                                 new Date(formDataAtleta.nascimento)) /
@@ -384,57 +419,96 @@ export default function ModalCadastroAtleta({
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Categoria
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="category"
-                      value={formDataAtleta.category}
+                      value={formData.category || ""}
                       onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="Categoria"
-                    />
+                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer"
+                    >
+                      <option value="">Selecione</option>
+                      {categorias.map((cat) => (
+                        <option
+                          key={cat.id || cat._id || cat.value || cat.nome}
+                          value={cat.id || cat._id || cat.value || cat.nome}
+                        >
+                          {cat.nome || cat.name || cat.value}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   {/* Modalidade */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Modalidade
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="modalidade"
-                      value={formDataAtleta.modalidade}
+                      value={formData.modalidade || ""}
                       onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="Modalidade"
-                    />
-                  </div>
-                  {/* Escola */}
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
-                      Escola
-                    </label>
-                    <input
-                      type="text"
-                      name="escola"
-                      value={formDataAtleta.escola}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="Escola"
-                    />
+                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer"
+                    >
+                      <option value="">Selecione</option>
+                      {modalidades.map((mod) => (
+                        <option
+                          key={mod.id || mod._id || mod.value || mod.nome}
+                          value={mod.id || mod._id || mod.value || mod.nome}
+                        >
+                          {mod.nome || mod.name || mod.value}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   {/* Turma */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Turma
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="classes"
-                      value={formDataAtleta.classes}
+                      value={formData.classes || ""}
                       onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="Turma"
-                    />
+                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer"
+                    >
+                      <option value="">Selecione</option>
+                      {turmas.map((turma) => (
+                        <option
+                          key={
+                            turma.id || turma._id || turma.value || turma.nome
+                          }
+                          value={
+                            turma.id || turma._id || turma.value || turma.nome
+                          }
+                        >
+                          {turma.nome || turma.name || turma.value}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+                  {/* Usuário Responsável */}
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
+                      Usuário Responsável
+                    </label>
+                    <select
+                      name="user_id"
+                      value={formData.user_id || ""}
+                      onChange={(e) => {
+                        // Sempre salva o id do usuário
+                        setFormData({ ...formData, user_id: e.target.value });
+                        if (onChange)
+                          onChange({ ...formData, user_id: e.target.value });
+                      }}
+                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer"
+                    >
+                      <option value="">Selecione</option>
+                      {usuarios.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.nome || user.name || user.email}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   {/* Peso */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
@@ -443,7 +517,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="number"
                       name="weigth"
-                      value={formDataAtleta.weigth}
+                      value={formData.weigth || ""}
                       onChange={handleChange}
                       step="0.01"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
@@ -458,7 +532,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="number"
                       name="heigth"
-                      value={formDataAtleta.heigth}
+                      value={formData.heigth || ""}
                       onChange={handleChange}
                       step="0.01"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
@@ -470,28 +544,70 @@ export default function ModalCadastroAtleta({
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Posição Primária
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="primary_position"
-                      value={formDataAtleta.primary_position || ""}
+                      value={
+                        typeof formData.primary_position === "string"
+                          ? formData.primary_position
+                          : formData.primary_position
+                            ? String(formData.primary_position)
+                            : ""
+                      }
                       onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="Ex: Atacante"
-                    />
+                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer"
+                    >
+                      <option value="">Selecione</option>
+                      <option value="Goleiro">Goleiro</option>
+                      <option value="Zagueiro">Zagueiro</option>
+                      <option value="Lateral Direito">Lateral Direito</option>
+                      <option value="Lateral Esquerdo">Lateral Esquerdo</option>
+                      <option value="Volante">Volante</option>
+                      <option value="Meio-campista">Meio-campista</option>
+                      <option value="Meia Ofensivo">Meia Ofensivo</option>
+                      <option value="Meia Defensivo">Meia Defensivo</option>
+                      <option value="Ponta Direita">Ponta Direita</option>
+                      <option value="Ponta Esquerda">Ponta Esquerda</option>
+                      <option value="Atacante">Atacante</option>
+                      <option value="Centroavante">Centroavante</option>
+                      <option value="Segundo Atacante">Segundo Atacante</option>
+                      <option value="Ala Direito">Ala Direito</option>
+                      <option value="Ala Esquerdo">Ala Esquerdo</option>
+                    </select>
                   </div>
                   {/* Posição Secundária */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Posição Secundária
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="second_position"
-                      value={formDataAtleta.second_position || ""}
+                      value={
+                        typeof formData.second_position === "string"
+                          ? formData.second_position
+                          : formData.second_position
+                            ? String(formData.second_position)
+                            : ""
+                      }
                       onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="Ex: Zagueiro"
-                    />
+                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer"
+                    >
+                      <option value="">Selecione</option>
+                      <option value="Goleiro">Goleiro</option>
+                      <option value="Zagueiro">Zagueiro</option>
+                      <option value="Lateral Direito">Lateral Direito</option>
+                      <option value="Lateral Esquerdo">Lateral Esquerdo</option>
+                      <option value="Volante">Volante</option>
+                      <option value="Meio-campista">Meio-campista</option>
+                      <option value="Meia Ofensivo">Meia Ofensivo</option>
+                      <option value="Meia Defensivo">Meia Defensivo</option>
+                      <option value="Ponta Direita">Ponta Direita</option>
+                      <option value="Ponta Esquerda">Ponta Esquerda</option>
+                      <option value="Atacante">Atacante</option>
+                      <option value="Centroavante">Centroavante</option>
+                      <option value="Segundo Atacante">Segundo Atacante</option>
+                      <option value="Ala Direito">Ala Direito</option>
+                      <option value="Ala Esquerdo">Ala Esquerdo</option>
+                    </select>
                   </div>
                   {/* Pé Dominante */}
                   <div>
@@ -500,7 +616,7 @@ export default function ModalCadastroAtleta({
                     </label>
                     <select
                       name="dominant_foot"
-                      value={formDataAtleta.dominant_foot || ""}
+                      value={formData.dominant_foot || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer"
                     >
@@ -517,7 +633,7 @@ export default function ModalCadastroAtleta({
                     </label>
                     <select
                       name="sport_status"
-                      value={formDataAtleta.sport_status || ""}
+                      value={formData.sport_status || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none text-sm cursor-pointer"
                     >
@@ -526,34 +642,6 @@ export default function ModalCadastroAtleta({
                       <option value="Inativo">Inativo</option>
                       <option value="Afastado">Afastado</option>
                     </select>
-                  </div>
-                  {/* Usuário Responsável */}
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
-                      Usuário Responsável
-                    </label>
-                    <input
-                      type="number"
-                      name="user_id"
-                      value={formDataAtleta.user_id || ""}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="ID do usuário"
-                    />
-                  </div>
-                  {/* Escola (ID) */}
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
-                      ID da Escola
-                    </label>
-                    <input
-                      type="number"
-                      name="school_id"
-                      value={formDataAtleta.school_id || ""}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="ID da escola"
-                    />
                   </div>
                 </div>
               </div>
@@ -564,19 +652,55 @@ export default function ModalCadastroAtleta({
                   Endereço
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* CEP */}
+                  {/* CEP com busca automática */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       CEP
                     </label>
-                    <input
-                      type="text"
-                      name="cep"
-                      value={formDataAtleta.cep}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="CEP"
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        name="cep"
+                        value={formData.cep || ""}
+                        onChange={handleChange}
+                        className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
+                        placeholder="CEP"
+                        maxLength={9}
+                      />
+                      <button
+                        type="button"
+                        className="px-3 py-2 bg-primary-700 text-white rounded-xl hover:bg-primary-800 transition-colors text-xs font-semibold"
+                        onClick={async () => {
+                          const cep = (formData.cep || "").replace(/\D/g, "");
+                          if (cep.length !== 8) {
+                            alert("CEP inválido");
+                            return;
+                          }
+                          try {
+                            const res = await fetch(
+                              `https://viacep.com.br/ws/${cep}/json/`,
+                            );
+                            const data = await res.json();
+                            if (data.erro) {
+                              alert("CEP não encontrado");
+                              return;
+                            }
+                            setFormData((prev) => ({
+                              ...prev,
+                              bairro: data.bairro || "",
+                              cidade: data.localidade || "",
+                              uf: data.uf || "",
+                              logradouro: data.logradouro || "",
+                              complemento: data.complemento || "",
+                            }));
+                          } catch {
+                            alert("Erro ao buscar CEP");
+                          }
+                        }}
+                      >
+                        Buscar
+                      </button>
+                    </div>
                   </div>
                   {/* Bairro */}
                   <div>
@@ -586,7 +710,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="bairro"
-                      value={formDataAtleta.bairro}
+                      value={formData.bairro || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Bairro"
@@ -600,7 +724,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="cidade"
-                      value={formDataAtleta.cidade}
+                      value={formData.cidade || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Cidade"
@@ -614,7 +738,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="uf"
-                      value={formDataAtleta.uf}
+                      value={formData.uf || ""}
                       onChange={handleChange}
                       maxLength="2"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
@@ -629,7 +753,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="logradouro"
-                      value={formDataAtleta.logradouro}
+                      value={formData.logradouro || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Logradouro"
@@ -643,7 +767,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="complemento"
-                      value={formDataAtleta.complemento}
+                      value={formData.complemento || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Complemento"
@@ -666,7 +790,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="respNome"
-                      value={formDataAtleta.respNome}
+                      value={formData.respNome || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Nome do responsável"
@@ -680,7 +804,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="respParentesco"
-                      value={formDataAtleta.respParentesco}
+                      value={formData.respParentesco || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Parentesco"
@@ -694,7 +818,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="respCpf"
-                      value={formDataAtleta.respCpf}
+                      value={formData.respCpf || ""}
                       onChange={handleChange}
                       maxLength="14"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
@@ -709,7 +833,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="tel"
                       name="respTelefone"
-                      value={formDataAtleta.respTelefone}
+                      value={formData.respTelefone || ""}
                       onChange={handleChange}
                       maxLength="15"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
@@ -724,7 +848,7 @@ export default function ModalCadastroAtleta({
                     <input
                       type="email"
                       name="respEmail"
-                      value={formDataAtleta.respEmail}
+                      value={formData.respEmail || ""}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="email@exemplo.com"
@@ -746,8 +870,8 @@ export default function ModalCadastroAtleta({
                     </label>
                     <textarea
                       name="observacoes"
-                      value={formDataAtleta.observacoes || ""}
-                      onChange={onChange}
+                      value={formData.observacoes || ""}
+                      onChange={handleChange}
                       rows={2}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Observações gerais"
@@ -760,8 +884,8 @@ export default function ModalCadastroAtleta({
                     </label>
                     <textarea
                       name="notes"
-                      value={formDataAtleta.notes || ""}
-                      onChange={onChange}
+                      value={formData.notes || ""}
+                      onChange={handleChange}
                       rows={2}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Notas adicionais"
@@ -788,22 +912,13 @@ export default function ModalCadastroAtleta({
                   Voltar
                 </button>
               )}
-              <button
-                type={step === steps.length - 1 ? "submit" : "button"}
-                onClick={
-                  step === steps.length - 1
-                    ? undefined
-                    : () => setStep(step + 1)
-                }
-                className={`w-full sm:w-auto px-6 py-2.5 ${
-                  step === steps.length - 1
-                    ? "bg-primary-900 text-white"
-                    : "bg-primary-700 text-white"
-                } font-medium rounded-lg hover:bg-primary-800 transition-colors shadow-sm flex items-center justify-center`}
-                disabled={isLoading}
-              >
-                {step === steps.length - 1 ? (
-                  isLoading ? (
+              {step === steps.length - 1 ? (
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-primary-900 text-white font-medium rounded-lg hover:bg-primary-800 transition-colors shadow-sm flex items-center justify-center"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
                     <span className="flex items-center gap-2">
                       <svg
                         className="animate-spin h-5 w-5 text-white"
@@ -829,11 +944,20 @@ export default function ModalCadastroAtleta({
                     </span>
                   ) : (
                     "Salvar"
-                  )
-                ) : (
-                  "Próximo"
-                )}
-              </button>
+                  )}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setStep(step + 1);
+                  }}
+                  className="w-full sm:w-auto px-6 py-2.5 bg-primary-700 text-white font-medium rounded-lg hover:bg-primary-800 transition-colors shadow-sm flex items-center justify-center"
+                >
+                  Próximo
+                </button>
+              )}
             </div>
           </form>
         </div>
