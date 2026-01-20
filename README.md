@@ -27,7 +27,6 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 - [10. Equipe e Contribuições](#-equipe-e-contribuições)
     - [10.1. Contribuições dos Integrantes no Projeto](#-contribuições-dos-integrantes-no-projeto)
     - [10.2. Contribuições de Colaboradores Externos no Projeto](#-contribuições-de-colaboradores-externos-no-projeto)
-<!-- - [Como baixar e utilizar o sistema](#️-como-baixar-e-utilizar-o-sistema) -->
 - [11. Dependências Necessárias](#-dependências-necessárias)
     - [11.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
         - [11.1.1. Scripts Disponíveis](#️-scripts-disponíveis)
@@ -38,6 +37,7 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
     - [14.2. Objetivo do versionamento](#-objetivo-do-versionamento)
 - [15. Colaboração](#-colaboração)
 - [16. Licença](#-licença)
+<!-- - [Como baixar e utilizar o sistema](#️-como-baixar-e-utilizar-o-sistema) -->
 
 ---
 
@@ -154,36 +154,37 @@ src/
 
 ## 👥 Equipe e Contribuições: 
 ### 👩🏽‍💻 Contribuições dos Integrantes no Projeto:
-
 <table>
 <!-- Cabeçalho -->
   <thead>
     <tr>
-      <!-- <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 40px;">Nome</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 12px;">Contribuições</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 20px;">Papel</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 16px;">Equipe</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 12px;">LinkedIn</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 12px;">GitHub</th> -->
       <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 20px;">Nome</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 50px;">Contribuições</th>
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 250px;">Contribuições</th>
       <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 20px;">Papel</th>
       <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 16px;">Equipe</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 2px;">LinkedIn</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 2px;">GitHub</th>
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 50px;">LinkedIn & Github</th>
+      <!-- <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 2px;">GitHub</th> -->
     </tr>
   </thead>
 <!-- Corpo (Items da tabela) -->
   <tbody>
     <!-- Contribuidor 1 (Leonardo Rafael) -->
-    <!-- Definição e priorização do Product Backlog; Tradução das necessidades do negócio em requisitos; Validação das entregas junto aos stakeholders; Configuração do ambiente de desenvolvimento; Padronização de scripts e dependências do projeto; Apoio ao processo de build e execução; Organização de variáveis de ambiente e versionamento; Documentação técnica e funcional; Especificação e padronização dos requisitos funcionais; Planejamento das atividades; Acompanhamento do cronograma; Comunicação entre os membros da equipe; Preparação dos slides; Organização da apresentação do projeto; Comunicação do progresso do time; Apoio técnico aos desenvolvedores; Gestão do Projeto; Design e Protótipo no Figma; Elaboração do Readme; Revisão técnica e Controle de qualidade geral; Testes unitários; Testes de integração; Remoção de impedimentos do time; Garantia da aplicação das práticas do Scrum; Organização do fluxo de trabalho; Condução das cerimônias do Scrum; Desenvolvimento do pitch e slides; Apresentação do Pitch; Roteiro do vídeo de demonstração do projeto, Comunicação e Integração com o Backend desenvolvido por outra equipe. -->
     <tr>
       <td>Leonardo Rafael</td>
       <td>Responsabilidades de Scrum Master; Responsabilidades de Product Owner; Responsabilidades de DevOps e QA; Apoio técnico aos desenvolvedores; Design de interfaces e elaboração do Protótipo no Figma; Elaboração do Readme; Revisão técnica e Controle de qualidade geral; Desenvolvimento do Pitch e Slides; Apresentação do Pitch; Roteiro do vídeo de demonstração do projeto; Comunicação e Integração com o Backend desenvolvido por outra equipe; Desenvolvimento da Logotipo.</td>
       <td>Scrum Master; DevOps; QA; Product Owner</td>
       <td>DevOps & QA; Docs; Development; Design; Communication</td>
-      <td><a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank" rel="noopener noreferrer">/leonardorafael1604</a></td>
-      <td><a href="https://github.com/LeonardoRDA1604" target="_blank" rel="noopener noreferrer">/LeonardoRDA1604</a></td>
+      <td>
+        <a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+          /leonardorafael1604
+        </a>
+          <br>
+        <a href="https://github.com/LeonardoRDA1604" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+          /LeonardoRDA1604
+        </a>
+      </td>
     </tr>
     <!-- Contribuidor 2 (Leandro Wilke) -->
     <tr>
@@ -191,8 +192,17 @@ src/
       <td>Responsabilidades de Tech Leader; Revisão técnica; Comunicação e Integração com o Backend desenvolvido por outra equipe; Correção de inconsistências no Backend; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Suporte ao desenvolvimento da Logotipo</td>
       <td>Tech Leader and DevOps</td>
       <td>Development; DevOps & QA; Communication</td>
-      <td><a href="https://www.linkedin.com/in/leandro-wilke/" target="_blank" rel="noopener noreferrer">/leandro-wilke</a></td>
-      <td><a href="https://github.com/LeandroWilkeDev" target="_blank" rel="noopener noreferrer">/LeandroWilkeDev</a></td>
+      <td>
+        <a href="https://www.linkedin.com/in/leandro-wilke/" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+            /leandro-wilke
+        </a>
+          <br>
+        <a href="https://github.com/LeandroWilkeDev" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+            /LeandroWilkeDev
+        </a>
+      </td>
     </tr>
     <!-- Contribuidor 3 (Guilherme Henrique) -->
     <tr>
@@ -200,8 +210,17 @@ src/
       <td>Design de interfaces e elaboração do Protótipo no Figma; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Integração com o Backend desenvolvido por outra equipe; Suporte ao desenvolvimento da Logotipo</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
-      <td><a href="https://www.linkedin.com/in/guilhermechroma/" target="_blank" rel="noopener noreferrer">/guilhermechroma</a></td>
-      <td><a href="https://github.com/guilhermechroma" target="_blank" rel="noopener noreferrer">/guilhermechroma</a></td>
+      <td>
+        <a href="https://www.linkedin.com/in/guilhermechroma/" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+            /guilhermechroma
+        </a>
+          <br>
+        <a href="https://github.com/guilhermechroma" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+            /guilhermechroma
+        </a>
+      </td>
     </tr>
     <!-- Contribuidor 4 (Mateus Soares) -->
     <tr>
@@ -209,8 +228,17 @@ src/
       <td>Design de interfaces e elaboração do Protótipo no Figma; Desenvolvimento do Pitch e Slides; Desenvolvimento Frontend; Construção do Google Sites do Projeto; Suporte ao desenvolvimento da Logotipo</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
-      <td><a href="https://www.linkedin.com/in/mateeussoares/" target="_blank" rel="noopener noreferrer">/mateeussoares</a></td>
-      <td><a href="https://github.com/mateeussoares" target="_blank" rel="noopener noreferrer">/mateeussoares</a></td>
+      <td>
+        <a href="https://www.linkedin.com/in/mateeussoares/" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+            /mateeussoares
+        </a>
+          <br>
+        <a href="https://github.com/mateeussoares" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+            /mateeussoares
+        </a>
+      </td>
     </tr>
     <!-- Contribuidor 5 (Luana Vitorino) -->
     <tr>
@@ -218,8 +246,17 @@ src/
       <td>Elaboração da documentação do projeto; Desenvolvimento Frontend; Construção do Backlog no Jira</td>
       <td>Scrum Team</td>
       <td>Docs; Development</td>
-      <td><a href="https://www.linkedin.com/in/luana-de-melo-527415352/" target="_blank" rel="noopener noreferrer">/luana-de-melo</a></td>
-      <td><a href="https://github.com/luanavitorino" target="_blank" rel="noopener noreferrer">/luanavitorino</a></td>
+      <td>
+        <a href="https://www.linkedin.com/in/luana-de-melo-527415352/" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+            /luana-de-melo
+        </a>
+          <br>
+        <a href="https://github.com/luanavitorino" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+            /luanavitorino
+        </a>
+      </td>
     </tr>
     <!-- Contribuidor 6 (Gabriel Josimar) -->
     <tr>
@@ -227,8 +264,17 @@ src/
       <td>Elaboração da documentação do projeto; Suporte ao desenvolvimento da Logotipo; Desenvolvimento de Slides do Pitch; Construção do Google Sites do Projeto; Construção do Backlog no Jira</td>
       <td>Scrum Team</td>
       <td>Docs</td>
-      <td><a href="https://www.linkedin.com/in/gabriel-josimar-306000249/" target="_blank" rel="noopener noreferrer">/gabriel-josimar</a></td>
-      <td><a href="https://github.com/GabrielJosimar123" target="_blank" rel="noopener noreferrer">/GabrielJosimar123</a></td>
+      <td>
+        <a href="https://www.linkedin.com/in/gabriel-josimar-306000249/" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+            /gabriel-josimar
+        </a>
+          <br>
+        <a href="https://github.com/GabrielJosimar123" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+            /GabrielJosimar123
+        </a>
+      </td>
     </tr>
     <!-- Contribuidor 7 (Lucas Silva) -->
     <tr>
@@ -236,8 +282,17 @@ src/
       <td>Design de interfaces e elaboração do Protótipo no Figma</td>
       <td>Scrum Team</td>
       <td>Design</td>
-      <td><a href="http://www.linkedin.com/in/joselucasdg" target="_blank" rel="noopener noreferrer">/joselucasdg</a></td>
-      <td><a href="https://github.com/lukaaszx" target="_blank" rel="noopener noreferrer">/lukaaszx</a></td>
+      <td>
+        <a href="http://www.linkedin.com/in/joselucasdg" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+            /joselucasdg
+        </a>
+          <br>
+        <a href="https://github.com/lukaaszx" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+            /lukaaszx
+        </a>
+      </td>
     </tr>
     <!-- Contribuidor 8 (Jean Menino) -->
     <tr>
@@ -245,8 +300,17 @@ src/
       <td>Desenvolvimento Frontend</td>
       <td>Scrum Team</td>
       <td>Development</td>
-      <td><a href="https://www.linkedin.com/in/jean-menino-dos-santos-j%C3%BAnior-507a48311/" target="_blank" rel="noopener noreferrer">/jean-menino-dos-santos</a></td>
-      <td><a href="https://github.com/jeanwox" target="_blank" rel="noopener noreferrer">/jeanwox</a></td>
+      <td>
+        <a href="https://www.linkedin.com/in/jean-menino-dos-santos-j%C3%BAnior-507a48311/" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+            /jean-menino-dos-santos
+        </a>
+          <br>
+        <a href="https://github.com/jeanwox" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+            /jeanwox
+        </a>
+      </td>
     </tr>
     <!-- Contribuidor 9 (Guilherme Manoel) -->
     <tr>
@@ -254,8 +318,17 @@ src/
       <td>Construção do Google Sites do Projeto; Construção do Backlog no Jira</td>
       <td>Scrum Team</td>
       <td>Docs</td>
-      <td><a href="https://www.linkedin.com/in/guilherme-costa-825aa43a6/" target="_blank" rel="noopener noreferrer">/guilherme-costa</a></td>
-      <td><a href="https://github.com/guizihn" target="_blank" rel="noopener noreferrer">/guizihn</a></td>
+      <td>
+        <a href="https://www.linkedin.com/in/guilherme-costa-825aa43a6/" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="20" height="20" alt="LinkedIn"/>
+            /guilherme-costa
+        </a>
+          <br>
+        <a href="https://github.com/guizihn" target="_blank" rel="noopener noreferrer">
+          <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="20" height="20"/>
+            /guizihn
+        </a>
+      </td>
     </tr>
 <!-- Fim do Corpo (Items da tabela) -->
   </tbody>
@@ -264,7 +337,6 @@ src/
 <br>
 
 ### 👩🏽‍💻 Contribuições de Colaboradores Externos no Projeto:
-
 <table>
 <!-- Cabeçalho -->
   <thead>
