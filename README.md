@@ -6,11 +6,11 @@
 
 # ***SIG Sports*** – **S**istema **I**ntegrado de **G**erenciamento **<font color="#0179db">Esportivo</font>**
 ### 📝 Descrição:
-O **[<font color="#0179db">*SIG Sports*</font>](https://sites.google.com/view/ps-sports-frontend-project/)** foi desenvolvido para suprir às necessidades da escola de futebol [*PS Sport's*](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [*Bolsa Futuro Digital (BFD)*](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [*Aponti*](https://aponti.org.br/). A [*PS Sport's*](https://pssports.com.br/) necessitava de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
+O **[<font color="#0179db">*SIG Sports*</font>](https://sites.google.com/view/ps-sports-frontend-project/)** foi desenvolvido para suprir as necessidades da escola de futebol [*PS Sport's*](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [*Bolsa Futuro Digital (BFD)*](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [*Aponti*](https://aponti.org.br/). A [*PS Sport's*](https://pssports.com.br/) necessitava de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
 
 Diante dessa demanda, este projeto tem como objetivo facilitar o gerenciamento de **atletas**, **responsáveis**, **interessados (leads)**, **treinadores**, **turmas**, **categorias** e **modalidades**, por meio de uma interface *moderna*, *responsiva* e *intuitiva*. O frontend foi desenvolvido para consumir APIs externas (Backend), permitindo a exibição dos dados de forma *clara*, *organizada* e *eficiente*.
 
-O sistema foi planejado, prototipado e implementado seguindo *boas práticas de desenvolvimento*, com foco em *organização*, *usabilidade* e *experiência do usuário*, buscando oferecer uma *solução funcional* e *escalável* que *atenda às demandas da instituição*.
+O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de desenvolvimento*, com foco em *organização*, *usabilidade* e *experiência do usuário*, buscando oferecer uma *solução funcional* e *escalável* que *atenda às demandas da instituição*.
 
 ---
 
@@ -170,10 +170,11 @@ src/
 <!-- Corpo (Items da tabela) -->
   <tbody>
     <!-- Contribuidor 1 (Leonardo Rafael) -->
+    <!-- Definição e priorização do Product Backlog; Tradução das necessidades do negócio em requisitos; Validação das entregas junto aos stakeholders; Configuração do ambiente de desenvolvimento; Padronização de scripts e dependências do projeto; Apoio ao processo de build e execução; Organização de variáveis de ambiente e versionamento; Documentação técnica e funcional; Especificação e padronização dos requisitos funcionais; Planejamento das atividades; Acompanhamento do cronograma; Comunicação entre os membros da equipe; Preparação dos slides; Organização da apresentação do projeto; Comunicação do progresso do time; Apoio técnico aos desenvolvedores; Gestão do Projeto; Design e Protótipo no Figma; Elaboração do Readme; Revisão técnica e Controle de qualidade geral; Testes unitários; Testes de integração; Remoção de impedimentos do time; Garantia da aplicação das práticas do Scrum; Organização do fluxo de trabalho; Condução das cerimônias do Scrum; Desenvolvimento do pitch e slides; Apresentação do Pitch; Roteiro do vídeo de demonstração do projeto, Comunicação e Integração com o Backend desenvolvido por outra equipe. -->
     <tr>
       <td>Leonardo Rafael</td>
-      <td>Add Contribuição</td>
-      <td>Scrum Master; DevOps; QA</td>
+      <td>Responsabilidades de Scrum Master; Responsabilidades de Product Owner; Responsabilidades de DevOps e QA; Apoio técnico aos desenvolvedores; Design de interfaces e elaboração do Protótipo no Figma; Elaboração do Readme; Revisão técnica e Controle de qualidade geral; Desenvolvimento do Pitch e Slides; Apresentação do Pitch; Roteiro do vídeo de demonstração do projeto; Comunicação e Integração com o Backend desenvolvido por outra equipe; Desenvolvimento da Logotipo.</td>
+      <td>Scrum Master; DevOps; QA; Product Owner</td>
       <td>DevOps & QA; Docs; Development; Design; Communication</td>
       <td><a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank" rel="noopener noreferrer">/leonardorafael1604</a></td>
       <td><a href="https://github.com/LeonardoRDA1604" target="_blank" rel="noopener noreferrer">/LeonardoRDA1604</a></td>
@@ -181,7 +182,7 @@ src/
     <!-- Contribuidor 2 (Leandro Wilke) -->
     <tr>
       <td>Leandro Wilke</td>
-      <td>Add Contribuição</td>
+      <td>Responsabilidades de Tech Leader; Revisão técnica; Comunicação e Integração com o Backend desenvolvido por outra equipe; Correção de inconsistências no Backend; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Suporte ao desenvolvimento da Logotipo</td>
       <td>Tech Leader and DevOps</td>
       <td>Development; DevOps & QA; Communication</td>
       <td><a href="https://www.linkedin.com/in/leandro-wilke/" target="_blank" rel="noopener noreferrer">/leandro-wilke/</a></td>
@@ -190,7 +191,7 @@ src/
     <!-- Contribuidor 3 (Guilherme Henrique) -->
     <tr>
       <td>Guilherme Henrique</td>
-      <td>Add Contribuição</td>
+      <td>Design de interfaces e elaboração do Protótipo no Figma; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Integração com o Backend desenvolvido por outra equipe; Suporte ao desenvolvimento da Logotipo</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
       <td><a href="https://www.linkedin.com/in/guilhermechroma/" target="_blank" rel="noopener noreferrer">/guilhermechroma</a></td>
@@ -199,7 +200,7 @@ src/
     <!-- Contribuidor 4 (Mateus Soares) -->
     <tr>
       <td>Mateus Soares</td>
-      <td>Add Contribuição</td>
+      <td>Design de interfaces e elaboração do Protótipo no Figma; Desenvolvimento do Pitch e Slides; Desenvolvimento Frontend; Construção do Google Sites do Projeto; Suporte ao desenvolvimento da Logotipo</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
       <td><a href="https://www.linkedin.com/in/mateeussoares/" target="_blank" rel="noopener noreferrer">/mateeussoares/</a></td>
@@ -208,7 +209,7 @@ src/
     <!-- Contribuidor 5 (Luana Vitorino) -->
     <tr>
       <td>Luana Vitorino</td>
-      <td>Add Contribuição</td>
+      <td>Elaboração da documentação do projeto; Desenvolvimento Frontend; Construção do Backlog no Jira</td>
       <td>Scrum Team</td>
       <td>Docs; Development</td>
       <td><a href="https://www.linkedin.com/in/luana-de-melo-527415352/" target="_blank" rel="noopener noreferrer">/luana-de-melo/</a></td>
@@ -217,7 +218,7 @@ src/
     <!-- Contribuidor 6 (Gabriel Josimar) -->
     <tr>
       <td>Gabriel Josimar</td>
-      <td>Add Contribuição</td>
+      <td>Elaboração da documentação do projeto; Suporte ao desenvolvimento da Logotipo; Desenvolvimento de Slides do Pitch; Construção do Google Sites do Projeto; Construção do Backlog no Jira</td>
       <td>Scrum Team</td>
       <td>Docs</td>
       <td><a href="https://www.linkedin.com/in/gabriel-josimar-306000249/" target="_blank" rel="noopener noreferrer">/gabriel-josimar</a></td>
@@ -226,7 +227,7 @@ src/
     <!-- Contribuidor 7 (Lucas Silva) -->
     <tr>
       <td>Lucas Silva</td>
-      <td>Add Contribuição</td>
+      <td>Design de interfaces e elaboração do Protótipo no Figma</td>
       <td>Scrum Team</td>
       <td>Design</td>
       <td><a href="http://www.linkedin.com/in/joselucasdg" target="_blank" rel="noopener noreferrer">/joselucasdg</a></td>
@@ -235,7 +236,7 @@ src/
     <!-- Contribuidor 8 (Jean Menino) -->
     <tr>
       <td>Jean Menino</td>
-      <td>Add Contribuição</td>
+      <td>Desenvolvimento Frontend</td>
       <td>Scrum Team</td>
       <td>Development</td>
       <td><a href="https://www.linkedin.com/in/jean-menino-dos-santos-j%C3%BAnior-507a48311/" target="_blank" rel="noopener noreferrer">/jean-menino-dos-santos</a></td>
@@ -244,7 +245,7 @@ src/
     <!-- Contribuidor 9 (Guilherme Manoel) -->
     <tr>
       <td>Guilherme Manoel</td>
-      <td>Add Contribuição</td>
+      <td>Construção do Google Sites do Projeto; Construção do Backlog no Jira</td>
       <td>Scrum Team</td>
       <td>Docs</td>
       <td><a href="https://www.linkedin.com/in/guilherme-costa-825aa43a6/" target="_blank" rel="noopener noreferrer">/guilherme-costa</a></td>
@@ -273,7 +274,7 @@ src/
     <!-- Colaborador externo 1 (Camila Moura) -->
     <tr>
       <td>Camila Moura</td>
-      <td>Documentação de Requisitos, apoio na elaboração do README e Slides de Apresentação.</td>
+      <td>Documentação de Requisitos; Apoio na elaboração do README; Desenvolvimento de Slides do Pitch; Suporte ao desenvolvimento da Logotipo</td>
       <td><a href="https://www.linkedin.com/in/camilacelestino" target="_blank" rel="noopener noreferrer">/camilacelestino</a></td>
       <td><a href="https://github.com/ccelesti" target="_blank" rel="noopener noreferrer">/ccelesti</a></td>
     </tr>
@@ -287,7 +288,7 @@ src/
     <!-- Colaborador externo 3 (Samuel Victor) -->
     <tr>
       <td>Samuel Victor</td>
-      <td>Documentação do Projeto e Slides de Apresentação</td>
+      <td>Documentação do Projeto; Desenvolvimento de Slides do Pitch</td>
       <td><a href="https://www.linkedin.com/in/samuel-victor-3426b3368/" target="_blank" rel="noopener noreferrer">/samuel-victorr</a></td>
       <td><a href="https://github.com/SamuelVictorr" target="_blank" rel="noopener noreferrer">/SamuelVictorr</a></td>
     </tr>
@@ -323,7 +324,9 @@ src/
     - **[npm (Node Package Manager)](https://www.npmjs.com/)** — Gerenciador de pacotes (instalado junto com o Node.js)
         - Versão recomendada: [![npm](https://img.shields.io/badge/npm-9.x+-red.svg)](https://www.npmjs.com/)
 
-> ℹ️ As demais dependências são instaladas automaticamente ao seguir o [tutorial de como baixar e utilizar o repositório](#️-como-baixar-e-utilizar-o-repositório), via `npm install`, conforme definido no arquivo [package.json](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/blob/main/package.json). \
+> ⚠️ **Nota:** 
+As demais dependências são instaladas automaticamente ao seguir o [tutorial de como baixar e utilizar o repositório](#️-como-baixar-e-utilizar-o-repositório), via `npm install`, conforme definido no arquivo [package.json](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/blob/main/package.json). \
+
 > ℹ️ As versões exatas podem ser consultadas [aqui](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/blob/main/package.json).
 
 2. Verifique a instalação.
@@ -420,6 +423,26 @@ Em desenvolvimento.
 ---
 
 ## 🏷️ Versionamento
+Este projeto segue o padrão [Semantic Versioning (SemVer)](https://semver.org/) para controle de versões, garantindo clareza, previsibilidade e compatibilidade entre as mudanças. Todas as versões publicadas do projeto podem ser consultadas por meio das [*tags* do repositório](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/tags), onde cada tag representa um marco importante na evolução do sistema.
+
+O versionamento utiliza o seguinte formato:
+```bash
+MAJOR.MINOR.PATCH
+```
+
+#### 🔹 Significado das versões
+- **MAJOR** → Alterações incompatíveis com versões anteriores (*breaking changes*)
+- **MINOR** → Novas funcionalidades adicionadas de forma retrocompatível
+- **PATCH** → Correções de bugs e pequenos ajustes que não afetam a compatibilidade
+
+#### 🔹 Objetivo do versionamento
+- Melhor rastreabilidade da evolução do projeto
+- Identificação clara de mudanças relevantes
+- Facilidade na manutenção, colaboração e integração contínua 
+
+<!-- ## 🏷️ Versionamento
+<details>
+<summary>▶️  Clique para ver detalhes</summary>
 
 Este projeto segue o padrão [Semantic Versioning (SemVer)](https://semver.org/) para controle de versões, garantindo clareza, previsibilidade e compatibilidade entre as mudanças. Todas as versões publicadas do projeto podem ser consultadas por meio das [*tags* do repositório](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/tags), onde cada tag representa um marco importante na evolução do sistema.
 
@@ -434,17 +457,27 @@ MAJOR.MINOR.PATCH
 - **PATCH** → Correções de bugs e pequenos ajustes que não afetam a compatibilidade
 
 #### 🔹 Objetivo do versionamento
-
 - Melhor rastreabilidade da evolução do projeto
 - Identificação clara de mudanças relevantes
 - Facilidade na manutenção, colaboração e integração contínua 
+</details> -->
 
 ---
 
 ## 🤝 Colaboração
-Para contribuir com o projeto, leia o arquivo [CONTRIBUTING.md](CONTRIBUTING.md) para obter detalhes sobre o nosso código de conduta e o processo de contribuição.
-Após a leitura, sinta-se à vontade para abrir uma [*issue*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/issues) ou enviar um [*pull request*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/pulls). 
+ >⚠️ **Nota:**   
+ Para contribuir com o projeto, leia o arquivo [CONTRIBUTING.md](CONTRIBUTING.md) para obter detalhes sobre o nosso código de conduta e o processo de contribuição.
+
+Após a leitura, sinta-se à vontade para abrir uma [*Issue*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/issues) ou enviar um [*Pull Request*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/pulls). 
 Ideias, sugestões de melhorias e feedbacks são sempre bem-vindos!
+
+
+1. Faça um fork do projeto.
+2. Crie uma branch nos padrões descritos no [CONTRIBUTING.md](CONTRIBUTING.md).
+3. Desenvolva sua contribuição.
+4. Faça o commit das suas alterações.
+5. Faça o push para a branch.
+6. Com a contribuição concluída, abra um [*Pull Request*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/pulls).
 
 ---
 
@@ -452,3 +485,8 @@ Ideias, sugestões de melhorias e feedbacks são sempre bem-vindos!
 Este projeto está sob a [Licença MIT](https://opensource.org/license/mit) - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 [![License MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/license/mit)
+
+---
+
+## 📧 Contato
+Para mais informações, entre em contato com o administrador do repositório pelo e-mail leonardo.rafael1604@gmail.com, ou via <a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank" rel="noopener noreferrer">Linkedin</a>.
