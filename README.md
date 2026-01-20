@@ -159,12 +159,18 @@ src/
 <!-- Cabeçalho -->
   <thead>
     <tr>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 40px;">Nome</th>
+      <!-- <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 40px;">Nome</th>
       <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 12px;">Contribuições</th>
       <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 20px;">Papel</th>
       <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 16px;">Equipe</th>
       <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 12px;">LinkedIn</th>
-      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 12px;">GitHub</th>
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 12px;">GitHub</th> -->
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 20px;">Nome</th>
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 50px;">Contribuições</th>
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 20px;">Papel</th>
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 16px;">Equipe</th>
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 2px;">LinkedIn</th>
+      <th style="background-color: rgba(3, 0, 175, 0.85); font-size: 20px; color: rgba(255, 255, 255, 1); padding: 16px 2px;">GitHub</th>
     </tr>
   </thead>
 <!-- Corpo (Items da tabela) -->
@@ -185,7 +191,7 @@ src/
       <td>Responsabilidades de Tech Leader; Revisão técnica; Comunicação e Integração com o Backend desenvolvido por outra equipe; Correção de inconsistências no Backend; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Suporte ao desenvolvimento da Logotipo</td>
       <td>Tech Leader and DevOps</td>
       <td>Development; DevOps & QA; Communication</td>
-      <td><a href="https://www.linkedin.com/in/leandro-wilke/" target="_blank" rel="noopener noreferrer">/leandro-wilke/</a></td>
+      <td><a href="https://www.linkedin.com/in/leandro-wilke/" target="_blank" rel="noopener noreferrer">/leandro-wilke</a></td>
       <td><a href="https://github.com/LeandroWilkeDev" target="_blank" rel="noopener noreferrer">/LeandroWilkeDev</a></td>
     </tr>
     <!-- Contribuidor 3 (Guilherme Henrique) -->
@@ -203,7 +209,7 @@ src/
       <td>Design de interfaces e elaboração do Protótipo no Figma; Desenvolvimento do Pitch e Slides; Desenvolvimento Frontend; Construção do Google Sites do Projeto; Suporte ao desenvolvimento da Logotipo</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
-      <td><a href="https://www.linkedin.com/in/mateeussoares/" target="_blank" rel="noopener noreferrer">/mateeussoares/</a></td>
+      <td><a href="https://www.linkedin.com/in/mateeussoares/" target="_blank" rel="noopener noreferrer">/mateeussoares</a></td>
       <td><a href="https://github.com/mateeussoares" target="_blank" rel="noopener noreferrer">/mateeussoares</a></td>
     </tr>
     <!-- Contribuidor 5 (Luana Vitorino) -->
@@ -212,7 +218,7 @@ src/
       <td>Elaboração da documentação do projeto; Desenvolvimento Frontend; Construção do Backlog no Jira</td>
       <td>Scrum Team</td>
       <td>Docs; Development</td>
-      <td><a href="https://www.linkedin.com/in/luana-de-melo-527415352/" target="_blank" rel="noopener noreferrer">/luana-de-melo/</a></td>
+      <td><a href="https://www.linkedin.com/in/luana-de-melo-527415352/" target="_blank" rel="noopener noreferrer">/luana-de-melo</a></td>
       <td><a href="https://github.com/luanavitorino" target="_blank" rel="noopener noreferrer">/luanavitorino</a></td>
     </tr>
     <!-- Contribuidor 6 (Gabriel Josimar) -->
@@ -470,7 +476,6 @@ MAJOR.MINOR.PATCH
 
 Após a leitura, sinta-se à vontade para abrir uma [*Issue*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/issues) ou enviar um [*Pull Request*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/pulls). 
 Ideias, sugestões de melhorias e feedbacks são sempre bem-vindos!
-
 
 1. Faça um fork do projeto.
 2. Crie uma branch nos padrões descritos no [CONTRIBUTING.md](CONTRIBUTING.md).
