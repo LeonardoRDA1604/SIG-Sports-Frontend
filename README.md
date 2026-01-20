@@ -25,8 +25,8 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 - [8. Arquitetura do Projeto](#-arquitetura-do-projeto-frontend)
 - [9. Funcionalidades](#-funcionalidades)
 - [10. Equipe e Contribuições](#-equipe-e-contribuições)
-    - [10.1. Contribuições dos Integrantes no Projeto](#-contribuições-dos-integrantes-no-projeto)
-    - [10.2. Contribuições de Colaboradores Externos no Projeto](#-contribuições-de-colaboradores-externos-no-projeto)
+    <!-- - [10.1. Contribuições dos Integrantes no Projeto](#-contribuições-dos-integrantes)
+    - [10.2. Contribuições de Colaboradores Externos no Projeto](#-contribuições-de-colaboradores-externos) -->
 - [11. Dependências Necessárias](#-dependências-necessárias)
     - [11.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
         - [11.1.1. Scripts Disponíveis](#️-scripts-disponíveis)
@@ -153,7 +153,7 @@ src/
 ---
 
 ## 👥 Equipe e Contribuições: 
-### 👩🏽‍💻 Contribuições dos Integrantes no Projeto:
+### 👩🏽‍💻 Contribuições dos Integrantes:
 <table>
 <!-- Cabeçalho -->
   <thead>
@@ -336,7 +336,7 @@ src/
 
 <br>
 
-### 👩🏽‍💻 Contribuições de Colaboradores Externos no Projeto:
+### 👩🏽‍💻 Contribuições de Colaboradores Externos:
 <table>
 <!-- Cabeçalho -->
   <thead>
