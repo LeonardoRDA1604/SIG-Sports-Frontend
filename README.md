@@ -586,6 +586,17 @@ Ideias, sugestões de melhorias e feedbacks são sempre bem-vindos!
 4. Faça o commit das suas alterações.
 5. Faça o push para a branch.
 6. Com a contribuição concluída, abra um [*Pull Request*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/pulls).
+<!-- - 1️⃣ Faça um fork do projeto.
+- 2️⃣ Crie uma branch nos padrões descritos no [CONTRIBUTING.md](CONTRIBUTING.md).
+- 3️⃣ Desenvolva sua contribuição.
+- 4️⃣ Faça o commit das suas alterações.
+- 5️⃣ Faça o push para a branch.
+- 6️⃣ Com a contribuição concluída, abra um [*Pull Request*](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/pulls). -->
+
+<!-- Emojis de números
+0️⃣ | 1️⃣ | 2️⃣ | 3️⃣ | 4️⃣ | 5️⃣ | 6️⃣ | 7️⃣ | 8️⃣ | 9️⃣ | 🔟
+➊ | ➋ | ➌ | ➍ | ➎ | ➏ | ➐ | ➑ | ➒ | ➓ 
+-->
 
 ---
 
