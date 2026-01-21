@@ -27,7 +27,7 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
   - [9.1. Segurança e Controle de Acesso](#-segurança-e-controle-de-acesso)
   - [9.2. Interface de Monitoramento (BI)](#-interface-de-monitoramento-bi)
   - [9.3. Gestão de Entidades](#️-gestão-de-entidades-crud)
-  - [9.4. Diferenciais Técnicos](#️-diferenciais-técnicos)
+  - [9.4. Diferenciais Técnicos](#-diferenciais-técnicos)
 - [10. Equipe e Contribuições](#-equipe-e-contribuições)
   - [10.1. Contribuições dos Integrantes da Equipe](#contribuições-dos-integrantes-da-equipe)
   - [10.2. Contribuições de Colaboradores Externos](#contribuições-de-colaboradores-externos)
@@ -166,7 +166,7 @@ O sistema oferece o gerenciamento completo (Criação, Consulta, Atualização e
 - **Módulo de Captação:**
   - Gestão de Interessados (Lead Tracking) para conversão de novos alunos.
 
-#### 🧩 Diferenciais Técnicos
+#### 🧩Diferenciais Técnicos
 - **Arquitetura de Componentes:** Interface construída com componentes reutilizáveis e escaláveis, garantindo consistência visual e facilidade de manutenção.
 
 ---
@@ -174,7 +174,7 @@ O sistema oferece o gerenciamento completo (Criação, Consulta, Atualização e
 ## 👥 Equipe e Contribuições: 
 Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidades de cada membro, detalhando as contribuições individuais que tornaram o desenvolvimento deste sistema possível.
 
-### 💼 Contribuições dos Integrantes da Equipe
+- ### 💼Contribuições dos Integrantes da Equipe
 
 <table>
 <!-- Cabeçalho -->
@@ -363,7 +363,7 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
 
 <br>
 
-### 🤝 Contribuições de Colaboradores Externos
+- ### 🤝Contribuições de Colaboradores Externos
 
 <table>
 <!-- Cabeçalho -->
