@@ -166,7 +166,7 @@ O sistema oferece o gerenciamento completo (Criação, Consulta, Atualização e
 - **Módulo de Captação:**
   - Gestão de Interessados (Lead Tracking) para conversão de novos alunos.
 
-#### 🛠️ Diferenciais Técnicos
+#### 🧩 Diferenciais Técnicos
 - **Arquitetura de Componentes:** Interface construída com componentes reutilizáveis e escaláveis, garantindo consistência visual e facilidade de manutenção.
 
 ---
@@ -174,7 +174,7 @@ O sistema oferece o gerenciamento completo (Criação, Consulta, Atualização e
 ## 👥 Equipe e Contribuições: 
 Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidades de cada membro, detalhando as contribuições individuais que tornaram o desenvolvimento deste sistema possível.
 
-### Contribuições dos Integrantes da Equipe
+### 💼 Contribuições dos Integrantes da Equipe
 
 <table>
 <!-- Cabeçalho -->
@@ -363,7 +363,8 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
 
 <br>
 
-### Contribuições de Colaboradores Externos
+### 🤝 Contribuições de Colaboradores Externos
+
 <table>
 <!-- Cabeçalho -->
   <thead>
@@ -594,6 +595,3 @@ Este projeto está sob a [Licença MIT](https://opensource.org/license/mit) - ve
 
 ## 📧 Contato
 Para mais informações, entre em contato com o administrador do repositório pelo e-mail leonardo.rafael1604@gmail.com, ou via <a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank" rel="noopener noreferrer">Linkedin</a>.
-
-👩🏽‍💻
-👩🏽‍💻
