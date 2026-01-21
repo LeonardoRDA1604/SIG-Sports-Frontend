@@ -25,7 +25,7 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 - [8. Arquitetura do Projeto](#-arquitetura-do-projeto-frontend)
 - [9. Funcionalidades](#-funcionalidades)
 - [10. Equipe e Contribuições](#-equipe-e-contribuições)
-- [10.1. Contribuições dos Integrantes](#-contribuições-dos-integrantes)
+- [10.1. Contribuições dos Integrantes da Equipe](#-contribuições-dos-integrantes-da-equipe)
 - [10.2. Contribuições de Colaboradores Externos](#-contribuições-de-colaboradores-externos)
 - [11. Dependências Necessárias](#-dependências-necessárias)
     - [11.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
@@ -153,7 +153,8 @@ src/
 ---
 
 ## 👥 Equipe e Contribuições: 
-### 👩🏽‍💻 Contribuições dos Integrantes
+
+### 👩🏽‍💻 Contribuições dos Integrantes da Equipe
 
 <table>
 <!-- Cabeçalho -->
@@ -213,7 +214,7 @@ src/
     <!-- Contribuidor 3 (Guilherme Henrique) -->
     <tr>
       <td>Guilherme Henrique</td>
-      <td>Design de interfaces e elaboração do Protótipo no Figma; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Integração com o Backend desenvolvido por outra equipe; Suporte ao desenvolvimento da Logotipo</td>
+      <td>Design de interfaces e elaboração do Protótipo no Figma; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Integração com o Backend desenvolvido por outra equipe; Suporte ao desenvolvimento da Logotipo; Gravação e Edição do Vídeo Demo</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
       <td align="center">
@@ -231,7 +232,7 @@ src/
     <!-- Contribuidor 4 (Mateus Soares) -->
     <tr>
       <td>Mateus Soares</td>
-      <td>Design de interfaces e elaboração do Protótipo no Figma; Desenvolvimento do Pitch e Slides; Desenvolvimento Frontend; Construção do Google Sites do Projeto; Suporte ao desenvolvimento da Logotipo</td>
+      <td>Design de interfaces e elaboração do Protótipo no Figma; Desenvolvimento do Pitch e Slides; Desenvolvimento Frontend; Construção do Google Sites do Projeto; Suporte ao desenvolvimento da Logotipo; Gravação e Edição do Vídeo Demo</td>
       <td>Scrum Team</td>
       <td>Design; Development</td>
       <td align="center">
@@ -285,7 +286,7 @@ src/
     <!-- Contribuidor 7 (Lucas Silva) -->
     <tr>
       <td>Lucas Silva</td>
-      <td>Design de interfaces e elaboração do Protótipo no Figma</td>
+      <td>Design de interfaces e elaboração do Protótipo no Figma; Gravação e Edição do Vídeo Demo</td>
       <td>Scrum Team</td>
       <td>Design</td>
       <td align="center">
@@ -303,7 +304,7 @@ src/
     <!-- Contribuidor 8 (Jean Menino) -->
     <tr>
       <td>Jean Menino</td>
-      <td>Desenvolvimento Frontend</td>
+      <td>Desenvolvimento Frontend; Gravação e Edição do Vídeo Demo</td>
       <td>Scrum Team</td>
       <td>Development</td>
       <td align="center">
