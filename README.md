@@ -6,7 +6,7 @@
 
 # ***SIG Sports*** – **S**istema **I**ntegrado de **G**erenciamento **<font color="#0179db">Esportivo</font>**
 ### 📝 Descrição:
-O **[<font color="#0179db">*SIG Sports*</font>](https://sites.google.com/view/sig-sports-frontend-project/sig-sports/)** foi desenvolvido para suprir as necessidades da escola de futebol [*PS Sport's*](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [*Bolsa Futuro Digital (BFD)*](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [*Aponti*](https://aponti.org.br/). A [*PS Sport's*](https://pssports.com.br/) necessitava de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
+O **[<font color="#0179db">*SIG Sports*</font>](https://sites.google.com/view/sig-sports-frontend-project/)** foi desenvolvido para suprir as necessidades da escola de futebol [*PS Sport's*](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [*Bolsa Futuro Digital (BFD)*](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [*Aponti*](https://aponti.org.br/). A [*PS Sport's*](https://pssports.com.br/) necessitava de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
 
 Diante dessa demanda, este projeto tem como objetivo facilitar o gerenciamento de **atletas**, **responsáveis**, **interessados (leads)**, **treinadores**, **turmas**, **categorias** e **modalidades**, por meio de uma interface *moderna*, *responsiva* e *intuitiva*. O frontend foi desenvolvido para consumir APIs externas (Backend), permitindo a exibição dos dados de forma *clara*, *organizada* e *eficiente*.
 
@@ -94,6 +94,7 @@ Todas as interfaces foram desenvolvidas e prototipadas no **[*Figma*](https://ww
 - Melhor UX/UI
 - Redução de retrabalho
 - Fidelidade entre design e implementação
+- Interface construída com componentes reutilizáveis e escaláveis, garantindo consistência visual e facilidade de manutenção.
 
 ---
 
@@ -166,9 +167,6 @@ O sistema oferece o gerenciamento completo (Criação, Consulta, Atualização e
 - **Módulo de Captação:**
   - Gestão de Interessados (Lead Tracking) para conversão de novos alunos.
 
-#### 🧩Diferenciais Técnicos
-- **Arquitetura de Componentes:** Interface construída com componentes reutilizáveis e escaláveis, garantindo consistência visual e facilidade de manutenção.
-
 ---
 
 ## 👥 Equipe e Contribuições: 
@@ -198,7 +196,7 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
     <!-- Contribuidor 1 (Leonardo Rafael) -->
     <tr>
       <td>Leonardo Rafael</td>
-      <td>Responsabilidades de Scrum Master; Responsabilidades de Product Owner; Responsabilidades de DevOps e QA; Apoio técnico aos desenvolvedores; Design de interfaces e elaboração do Protótipo no Figma; Elaboração do Readme; Revisão técnica e Controle de qualidade geral; Desenvolvimento do Pitch e Slides; Apresentação do Pitch; Roteiro do vídeo de demonstração do projeto; Comunicação e Integração com o Backend desenvolvido por outra equipe; Desenvolvimento da Logotipo.</td>
+      <td>Responsabilidades de Scrum Master; Responsabilidades de Product Owner; Responsabilidades de DevOps e QA; Apoio técnico aos desenvolvedores; Design de interfaces e elaboração do Protótipo no Figma; Elaboração do Readme; Revisão técnica e Controle de qualidade geral; Desenvolvimento do Pitch e Slides; Apresentação do Pitch; Roteiro do vídeo de demonstração do projeto; Comunicação e Integração com o Backend desenvolvido por outra equipe; Construção do Google Sites do Projeto; Desenvolvimento da Logotipo.</td>
       <td>Scrum Master; DevOps; QA; Product Owner</td>
       <td>DevOps & QA; Docs; Development; Design; Communication</td>
       <td align="center">
