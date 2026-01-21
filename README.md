@@ -54,12 +54,23 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 O Sistema foi desenvolvido para fornecer uma **interface web responsiva e interativa** para o gerenciamento da escola de atletas PS Sport's, integrando dados e funcionalidades de forma clara e intuitiva. O projeto permite:
 
 - Integração com o **Backend**.
-    - Projeto desenvolvido em colaboração com uma equipe de Backend de outra turma do [mesmo curso (BFD)](https://aponti.org.br/capital-humano#programa-bfd), **[clique aqui para ver o repositório do Backend](https://github.com/cabarros3/ps-sports)**;  
+    - Projeto desenvolvido em colaboração com uma equipe de Backend de outra turma do [mesmo curso (BFD)](https://aponti.org.br/capital-humano#programa-bfd), **[clique aqui para ver o repositório do Backend](https://github.com/cabarros3/ps-sports)**.
 - Garantia de *boa experiência do usuário (UX/UI)*.
-- Desenvolvimento de novos módulos e visualizações de dados;
-- Expansão para novas páginas, gráficos e recursos interativos;
+- Desenvolvimento de novos módulos e visualizações de dados.
+- Expansão para novas páginas, gráficos e recursos interativos.
 
-O desenvolvimento envolveu *prototipação*, *implementação* e *validação de soluções*, aplicando *boas práticas de engenharia de software* e *design de interfaces*.
+O projeto resulta tanto da aplicação dos conhecimentos adquiridos ao longo do programa quanto do esforço de pesquisa, estudo e aprofundamento extraclasse realizado pelos responsáveis pelo desenvolvimento, envolvendo **análise de problemas reais**, **elicitação** e **organização de requisitos** e **avaliação de soluções tecnológicas adequadas**.
+
+O desenvolvimento contemplou etapas de **prototipação de alta fidelidade**, **implementação técnica** e **validação de soluções**, aplicando *boas práticas de engenharia de software* e *design de interfaces (UI/UX)*.
+
+Nesse contexto, foram aplicados conhecimentos fundamentais para o ecossistema Front-end moderno, tais como:
+- **🎨 Design e Prototipação:** Transposição de layouts e fluxos de usuário desenhados no **Figma** para componentes funcionais.
+- **⚛️ Desenvolvimento Frontend:** Construção de interfaces declarativas e modulares utilizando **React** e **JavaScript (ES6+)**, focando em componentes reutilizáveis e estados dinâmicos.
+- **💨 Estilização Avançada:** Implementação de design responsivo e sistemas de design consistentes com **Tailwind CSS**.
+* **🌐 Ambiente e Consumo de Dados:** Utilização do ecossistema **Node.js** como base do ambiente de desenvolvimento para gestão de dependências e com foco no consumo e tratamento de dados provenientes de **APIs RESTful**, garantindo a sincronia entre cliente e servidor.
+- **🏗️ Arquitetura de Software:** Estruturação do projeto seguindo o modelo **Component-Based (Modular)**, organizando o código em camadas de *Components*, *Hooks* e *Services* para garantir alta reutilização e facilidade de manutenção.
+- **📊 Gestão e Metodologia Ágil:** Organização de tarefas, prazos e fluxo de trabalho utilizando o **Jira**.
+- **🔧 Versionamento e Colaboração:** Gestão de código e ciclo de vida da aplicação através de **Git** e **GitHub**, aplicando boas práticas de *commits* semânticos, gerenciamento de branches e manutenção de código limpo. Para mais detalhes sobre o fluxo de trabalho, consulte as seções de [Versionamento](#️-versionamento) e [Colaboração](#-colaboração).
 
 ---
 
