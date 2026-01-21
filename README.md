@@ -25,8 +25,10 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 - [8. Arquitetura do Projeto](#-arquitetura-do-projeto-frontend)
 - [9. Funcionalidades](#-funcionalidades)
 - [10. Equipe e Contribuições](#-equipe-e-contribuições)
-    <!-- - [10.1. Contribuições dos Integrantes no Projeto](#-contribuições-dos-integrantes)
-    - [10.2. Contribuições de Colaboradores Externos no Projeto](#-contribuições-de-colaboradores-externos) -->
+<!-- - [10.1. Contribuições dos Integrantes](#-members-contribution) -->
+  <!-- - [10.1. Contribuições dos Integrantes no Projeto](#-members-contribution)
+  - [10.1. Contribuições dos Integrantes no Projeto](#-contribuições-dos-integrantes)
+  - [10.2. Contribuições de Colaboradores Externos no Projeto](#-contribuições-de-colaboradores-externos) -->
 - [11. Dependências Necessárias](#-dependências-necessárias)
     - [11.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
         - [11.1.1. Scripts Disponíveis](#️-scripts-disponíveis)
@@ -39,6 +41,7 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 - [16. Licença](#-licença)
 <!-- - [Como baixar e utilizar o sistema](#️-como-baixar-e-utilizar-o-sistema) -->
 
+<a href="https://github.com/LeonardoRDA1604/PS-Sports-Frontend/edit/main/README.md#contribuições-de-colaboradores-externos">10.1. Contribuições dos Integrantes no Projeto</a>
 ---
 
 ## 🎯 Objetivo do Projeto
@@ -153,7 +156,8 @@ src/
 ---
 
 ## 👥 Equipe e Contribuições: 
-### 👩🏽‍💻 Contribuições dos Integrantes:
+### 👩🏽‍💻 Members Contribution:
+<!-- ### 👩🏽‍💻 Contribuições dos Integrantes: -->
 <table>
 <!-- Cabeçalho -->
   <thead>
