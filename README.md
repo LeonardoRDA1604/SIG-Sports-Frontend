@@ -23,10 +23,11 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 - [6. Gerenciamento do Projeto](#-gerenciamento-do-projeto-jira)
 - [7. Metodologias adotadas no Projeto](#-metodologias-adotadas-ágeis)
 - [8. Arquitetura do Projeto](#-arquitetura-do-projeto-frontend)
-- [9. Funcionalidades](#-funcionalidades)
+- [9. Funcionalidades Principais](#-funcionalidades-principais)
   - [9.1 Segurança e Controle de Acesso](#-segurança-e-controle-de-acesso)
-  - [9.2 Interface de Monitoramento](#-interface-de-monitoramento)
-  - [9.3 Gestão de Entidades (CRUD)](#️-gestão-de-entidades-crud)
+  - [9.2 Interface de Monitoramento (BI)](#-interface-de-monitoramento-bi)
+  - [9.3 Gestão de Entidades](#️-gestão-de-entidades-crud)
+  - [9.4 Diferenciais Técnicos](#️-diferenciais-técnicos)
 - [10. Equipe e Contribuições](#-equipe-e-contribuições)
   - [10.1. Contribuições dos Integrantes da Equipe](#-contribuições-dos-integrantes-da-equipe)
   - [10.2. Contribuições de Colaboradores Externos](#-contribuições-de-colaboradores-externos)
@@ -144,43 +145,36 @@ src/
 
 ---
 
-
-## ✨ Funcionalidades
-- Interface institucional
-- Cadastro e listagem de atletas
-- Turmas e categorias
-- Autenticação (login/registro)
-- Componentes reutilizáveis
-- Integração com API
-
-
-## 🚀 Funcionalidades Principais
-
+## ✨ Funcionalidades Principais
 #### 🔒 Segurança e Controle de Acesso
-- **Autenticação de Usuários:** Sistema de login seguro para proteção das informações.
+- **Autenticação de Usuários:** Sistema de cadastro e login seguro para proteção das informações.
+- **Recuperação de Senha:** Fluxo de redefinição de acesso via e-mail ou tokens de segurança, garantindo a autonomia do usuário.
 - **Níveis de Permissão (RBAC):**
   - **Administrador:** Controle total do sistema, gestão de usuários e configurações globais.
-  - **Treinador:** Acesso restrito à gestão técnica, acompanhamento de turmas e atletas.
+  - **Treinador:** Acesso restrito às ferramentas de gestão técnica, acompanhamento de turmas e desempenho de atletas.
 
-#### 📊 Interface de Monitoramento
-- **Dashboard Gerencial:** Visualização centralizada e intuitiva de todos os dados cadastrados, facilitando a tomada de decisão estratégica através de indicadores-chave.
+#### 📊 Interface de Monitoramento (BI)
+- **Dashboard Gerencial:** Painel administrativo com visualização centralizada de métricas, facilitando a análise de dados e a tomada de decisão estratégica em tempo real.
 
 #### ⚙️ Gestão de Entidades (CRUD)
 O sistema oferece o gerenciamento completo (Criação, Consulta, Atualização e Exclusão) dos seguintes módulos:
 - **Módulo Esportivo:**
   - Modalidades, Categorias e Turmas.
 - **Módulo de Pessoas:**
-  - Atletas e seus Responsáveis.
-  - Treinadores e Comissão Técnica.
+  - Atletas e seus Responsáveis vinculados.
+  - Treinadores e membros da Comissão Técnica.
 - **Módulo de Captação:**
-  - Gestão de Interessados (Lead Tracking).
+  - Gestão de Interessados (Lead Tracking) para conversão de novos alunos.
+
+#### 🛠️ Diferenciais Técnicos
+- **Arquitetura de Componentes:** Interface construída com componentes reutilizáveis e escaláveis, garantindo consistência visual e facilidade de manutenção.
 
 ---
 
 ## 👥 Equipe e Contribuições: 
 Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidades de cada membro, detalhando as contribuições individuais que tornaram o desenvolvimento deste sistema possível.
-
-#### 👩🏽‍💻 Contribuições dos Integrantes da Equipe
+👩🏽‍💻
+#### Contribuições dos Integrantes da Equipe
 
 <table>
 <!-- Cabeçalho -->
@@ -369,7 +363,8 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
 
 <br>
 
-#### 👩🏽‍💻 Contribuições de Colaboradores Externos
+👩🏽‍💻
+#### Contribuições de Colaboradores Externos
 <table>
 <!-- Cabeçalho -->
   <thead>
