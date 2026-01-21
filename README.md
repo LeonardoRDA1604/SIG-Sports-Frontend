@@ -18,15 +18,18 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 - [1. Descrição](#-descrição)
 - [2. Objetivo do Projeto](#-objetivo-do-projeto)
 - [3. Tecnologias e Ferramentas Utilizadas](#️-tecnologias-e-ferramentas-utilizadas)
-- [4. Prototipação](#-prototipação-figma)
+- [4. Design de Interfaces e Prototipação](#-design-de-interfaces-e-prototipação-figma)
 - [5. Responsividade](#-responsividade)
 - [6. Gerenciamento do Projeto](#-gerenciamento-do-projeto-jira)
 - [7. Metodologias adotadas no Projeto](#-metodologias-adotadas-ágeis)
 - [8. Arquitetura do Projeto](#-arquitetura-do-projeto-frontend)
 - [9. Funcionalidades](#-funcionalidades)
+  - [9.1 Segurança e Controle de Acesso](#-segurança-e-controle-de-acesso)
+  - [9.2 Interface de Monitoramento](#-interface-de-monitoramento)
+  - [9.3 Gestão de Entidades (CRUD)](#️-gestão-de-entidades-crud)
 - [10. Equipe e Contribuições](#-equipe-e-contribuições)
-- [10.1. Contribuições dos Integrantes da Equipe](#-contribuições-dos-integrantes-da-equipe)
-- [10.2. Contribuições de Colaboradores Externos](#-contribuições-de-colaboradores-externos)
+  - [10.1. Contribuições dos Integrantes da Equipe](#-contribuições-dos-integrantes-da-equipe)
+  - [10.2. Contribuições de Colaboradores Externos](#-contribuições-de-colaboradores-externos)
 - [11. Dependências Necessárias](#-dependências-necessárias)
     - [11.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
         - [11.1.1. Scripts Disponíveis](#️-scripts-disponíveis)
@@ -84,8 +87,8 @@ O desenvolvimento envolveu *prototipação*, *implementação* e *validação de
 
 ---
 
-## 🎨 Prototipação (Figma)
-Todas as telas foram prototipadas no **[*Figma*](https://www.figma.com/)**, garantindo:
+## 🎨 Design de Interfaces e Prototipação (Figma)
+Todas as interfaces foram desenvolvidas e prototipadas no **[*Figma*](https://www.figma.com/)**, garantindo:
 - Padronização visual
 - Melhor UX/UI
 - Redução de retrabalho
@@ -150,11 +153,34 @@ src/
 - Componentes reutilizáveis
 - Integração com API
 
+
+## 🚀 Funcionalidades Principais
+
+#### 🔒 Segurança e Controle de Acesso
+- **Autenticação de Usuários:** Sistema de login seguro para proteção das informações.
+- **Níveis de Permissão (RBAC):**
+  - **Administrador:** Controle total do sistema, gestão de usuários e configurações globais.
+  - **Treinador:** Acesso restrito à gestão técnica, acompanhamento de turmas e atletas.
+
+#### 📊 Interface de Monitoramento
+- **Dashboard Gerencial:** Visualização centralizada e intuitiva de todos os dados cadastrados, facilitando a tomada de decisão estratégica através de indicadores-chave.
+
+#### ⚙️ Gestão de Entidades (CRUD)
+O sistema oferece o gerenciamento completo (Criação, Consulta, Atualização e Exclusão) dos seguintes módulos:
+- **Módulo Esportivo:**
+  - Modalidades, Categorias e Turmas.
+- **Módulo de Pessoas:**
+  - Atletas e seus Responsáveis.
+  - Treinadores e Comissão Técnica.
+- **Módulo de Captação:**
+  - Gestão de Interessados (Lead Tracking).
+
 ---
 
 ## 👥 Equipe e Contribuições: 
+Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidades de cada membro, detalhando as contribuições individuais que tornaram o desenvolvimento deste sistema possível.
 
-### 👩🏽‍💻 Contribuições dos Integrantes da Equipe
+#### 👩🏽‍💻 Contribuições dos Integrantes da Equipe
 
 <table>
 <!-- Cabeçalho -->
@@ -196,7 +222,7 @@ src/
     <!-- Contribuidor 2 (Leandro Wilke) -->
     <tr>
       <td>Leandro Wilke</td>
-      <td>Responsabilidades de Tech Leader; Revisão técnica; Comunicação e Integração com o Backend desenvolvido por outra equipe; Correção de inconsistências no Backend; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Suporte ao desenvolvimento da Logotipo</td>
+      <td>Responsabilidades de Tech Leader; Responsabilidades de DevOps; Revisão técnica; Comunicação e Integração com o Backend desenvolvido por outra equipe; Correção de inconsistências no Backend; Componentização; Desenvolvimento Frontend; Apoio técnico aos desenvolvedores; Suporte ao desenvolvimento da Logotipo</td>
       <td>Tech Leader and DevOps</td>
       <td>Development; DevOps & QA; Communication</td>
       <td align="center">
@@ -343,7 +369,7 @@ src/
 
 <br>
 
-### 👩🏽‍💻 Contribuições de Colaboradores Externos
+#### 👩🏽‍💻 Contribuições de Colaboradores Externos
 <table>
 <!-- Cabeçalho -->
   <thead>
