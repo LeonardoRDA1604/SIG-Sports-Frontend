@@ -24,13 +24,13 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
 - [7. Metodologias adotadas no Projeto](#-metodologias-adotadas-ágeis)
 - [8. Arquitetura do Projeto](#-arquitetura-do-projeto-frontend)
 - [9. Funcionalidades Principais](#-funcionalidades-principais)
-  - [9.1 Segurança e Controle de Acesso](#-segurança-e-controle-de-acesso)
-  - [9.2 Interface de Monitoramento (BI)](#-interface-de-monitoramento-bi)
-  - [9.3 Gestão de Entidades](#️-gestão-de-entidades-crud)
-  - [9.4 Diferenciais Técnicos](#️-diferenciais-técnicos)
+  - [9.1. Segurança e Controle de Acesso](#-segurança-e-controle-de-acesso)
+  - [9.2. Interface de Monitoramento (BI)](#-interface-de-monitoramento-bi)
+  - [9.3. Gestão de Entidades](#️-gestão-de-entidades-crud)
+  - [9.4. Diferenciais Técnicos](#️-diferenciais-técnicos)
 - [10. Equipe e Contribuições](#-equipe-e-contribuições)
-  - [10.1. Contribuições dos Integrantes da Equipe](#-contribuições-dos-integrantes-da-equipe)
-  - [10.2. Contribuições de Colaboradores Externos](#-contribuições-de-colaboradores-externos)
+  - [10.1. Contribuições dos Integrantes da Equipe](#contribuições-dos-integrantes-da-equipe)
+  - [10.2. Contribuições de Colaboradores Externos](#contribuições-de-colaboradores-externos)
 - [11. Dependências Necessárias](#-dependências-necessárias)
     - [11.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
         - [11.1.1. Scripts Disponíveis](#️-scripts-disponíveis)
@@ -173,8 +173,8 @@ O sistema oferece o gerenciamento completo (Criação, Consulta, Atualização e
 
 ## 👥 Equipe e Contribuições: 
 Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidades de cada membro, detalhando as contribuições individuais que tornaram o desenvolvimento deste sistema possível.
-👩🏽‍💻
-#### Contribuições dos Integrantes da Equipe
+
+### Contribuições dos Integrantes da Equipe
 
 <table>
 <!-- Cabeçalho -->
@@ -363,8 +363,7 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
 
 <br>
 
-👩🏽‍💻
-#### Contribuições de Colaboradores Externos
+### Contribuições de Colaboradores Externos
 <table>
 <!-- Cabeçalho -->
   <thead>
@@ -595,3 +594,6 @@ Este projeto está sob a [Licença MIT](https://opensource.org/license/mit) - ve
 
 ## 📧 Contato
 Para mais informações, entre em contato com o administrador do repositório pelo e-mail leonardo.rafael1604@gmail.com, ou via <a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank" rel="noopener noreferrer">Linkedin</a>.
+
+👩🏽‍💻
+👩🏽‍💻
