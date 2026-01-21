@@ -11,17 +11,17 @@ import { MdDelete } from "react-icons/md";
 import { IoLockClosed } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import BotaoAdicionar from "../components/BotaoAdicionar/BotaoAdicionar";
-import { list, create, remove, update } from "../data/api";
+import { list, update, remove, create } from "../data/api";
 import Layout from "../components/Navbar/Navbar";
 import ModalCadastroInteressado from "../modals/forms/ModalCadastroInteressado";
 import ModalCadastroAtleta from "../modals/forms/PlayerTemplateModal";
+import EditPlayersModal from "../modals/views/EditPlayersModal";
 import ModalCadastroResponsavel from "../modals/forms/ModalCadastroResponsavel";
 import ModalCadastroTreinador from "../modals/forms/ModalCadastroTreinador";
 import ModalCadastroTurma from "../modals/forms/ModalCadastroTurma";
 import ModalCadastroCategoria from "../modals/forms/ModalCadastroCategoria";
 import ModalCadastroModalidade from "../modals/forms/ModalCadastroModalidade";
 import ModalCadastroUsuario from "../modals/forms/ModalCadastroUsuario";
-import ModalVisualizarAtleta from "../modals/views/EditPlayersModal";
 import { temAcessoBloqueado } from "../utils/permissoes";
 import DataTable from "../components/DataTable/DataTable";
 
@@ -184,7 +184,10 @@ const Cadastros = () => {
       list("users"),
     ])
       .then(([a, r, t, tu, c, i, m, u]) => {
-        if (Array.isArray(a) && a.length) setPlayers(a);
+        if (Array.isArray(a) && a.length) {
+          console.log("[DEBUG] Atletas carregados:", a);
+          setPlayers(a);
+        }
         if (Array.isArray(r) && r.length) setGuardians(r);
         if (Array.isArray(t) && t.length) setTrainers(t);
         if (Array.isArray(tu) && tu.length) setClasses(tu);
@@ -192,8 +195,7 @@ const Cadastros = () => {
         if (Array.isArray(i) && i.length) setLeads(i);
         if (Array.isArray(m) && m.length) setModalities(m);
         if (Array.isArray(u) && u.length) {
-          console.log("Usuários carregados:", u);
-          console.log("Primeiro usuário:", u[0]);
+          console.log("[DEBUG] Usuários carregados:", u);
           setUsuarios(u);
         }
       })
@@ -272,12 +274,21 @@ const Cadastros = () => {
   const handleCreated = async (resource, data) => {
     try {
       console.log(`Salvando ${resource}:`, data);
-      const saved = await create(resource, data);
+      // Adiciona datas ao cadastrar qualquer recurso
+      let dataToSend = { ...data };
+      const now = new Date().toISOString();
+      if (!data.entry_date) dataToSend.entry_date = now;
+      dataToSend.updated_at = now;
+      const saved = await create(resource, dataToSend);
       console.log(`${resource} salvo com sucesso:`, saved);
 
       if (resource === "players") setPlayers((prev) => [...prev, saved]);
       if (resource === "guardians") setGuardians((prev) => [...prev, saved]);
-      if (resource === "trainers") setTrainers((prev) => [...prev, saved]);
+      if (resource === "trainers")
+        setTrainers((prev) => [
+          ...prev.filter((t) => t.id !== saved.id),
+          saved,
+        ]);
       if (resource === "classes") setClasses((prev) => [...prev, saved]);
       if (resource === "categories") setCategories((prev) => [...prev, saved]);
       if (resource === "modalities") setModalities((prev) => [...prev, saved]);
@@ -342,8 +353,11 @@ const Cadastros = () => {
         setCategories((prev) => prev.filter((item) => item.id !== id));
       if (recurso === "modalities")
         setModalities((prev) => prev.filter((item) => item.id !== id));
-      if (recurso === "leads")
-        setLeads((prev) => prev.filter((item) => item.id !== id));
+      if (recurso === "leads") {
+        // Atualiza a lista de leads do backend para garantir sincronização
+        const leadsAtualizados = await list("leads");
+        setLeads(Array.isArray(leadsAtualizados) ? leadsAtualizados : []);
+      }
 
       alert(`${recurso} deletado com sucesso!`);
       setConfirmDelete({ aberto: false, recurso: null, id: null, nome: null });
@@ -384,7 +398,7 @@ const Cadastros = () => {
     setFormDataUsuario({
       name: usuario.name,
       email: usuario.email,
-      birthDate: usuario.birth_date || "",
+      birthDate: usuario.birthDate || usuario.birth_date || "",
       cpf: usuario.cpf || "",
       rg: usuario.rg || "",
       role: usuario.role,
@@ -494,6 +508,7 @@ const Cadastros = () => {
   };
 
   const handleSalvarUsuario = async () => {
+    console.log("Valor de birthDate ao salvar:", formDataUsuario.birthDate);
     if (
       !formDataUsuario.name ||
       !formDataUsuario.email ||
@@ -562,6 +577,7 @@ const Cadastros = () => {
           role: updated.role,
           status: updated.status,
           phone: updated.phone,
+          entry_date: updated.entry_date,
           created_at: updated.created_at,
           updated_at: updated.updated_at,
         };
@@ -576,6 +592,7 @@ const Cadastros = () => {
         alert("Usuário atualizado com sucesso!");
       } else {
         // Criar novo usuário
+        const now = new Date().toISOString();
         const dataToCreate = {
           name: formDataUsuario.name,
           email: formDataUsuario.email,
@@ -586,10 +603,13 @@ const Cadastros = () => {
           status: formDataUsuario.status,
           password: formDataUsuario.password,
           phone: formDataUsuario.phone.replace(/\D/g, ""), // Remove formatação
+          entry_date: now,
+          updated_at: now,
         };
         console.log("Enviando dados para criar usuário:", dataToCreate);
-        const novoUsuario = await create("users", dataToCreate);
-        setUsuarios((prev) => [...prev, novoUsuario]);
+        await create("users", dataToCreate);
+        const usuariosAtualizados = await list("users");
+        setUsuarios(usuariosAtualizados);
         alert("Usuário criado com sucesso!");
       }
       setAbrirModalUsuario(false);
@@ -643,6 +663,20 @@ const Cadastros = () => {
   // Funções de mapeamento para transformar dados da tabela no formato esperado pelos modais
   const mapearDados = (recurso, item) => {
     switch (recurso) {
+      case "usuarios":
+        return {
+          id: item.id,
+          name: item.name || "",
+          email: item.email || "",
+          cpf: item.cpf || "",
+          rg: item.rg || "",
+          role: item.role || "",
+          status: item.status || "",
+          phone: item.phone || "",
+          birthDate: item.birthDate || item.birth_date || "",
+          entry_date: item.entry_date || item.created_at || "",
+          updated_at: item.updated_at || "",
+        };
       case "players":
         return {
           id: item.id,
@@ -782,7 +816,7 @@ const Cadastros = () => {
   return (
     <Layout
       title="Cadastros"
-      subtitle="Gerencie atletas, responsáveis, treinadores turmas, categorias e modalidades."
+      subtitle="Gerencie atletas, responsáveis, treinadores, turmas, categorias e modalidades."
     >
       {/* CONTEÚDO PRINCIPAL */}
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -803,7 +837,7 @@ const Cadastros = () => {
           {/* Área de Ações (Pesquisa e Novo Item) */}
           <div className="flex flex-col gap-1.5 sm:gap-2.5 px-6 sm:px-8 md:px-10 lg:px-20 py-2 sm:py-2.5 md:py-3 bg-white shadow-lg sm:flex-row sm:justify-between sm:items-center lg:grid lg:grid-cols-[minmax(0,1.5fr)_auto] lg:items-center relative z-20 w-full">
             {/* Barra de Pesquisa */}
-            <div className="relative w-full sm:max-w-sm order-2 sm:order-1 lg:order-none lg:justify-self-stretch">
+            <div className="relative w-full sm:max-w-sm order-2 sm:order-1 lg:order-0 lg:justify-self-stretch">
               <input
                 type="text"
                 placeholder={`Buscar ${
@@ -874,7 +908,7 @@ const Cadastros = () => {
             {!buscarMobileAberto ? (
               <>
                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <span className="text-3xl text-primary-900 flex-shrink-0">
+                  <span className="text-3xl text-primary-900 shrink-0">
                     {abas.find((a) => a.id === abaAtiva)?.icon}
                   </span>
                   <h2 className="text-2xl font-bold text-primary-900 truncate">
@@ -884,7 +918,7 @@ const Cadastros = () => {
 
                 <button
                   onClick={() => setBuscarMobileAberto(true)}
-                  className="flex items-center justify-center text-primary-900 hover:text-primary-700 transition flex-shrink-0"
+                  className="flex items-center justify-center text-primary-900 hover:text-primary-700 transition shrink-0"
                   title="Buscar"
                 >
                   <svg
@@ -908,7 +942,7 @@ const Cadastros = () => {
                   isAdmin ? (
                     <button
                       onClick={abrirModalAdicionarUsuario}
-                      className="flex items-center justify-center bg-blue-600 text-white hover:bg-blue-700 rounded p-2.5 transition flex-shrink-0"
+                      className="flex items-center justify-center bg-blue-600 text-white hover:bg-blue-700 rounded p-2.5 transition shrink-0"
                       title="Adicionar Usuário"
                     >
                       <MdAdd className="text-2xl" />
@@ -931,7 +965,7 @@ const Cadastros = () => {
                       else if (abaAtiva === "leads")
                         setAbrirCadastroInteressado(true);
                     }}
-                    className="flex items-center justify-center bg-blue-600 text-white hover:bg-blue-700 rounded p-2.5 transition flex-shrink-0"
+                    className="flex items-center justify-center bg-blue-600 text-white hover:bg-blue-700 rounded p-2.5 transition shrink-0"
                     title={`Adicionar ${
                       abas.find((a) => a.id === abaAtiva)?.labelSingular
                     }`}
@@ -980,7 +1014,7 @@ const Cadastros = () => {
                     setBuscarMobileAberto(false);
                     setTermoPesquisa("");
                   }}
-                  className="flex items-center justify-center text-gray-600 hover:text-gray-800 transition flex-shrink-0"
+                  className="flex items-center justify-center text-gray-600 hover:text-gray-800 transition shrink-0"
                   title="Fechar busca"
                 >
                   <svg
@@ -1014,9 +1048,17 @@ const Cadastros = () => {
                       isNameColumn: true,
                       render: (value, row) => (
                         <button
-                          onClick={() => {
-                            setAtletaSelecionado(row);
-                            setAbrirVisualizarAtleta(true);
+                          onClick={async () => {
+                            // Buscar dados completos do atleta no backend
+                            try {
+                              const atletaBackend = await list(
+                                `players/${row.id}`,
+                              );
+                              setAtletaSelecionado(atletaBackend);
+                              setAbrirVisualizarAtleta(true);
+                            } catch (e) {
+                              alert("Erro ao buscar dados do atleta");
+                            }
                           }}
                           className="text-blue-600 hover:underline cursor-pointer"
                         >
@@ -1026,8 +1068,40 @@ const Cadastros = () => {
                     },
                     { key: "age", label: "Idade" },
                     {
-                      key: "respNome",
-                      label: "Responsável",
+                      key: "responsaveis",
+                      label: "Responsáveis",
+                      render: (value, row) => {
+                        if (
+                          Array.isArray(row.responsaveis) &&
+                          row.responsaveis.length > 0
+                        ) {
+                          return (
+                            <ul className="space-y-1">
+                              {row.responsaveis.map((resp, idx) => (
+                                <li key={idx} className="text-xs text-gray-700">
+                                  <span className="font-semibold">
+                                    {resp.respNome}
+                                  </span>
+                                  {resp.respParentesco && (
+                                    <span className="ml-1 text-gray-500">
+                                      ({resp.respParentesco})
+                                    </span>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          );
+                        }
+                        // fallback para dados antigos
+                        if (row.respNome) {
+                          return (
+                            <span className="text-xs text-gray-700 font-semibold">
+                              {row.respNome}
+                            </span>
+                          );
+                        }
+                        return <span className="text-gray-400">—</span>;
+                      },
                     },
                     {
                       key: "modalidade",
@@ -1072,15 +1146,12 @@ const Cadastros = () => {
                       key: "user_id",
                       label: "Usuário Responsável",
                       render: (value, row) => {
-                        // Tenta buscar pelo id, se não achar tenta pelo nome
+                        // Busca sempre pelo id do usuário
                         const usuario = usuarios.find(
-                          (u) =>
-                            String(u.id) === String(row.user_id) ||
-                            u.name === row.user_id ||
-                            u.nome === row.user_id,
+                          (u) => String(u.id) === String(row.user_id),
                         );
                         return usuario
-                          ? usuario.name || usuario.nome
+                          ? usuario.nome || usuario.name || usuario.email
                           : row.user_id || "—";
                       },
                     },
@@ -1112,28 +1183,72 @@ const Cadastros = () => {
                         return turma ? turma.nome || turma.name : value || "—";
                       },
                     },
+                    {
+                      key: "updated_at",
+                      label: "Modificado em",
+                      render: (value, row) =>
+                        row.updated_at
+                          ? new Date(row.updated_at).toLocaleString("pt-BR", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              timeZone: "America/Recife",
+                            })
+                          : "—",
+                    },
+                    {
+                      key: "entry_date",
+                      label: "Cadastrado em",
+                      render: (value, row) =>
+                        row.entry_date
+                          ? new Date(row.entry_date).toLocaleString("pt-BR", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              timeZone: "America/Recife",
+                            })
+                          : "—",
+                    },
                   ]}
-                  data={athletesFiltrados.map((a) => ({
-                    ...a,
-                    age:
-                      a.age ??
-                      (a.nascimento
-                        ? Math.floor(
-                            (new Date() - new Date(a.nascimento)) /
-                              (365.25 * 24 * 60 * 60 * 1000),
-                          )
-                        : "—"),
-                    modalidade: a.modalidade || a.modality || "—",
-                    user_id: a.user_id || a.userId || "—",
-                    category: a.category || a.categoria || "—",
-                    respNome: a.respNome || a.responsavel || "—",
-                    weigth: a.weigth ?? "—",
-                    heigth: a.heigth ?? "—",
-                    primary_position: a.primary_position || "—",
-                    second_position: a.second_position || "—",
-                    dominant_foot: a.dominant_foot || "—",
-                    sport_status: a.sport_status || "—",
-                  }))}
+                  data={athletesFiltrados.map((a) => {
+                    let responsaveis = a.responsaveis;
+                    // Se vier como string JSON, faz o parse
+                    if (typeof responsaveis === "string") {
+                      try {
+                        responsaveis = JSON.parse(responsaveis);
+                      } catch {
+                        responsaveis = [];
+                      }
+                    }
+                    return {
+                      ...a,
+                      responsaveis,
+                      entry_date: a.entry_date,
+                      updated_at: a.updated_at,
+                      age:
+                        a.age ??
+                        (a.nascimento
+                          ? Math.floor(
+                              (new Date() - new Date(a.nascimento)) /
+                                (365.25 * 24 * 60 * 60 * 1000),
+                            )
+                          : "—"),
+                      modalidade: a.modalidade || a.modality || "—",
+                      user_id: a.user_id || a.userId || "—",
+                      category: a.category || a.categoria || "—",
+                      respNome: a.respNome || a.responsavel || "—",
+                      weigth: a.weigth ?? "—",
+                      heigth: a.heigth ?? "—",
+                      primary_position: a.primary_position || "—",
+                      second_position: a.second_position || "—",
+                      dominant_foot: a.dominant_foot || "—",
+                      sport_status: a.sport_status || "—",
+                    };
+                  })}
                   renderActions={(row) => (
                     <button
                       disabled={!isAdmin}
@@ -1270,7 +1385,16 @@ const Cadastros = () => {
                       label: "Especialidade",
                     },
                   ]}
-                  data={coachFiltrados}
+                  data={coachFiltrados.map((t) => {
+                    const usuario = usuarios.find(
+                      (u) => String(u.id) === String(t.user_id),
+                    );
+                    return {
+                      ...t,
+                      name: usuario?.name || usuario?.nome || "-",
+                      phone: usuario?.phone || "-",
+                    };
+                  })}
                   renderActions={(row) => (
                     <button
                       disabled={!isAdmin}
@@ -1348,19 +1472,19 @@ const Cadastros = () => {
                       ),
                     },
                     {
-                      key: "modality_id",
+                      key: "modality",
                       label: "Modalidade",
-                      render: (value, row) => row.modalidade || value || "-",
+                      render: (value) => value || "-",
                     },
                     {
-                      key: "category_id",
+                      key: "category",
                       label: "Categoria",
-                      render: (value, row) => row.categoria || value || "-",
+                      render: (value) => value || "-",
                     },
                     {
-                      key: "trainer_id",
+                      key: "trainer",
                       label: "Treinador",
-                      render: (value, row) => row.treinador || value || "-",
+                      render: (value) => value || "-",
                     },
                   ]}
                   data={classesFiltrados}
@@ -1529,6 +1653,10 @@ const Cadastros = () => {
                       ),
                     },
                     {
+                      key: "email",
+                      label: "E-mail",
+                    },
+                    {
                       key: "phone",
                       label: "Telefone",
                       render: (value, row) => (
@@ -1540,6 +1668,16 @@ const Cadastros = () => {
                     {
                       key: "source",
                       label: "Modalidade",
+                    },
+                    {
+                      key: "entry_date",
+                      label: "Data de Entrada",
+                      render: (value) =>
+                        value ? new Date(value).toLocaleString("pt-BR") : "-",
+                    },
+                    {
+                      key: "status",
+                      label: "Status",
                     },
                   ]}
                   data={interessadosFiltrados}
@@ -1637,6 +1775,22 @@ const Cadastros = () => {
                               {value}
                             </span>
                           ),
+                        },
+                        {
+                          key: "entry_date",
+                          label: "Criado em",
+                          render: (value) =>
+                            value
+                              ? new Date(value).toLocaleString("pt-BR")
+                              : "-",
+                        },
+                        {
+                          key: "updated_at",
+                          label: "Atualizado em",
+                          render: (value) =>
+                            value
+                              ? new Date(value).toLocaleString("pt-BR")
+                              : "-",
                         },
                       ]}
                       data={usuariosFiltrados}
@@ -1766,40 +1920,54 @@ const Cadastros = () => {
         />
 
         {/* Modais de Cadastro/Edição */}
-        <ModalCadastroAtleta
-          aberto={abrirCadastroAtleta}
-          editandoAtleta={!!itemEditando}
-          formDataAtleta={itemEditando || {}}
+
+        {/* Modal de edição de atleta */}
+        <EditPlayersModal
+          aberto={abrirVisualizarAtleta}
+          atleta={atletaSelecionado || {}}
           onClose={() => {
-            setAbrirCadastroAtleta(false);
-            setItemEditando(null);
+            setAbrirVisualizarAtleta(false);
+            setAtletaSelecionado(null);
           }}
           onSave={async (data) => {
             try {
-              if (itemEditando?.id) {
-                // Atualizar atleta existente
-                const atualizado = await update(
-                  "players",
-                  itemEditando.id,
-                  data,
+              if (atletaSelecionado?.id) {
+                // Remover campos de responsável individuais do objeto enviado
+                const {
+                  id,
+                  respCpf,
+                  respNome,
+                  respEmail,
+                  respTelefone,
+                  respParentesco,
+                  respCep,
+                  respBairro,
+                  respCidade,
+                  respUf,
+                  respLogradouro,
+                  respComplemento,
+                  ...dataLimpo
+                } = data;
+                // Corrigir formato da data para yyyy-MM-dd
+                if (dataLimpo.nascimento) {
+                  const d = dataLimpo.nascimento;
+                  if (typeof d === "string" && d.length > 10) {
+                    dataLimpo.nascimento = d.slice(0, 10);
+                  }
+                }
+                await update("players", atletaSelecionado.id, dataLimpo);
+                // Após editar, recarrega toda a lista de atletas do backend para garantir consistência dos campos de data
+                const atletasAtualizados = await list("players");
+                setPlayers(
+                  Array.isArray(atletasAtualizados) ? atletasAtualizados : [],
                 );
-                setPlayers((prev) =>
-                  prev.map((a) => (a.id === atualizado.id ? atualizado : a)),
-                );
-                alert("Atleta atualizado com sucesso!");
-              } else {
-                // Criar novo atleta
-                const criado = await create("players", data);
-                setPlayers((prev) => [...prev, criado]);
-                alert("Atleta cadastrado com sucesso!");
               }
-              setItemEditando(null);
-              setAbrirCadastroAtleta(false);
             } catch (e) {
-              alert("Erro ao salvar atleta: " + (e.message || e));
+              alert(
+                "Erro ao salvar alterações do atleta: " + (e?.message || e),
+              );
             }
           }}
-          atleta={itemEditando}
         />
 
         <ModalCadastroResponsavel
@@ -1949,10 +2117,10 @@ const Cadastros = () => {
             try {
               if (itemEditando?.id) {
                 await update("leads", itemEditando.id, data);
-                setLeads((prev) =>
-                  prev.map((i) =>
-                    i.id === itemEditando.id ? { ...i, ...data } : i,
-                  ),
+                // Atualiza a lista de leads do backend para garantir sincronização
+                const leadsAtualizados = await list("leads");
+                setLeads(
+                  Array.isArray(leadsAtualizados) ? leadsAtualizados : [],
                 );
               } else {
                 const saved = await create("leads", data);
@@ -1970,65 +2138,29 @@ const Cadastros = () => {
         />
 
         {/* Modal Visualizar Atleta */}
-        <ModalVisualizarAtleta
+        <ModalCadastroAtleta
           aberto={abrirVisualizarAtleta}
+          formDataAtleta={atletaSelecionado || {}}
           onClose={() => {
             setAbrirVisualizarAtleta(false);
             setAtletaSelecionado(null);
           }}
-          atleta={atletaSelecionado}
-          onSave={async (atletaAtualizado) => {
+          onSave={async (data) => {
             try {
-              // Mapear os dados do formato do modal para o formato da API
-              const dataToSave = {
-                name: atletaAtualizado.name,
-                email: atletaAtualizado.email,
-                cpf: atletaAtualizado.cpf,
-                rg: atletaAtualizado.rg,
-                nascimento: atletaAtualizado.birthDate,
-                age: atletaAtualizado.age,
-                category: atletaAtualizado.category,
-                classes: atletaAtualizado.classes,
-                escola: atletaAtualizado.escola,
-                modalidade: atletaAtualizado.modality,
-                cep: atletaAtualizado.address?.cep,
-                bairro: atletaAtualizado.address?.neighborhood,
-                cidade: atletaAtualizado.address?.city,
-                uf: atletaAtualizado.address?.uf,
-                logradouro: atletaAtualizado.address?.street,
-                complemento: atletaAtualizado.address?.complement,
-                observacoes: atletaAtualizado.observations,
-                respCpf: atletaAtualizado.respCpf,
-                respNome: atletaAtualizado.respNome,
-                respEmail: atletaAtualizado.respEmail,
-                respTelefone: atletaAtualizado.respTelefone,
-                respParentesco: atletaAtualizado.respParentesco,
-                respCep: atletaAtualizado.respCep,
-                respBairro: atletaAtualizado.respBairro,
-                respCidade: atletaAtualizado.respCidade,
-                respUf: atletaAtualizado.respUf,
-                respLogradouro: atletaAtualizado.respLogradouro,
-                respComplemento: atletaAtualizado.respComplemento,
-              };
-
-              console.log("Atualizando atleta com dados:", dataToSave);
-              await update("players", atletaAtualizado.id, dataToSave);
-
-              setPlayers((prev) =>
-                prev.map((a) =>
-                  a.id === atletaAtualizado.id ? { ...a, ...dataToSave } : a,
-                ),
-              );
-              alert("Atleta atualizado com sucesso!");
-              setAbrirVisualizarAtleta(false);
-              setAtletaSelecionado(null);
+              if (atletaSelecionado?.id) {
+                // Atualizar atleta existente
+                const atualizado = await update(
+                  "players",
+                  atletaSelecionado.id,
+                  data,
+                );
+                setAtletaSelecionado(atualizado);
+                setAbrirVisualizarAtleta(false);
+                // Atualizar lista de atletas se necessário
+              }
             } catch (e) {
-              console.error("Erro ao atualizar atleta", e);
-              alert(`Erro ao atualizar atleta: ${e.message}`);
+              alert("Erro ao salvar alterações do atleta");
             }
-          }}
-          onOpenAddResponsible={() => {
-            // Aqui você pode adicionar lógica para abrir modal de responsável se necessário
           }}
         />
 

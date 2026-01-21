@@ -33,6 +33,7 @@ function capitalizeWords(str = "") {
 }
 
 export default function ModalCadastroAtleta({
+  // ...existing code...
   aberto,
   editandoAtleta,
   formDataAtleta = {},
@@ -41,11 +42,117 @@ export default function ModalCadastroAtleta({
   onClose,
   atleta,
 }) {
+  // Mensagem de sucesso ao salvar
+  const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState(formDataAtleta || {});
   const [categorias, setCategorias] = useState([]);
   const [modalidades, setModalidades] = useState([]);
   const [turmas, setTurmas] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
+  // Estado e handlers para múltiplos responsáveis
+  const [responsavelForm, setResponsavelForm] = useState({});
+  const [editingResponsavel, setEditingResponsavel] = useState(null);
+
+  function handleResponsavelChange(e) {
+    const { name, value } = e.target;
+    let newValue = value;
+    if (name === "respNome") {
+      // Permite apenas letras e espaços
+      newValue = value.replace(/[^A-Za-zÀ-ÿ\s]/g, "");
+    }
+    if (name === "respTelefone") {
+      // Máscara para telefone brasileiro (celular)
+      newValue = value
+        .replace(/\D/g, "")
+        .replace(/(\d{2})(\d)/, "($1) $2")
+        .replace(/(\d{5})(\d)/, "$1-$2")
+        .substring(0, 15);
+    }
+    if (name === "respCpf") {
+      // Máscara para CPF
+      newValue = value
+        .replace(/\D/g, "")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+        .replace(/(-\d{2})\d+?$/, "$1");
+    }
+    // Validação de email
+    let emailError = "";
+    if (name === "respEmail") {
+      if (!newValue) {
+        emailError = "O e-mail é obrigatório.";
+      } else if (!/^([^\s@]+)@([^\s@]+)\.[^\s@]+$/.test(newValue)) {
+        emailError = "E-mail inválido.";
+      }
+    }
+    setResponsavelForm((prev) => ({
+      ...prev,
+      [name]: newValue,
+      respEmailError: name === "respEmail" ? emailError : prev.respEmailError,
+    }));
+  }
+
+  function handleAddResponsavel() {
+    // Validação do nome: não pode conter números ou caracteres especiais
+    const nomeValido =
+      responsavelForm.respNome &&
+      /^[A-Za-zÀ-ÿ\s]+$/.test(responsavelForm.respNome);
+    // Validação do email: obrigatório e formato válido
+    const emailValido =
+      responsavelForm.respEmail &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(responsavelForm.respEmail);
+    if (
+      !nomeValido ||
+      !responsavelForm.respCpf ||
+      !responsavelForm.respTelefone ||
+      !emailValido
+    ) {
+      let msg = "Preencha corretamente os campos obrigatórios do responsável:";
+      if (!nomeValido) msg += "\n- Nome sem números ou caracteres especiais";
+      if (!responsavelForm.respCpf) msg += "\n- CPF";
+      if (!responsavelForm.respTelefone) msg += "\n- Telefone";
+      if (!emailValido) msg += "\n- Email válido e obrigatório";
+      alert(msg);
+      return;
+    }
+    setFormData((prev) => ({
+      ...prev,
+      responsaveis: [...(prev.responsaveis || []), responsavelForm],
+    }));
+    setResponsavelForm({});
+  }
+
+  function handleRemoveResponsavel(idx) {
+    setFormData((prev) => ({
+      ...prev,
+      responsaveis: (prev.responsaveis || []).filter((_, i) => i !== idx),
+    }));
+    if (editingResponsavel === idx) {
+      setEditingResponsavel(null);
+      setResponsavelForm({});
+    }
+  }
+
+  function handleUpdateResponsavel() {
+    setFormData((prev) => {
+      const novosResponsaveis = (prev.responsaveis || []).map((r, i) =>
+        i === editingResponsavel ? { ...responsavelForm } : r,
+      );
+      // Força atualização do array para garantir sincronização
+      return {
+        ...prev,
+        responsaveis: [...novosResponsaveis],
+      };
+    });
+    setEditingResponsavel(null);
+    setResponsavelForm({});
+  }
+
+  function handleCancelEditResponsavel() {
+    setEditingResponsavel(null);
+    setResponsavelForm({});
+  }
   // Buscar dados do backend ao abrir modal
   useEffect(() => {
     if (aberto) {
@@ -262,6 +369,12 @@ export default function ModalCadastroAtleta({
             <IoClose size={24} />
           </button>
         </div>
+        {/* Mensagem de sucesso */}
+        {successMessage && (
+          <div className="p-3 mb-2 rounded bg-green-100 text-green-800 text-center font-semibold animate-fade-in">
+            {successMessage}
+          </div>
+        )}
 
         {/* Etapas do formulário */}
         <div className="overflow-y-auto custom-scrollbar p-6 space-y-5">
@@ -289,16 +402,56 @@ export default function ModalCadastroAtleta({
               e.preventDefault();
               if (!validateStep(step)) return;
               if (step < steps.length - 1) {
+                // Força atualização do formData para garantir que alterações em responsáveis não se percam
+                setFormData((prev) => ({
+                  ...prev,
+                  responsaveis: [...(prev.responsaveis || [])],
+                }));
                 setStep(step + 1);
-              } else {
-                setIsLoading(true);
-                // Corrige user_id para string ou vazio
-                const dataToSend = {
-                  ...formData,
-                  user_id: formData.user_id ? Number(formData.user_id) : null,
-                };
+                return;
+              }
+              setIsLoading(true);
+              // Remove campos individuais de responsável do payload
+              const {
+                respCpf,
+                respNome,
+                respEmail,
+                respTelefone,
+                respParentesco,
+                respCep,
+                respBairro,
+                respCidade,
+                respUf,
+                respLogradouro,
+                respComplemento,
+                ...dataToSend
+              } = formData;
+              dataToSend.user_id = formData.user_id || null;
+              // Corrigir formato da data para yyyy-MM-dd
+              if (dataToSend.nascimento) {
+                const d = dataToSend.nascimento;
+                if (typeof d === "string" && d.length > 10) {
+                  dataToSend.nascimento = d.slice(0, 10);
+                }
+              }
+              // Garante que só o array de responsáveis será enviado
+              if (Array.isArray(formData.responsaveis)) {
+                dataToSend.responsaveis = formData.responsaveis;
+              }
+              try {
                 await onSave(dataToSend);
+                setSuccessMessage("Atleta atualizado com sucesso!");
                 setIsLoading(false);
+                // Em modo de edição, não fecha o modal automaticamente. O controle fica com o componente pai (EditPlayersModal)
+                if (!editandoAtleta) {
+                  setTimeout(() => {
+                    setSuccessMessage("");
+                    onClose();
+                  }, 1200);
+                }
+              } catch (error) {
+                setIsLoading(false);
+                // Aqui você pode adicionar lógica para exibir erro, se desejar
               }
             }}
             className="space-y-6"
@@ -378,7 +531,14 @@ export default function ModalCadastroAtleta({
                     <input
                       type="date"
                       name="nascimento"
-                      value={formData.nascimento || ""}
+                      value={
+                        formData.nascimento
+                          ? typeof formData.nascimento === "string" &&
+                            formData.nascimento.length > 10
+                            ? formData.nascimento.slice(0, 10)
+                            : formData.nascimento
+                          : ""
+                      }
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm bg-white"
                     />
@@ -779,10 +939,76 @@ export default function ModalCadastroAtleta({
             {step === 3 && (
               <div className="space-y-3">
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
-                  Responsável
+                  Responsáveis
                 </h3>
+                {/* Lista de responsáveis adicionados */}
+                <ul className="mb-4 space-y-2">
+                  {(formData.responsaveis || []).map((resp, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl p-3 shadow-sm transition hover:shadow-md group"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-primary-900 truncate">
+                            {resp.respNome}
+                          </span>
+                          <span className="text-xs text-gray-500 bg-gray-100 rounded px-2 py-0.5">
+                            {resp.respParentesco}
+                          </span>
+                        </div>
+                        {/* Apenas nome e parentesco */}
+                      </div>
+                      <button
+                        type="button"
+                        className="flex items-center justify-center w-8 h-8 rounded-full border border-blue-200 bg-linear-to-tr from-blue-50 to-blue-100 text-blue-700 shadow-sm hover:from-blue-100 hover:to-blue-200 hover:border-blue-400 hover:text-blue-900 transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        title="Editar"
+                        onClick={() => {
+                          setEditingResponsavel(idx);
+                          setResponsavelForm(resp);
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-1.414.828l-4 1a1 1 0 01-1.263-1.263l1-4a4 4 0 01.828-1.414z"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        className="flex items-center justify-center w-8 h-8 rounded-full border border-red-200 bg-linear-to-tr from-red-50 to-red-100 text-red-700 shadow-sm hover:from-red-100 hover:to-red-200 hover:border-red-400 hover:text-red-900 transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-300"
+                        title="Excluir"
+                        onClick={() => handleRemoveResponsavel(idx)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                {/* Formulário de responsável */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Nome do Responsável */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Nome
@@ -790,27 +1016,63 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="respNome"
-                      value={formData.respNome || ""}
-                      onChange={handleChange}
+                      value={responsavelForm.respNome || ""}
+                      onChange={handleResponsavelChange}
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="Nome do responsável"
                     />
                   </div>
-                  {/* Parentesco */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Parentesco
                     </label>
-                    <input
-                      type="text"
-                      name="respParentesco"
-                      value={formData.respParentesco || ""}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="Parentesco"
-                    />
+                    <div className="relative">
+                      <select
+                        name="respParentesco"
+                        value={responsavelForm.respParentesco || ""}
+                        onChange={handleResponsavelChange}
+                        className="w-full appearance-none px-3.5 py-2.5 border border-primary-300 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-primary-400/30 focus:border-primary-700 outline-none text-sm cursor-pointer transition-all pr-10 hover:border-primary-400"
+                        style={{ backgroundImage: "none" }}
+                        onMouseOver={(e) => {
+                          if (e.target.tagName === "OPTION")
+                            e.target.style.transform = "scale(1.08)";
+                        }}
+                        onMouseOut={(e) => {
+                          if (e.target.tagName === "OPTION")
+                            e.target.style.transform = "";
+                        }}
+                      >
+                        <option value="">Selecione</option>
+                        <option value="Pai">Pai</option>
+                        <option value="Mãe">Mãe</option>
+                        <option value="Padrasto">Padrasto</option>
+                        <option value="Madrasta">Madrasta</option>
+                        <option value="Avô">Avô</option>
+                        <option value="Avó">Avó</option>
+                        <option value="Tio">Tio</option>
+                        <option value="Tia">Tia</option>
+                        <option value="Irmão">Irmão</option>
+                        <option value="Irmã">Irmã</option>
+                        <option value="Outro">Outro</option>
+                      </select>
+                      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center text-primary-700">
+                        <svg
+                          width="18"
+                          height="18"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M7 10l5 5 5-5"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </div>
                   </div>
-                  {/* CPF do Responsável */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       CPF
@@ -818,14 +1080,13 @@ export default function ModalCadastroAtleta({
                     <input
                       type="text"
                       name="respCpf"
-                      value={formData.respCpf || ""}
-                      onChange={handleChange}
+                      value={responsavelForm.respCpf || ""}
+                      onChange={handleResponsavelChange}
                       maxLength="14"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="XXX.XXX.XXX-XX"
                     />
                   </div>
-                  {/* Telefone do Responsável */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Telefone
@@ -833,14 +1094,13 @@ export default function ModalCadastroAtleta({
                     <input
                       type="tel"
                       name="respTelefone"
-                      value={formData.respTelefone || ""}
-                      onChange={handleChange}
+                      value={responsavelForm.respTelefone || ""}
+                      onChange={handleResponsavelChange}
                       maxLength="15"
                       className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
                       placeholder="(00) 00000-0000"
                     />
                   </div>
-                  {/* Email do Responsável */}
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Email
@@ -848,12 +1108,45 @@ export default function ModalCadastroAtleta({
                     <input
                       type="email"
                       name="respEmail"
-                      value={formData.respEmail || ""}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
+                      value={responsavelForm.respEmail || ""}
+                      onChange={handleResponsavelChange}
+                      className={`w-full px-3.5 py-2.5 border ${responsavelForm.respEmailError ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white`}
                       placeholder="email@exemplo.com"
                     />
+                    {responsavelForm.respEmailError && (
+                      <span className="text-xs text-red-600 mt-1 block">
+                        {responsavelForm.respEmailError}
+                      </span>
+                    )}
                   </div>
+                </div>
+                <div className="flex gap-2 mt-3">
+                  {editingResponsavel !== null ? (
+                    <button
+                      type="button"
+                      className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                      onClick={handleUpdateResponsavel}
+                    >
+                      Atualizar
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="px-4 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-800"
+                      onClick={handleAddResponsavel}
+                    >
+                      + Responsável
+                    </button>
+                  )}
+                  {editingResponsavel !== null && (
+                    <button
+                      type="button"
+                      className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                      onClick={handleCancelEditResponsavel}
+                    >
+                      Cancelar
+                    </button>
+                  )}
                 </div>
               </div>
             )}

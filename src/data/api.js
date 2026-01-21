@@ -1,4 +1,4 @@
-export const API_BASE = "http://localhost:3000";
+export const API_BASE = "http://localhost:3001";
 
 async function request(path, options = {}) {
   try {
@@ -48,9 +48,14 @@ export async function update(resource, id, data) {
   });
 }
 
+// Simula login buscando usuário por email e senha no json-server
 export async function login(email, password) {
-  return request("/users/login", {
-    method: "POST",
-    body: JSON.stringify({ email, password }),
-  });
+  const users = await request(
+    `/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
+  );
+  if (users.length > 0) {
+    return users[0];
+  } else {
+    throw new Error("Usuário ou senha inválidos");
+  }
 }

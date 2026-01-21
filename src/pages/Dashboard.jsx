@@ -1,3 +1,8 @@
+/**
+ * Dashboard - Visão geral do sistema PS Sport’s
+ * Exibe estatísticas, gráficos e atalhos para cadastro rápido.
+ * Todos os modais de cadastro são acionados por botões de ação rápida.
+ */
 import { useState, useEffect } from "react";
 import {
   PieChart,
@@ -14,7 +19,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-
 import { Card } from "../components/Card";
 import { AcaoRapida } from "../components/AcaoRapida/index";
 import Layout from "../components/Navbar/Navbar";
@@ -25,33 +29,30 @@ import ModalCadastroCategoria from "../modals/forms/ModalCadastroCategoria";
 import ModalCadastroInteressado from "../modals/forms/ModalCadastroInteressado";
 import ModalCadastroTurma from "../modals/forms/ModalCadastroTurma";
 import ModalCadastroModalidade from "../modals/forms/ModalCadastroModalidade";
+import ModalCadastroUsuario from "../modals/forms/ModalCadastroUsuario";
 import { create, list } from "../data/api";
 
-// Hook para detectar tamanho da tela
+// Hook para detectar tamanho da tela (responsivo)
 function useResponsive() {
   const [screenSize, setScreenSize] = useState("lg");
-
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setScreenSize("sm");
-      } else if (window.innerWidth < 1024) {
-        setScreenSize("md");
-      } else {
-        setScreenSize("lg");
-      }
+      if (window.innerWidth < 640) setScreenSize("sm");
+      else if (window.innerWidth < 1024) setScreenSize("md");
+      else setScreenSize("lg");
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   return screenSize;
 }
 
 export default function Dashboard() {
+  // Detecta tamanho da tela para renderização responsiva
   const screenSize = useResponsive();
+
+  // Estados para dados das entidades
   const [players, setPlayers] = useState([]);
   const [guardians, setGuardians] = useState([]);
   const [trainers, setTrainers] = useState([]);
@@ -60,8 +61,9 @@ export default function Dashboard() {
   const [leads, setLeads] = useState([]);
   const [classes, setClasses] = useState([]);
   const [modalities, setModalities] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  // Estados de abertura dos modais
+  // Estados para abertura dos modais de cadastro
   const [abrirCadastroAtleta, setAbrirCadastroAtleta] = useState(false);
   const [abrirCadastroResponsavel, setAbrirCadastroResponsavel] =
     useState(false);
@@ -71,12 +73,44 @@ export default function Dashboard() {
     useState(false);
   const [abrirCadastroTurma, setAbrirCadastroTurma] = useState(false);
   const [abrirCadastroModalidade, setAbrirCadastroModalidade] = useState(false);
+  const [abrirCadastroUsuario, setAbrirCadastroUsuario] = useState(false);
 
-  // Verificar se o usuário é administrador
+  // Estado e handler para cadastro de usuário
+  const [formDataUsuario, setFormDataUsuario] = useState({
+    name: "",
+    email: "",
+    password: "",
+    birth_date: "",
+    cpf: "",
+    rg: "",
+    status: "Ativo",
+    role: "Treinador",
+  });
+  const handleSalvarUsuario = async () => {
+    try {
+      await create("users", formDataUsuario);
+      setFormDataUsuario({
+        name: "",
+        email: "",
+        password: "",
+        birth_date: "",
+        cpf: "",
+        rg: "",
+        status: "Ativo",
+        role: "Treinador",
+      });
+      setAbrirCadastroUsuario(false);
+      carregarDados();
+    } catch (err) {
+      console.error("Erro ao cadastrar usuário:", err);
+    }
+  };
+
+  // Verifica se o usuário logado é administrador
   const usuarioAtual = JSON.parse(localStorage.getItem("usuario") || "{}");
   const isAdmin = usuarioAtual.role === "Administrador";
 
-  // 🔵 Buscar dados de todas as coleções
+  // Busca todos os dados das entidades do backend
   const carregarDados = async () => {
     try {
       const [
@@ -88,6 +122,7 @@ export default function Dashboard() {
         leadsData,
         classesData,
         modalitiesData,
+        usersData,
       ] = await Promise.all([
         list("players"),
         list("guardians"),
@@ -97,8 +132,8 @@ export default function Dashboard() {
         list("leads"),
         list("classes"),
         list("modalities"),
+        list("users"),
       ]);
-
       setPlayers(playersData || []);
       setGuardians(guardiansData || []);
       setTrainers(trainersData || []);
@@ -107,16 +142,16 @@ export default function Dashboard() {
       setLeads(leadsData || []);
       setClasses(classesData || []);
       setModalities(modalitiesData || []);
+      setUsers(usersData || []);
     } catch (err) {
       console.error("Erro ao carregar dados:", err);
     }
   };
-
   useEffect(() => {
     carregarDados();
   }, []);
 
-  // Funções de cadastro
+  // Handlers para salvar cada entidade
   const handleSalvarAtleta = async (data) => {
     try {
       await create("players", data);
@@ -125,7 +160,6 @@ export default function Dashboard() {
       console.error("Erro ao cadastrar atleta:", err);
     }
   };
-
   const handleSalvarResponsavel = async (data) => {
     try {
       await create("guardians", data);
@@ -134,7 +168,6 @@ export default function Dashboard() {
       console.error("Erro ao cadastrar responsável:", err);
     }
   };
-
   const handleSalvarTreinador = async (data) => {
     try {
       await create("trainers", data);
@@ -143,7 +176,6 @@ export default function Dashboard() {
       console.error("Erro ao cadastrar treinador:", err);
     }
   };
-
   const handleSalvarCategoria = async (data) => {
     try {
       await create("categories", data);
@@ -152,7 +184,6 @@ export default function Dashboard() {
       console.error("Erro ao cadastrar categoria:", err);
     }
   };
-
   const handleSalvarInteressado = async (data) => {
     try {
       await create("leads", data);
@@ -161,7 +192,6 @@ export default function Dashboard() {
       console.error("Erro ao cadastrar interessado:", err);
     }
   };
-
   const handleSalvarTurma = async (data) => {
     try {
       await create("classes", data);
@@ -170,7 +200,6 @@ export default function Dashboard() {
       console.error("Erro ao cadastrar turma:", err);
     }
   };
-
   const handleSalvarModalidade = async (data) => {
     try {
       await create("modalities", data);
@@ -180,54 +209,19 @@ export default function Dashboard() {
     }
   };
 
-  // Funções de abertura/fechamento dos modais
-  const abrirFechasAtleta = (salvo) => {
-    if (salvo) handleSalvarAtleta(salvo);
-    setAbrirCadastroAtleta(false);
-  };
-
-  const abrirFechasResponsavel = (salvo) => {
-    if (salvo) handleSalvarResponsavel(salvo);
-    setAbrirCadastroResponsavel(false);
-  };
-
-  const abrirFechasTreinador = (salvo) => {
-    if (salvo) handleSalvarTreinador(salvo);
-    setAbrirCadastroTreinador(false);
-  };
-
-  const abrirFechasCategoria = (salvo) => {
-    if (salvo) handleSalvarCategoria(salvo);
-    setAbrirCadastroCategoria(false);
-  };
-
-  const abrirFechasInteressado = (salvo) => {
-    if (salvo) handleSalvarInteressado(salvo);
-    setAbrirCadastroInteressado(false);
-  };
-
-  const abrirFechasTurma = (salvo) => {
-    if (salvo) handleSalvarTurma(salvo);
-    setAbrirCadastroTurma(false);
-  };
-
-  const abrirFechasModalidade = (salvo) => {
-    if (salvo) handleSalvarModalidade(salvo);
-    setAbrirCadastroModalidade(false);
-  };
-
+  // Renderização principal
   return (
     <Layout title="Dashboard" subtitle="Visão geral do PS Sport’s">
-      {/* MAIN */}
+      {/* Seção principal do dashboard */}
       <main className="flex-1 transition-all duration-300 px-4 sm:px-6 md:px-8 pt-8 sm:pt-5 md:pt-5">
         <section className="cards">
-          {/* AÇÕES RÁPIDAS */}
+          {/* Ações rápidas para cadastro */}
           <div className="acoes-rapidas mt-6 sm:mt-8 md:mt-10">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 md:mb-6">
               Ações Rápidas
             </h2>
-
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-2 sm:gap-3 md:gap-4 mb-6">
+              {/* Cada botão abre um modal de cadastro correspondente */}
               <AcaoRapida
                 subTitle="Cadastrar Atleta"
                 onClick={() => setAbrirCadastroAtleta(true)}
@@ -263,39 +257,42 @@ export default function Dashboard() {
                 onClick={() => setAbrirCadastroModalidade(true)}
                 disabled={!isAdmin}
               />
+              <AcaoRapida
+                subTitle="Cadastrar Usuário"
+                onClick={() => setAbrirCadastroUsuario(true)}
+                disabled={!isAdmin}
+              />
             </div>
           </div>
 
-          {/* CARDS DE ESTATÍSTICAS */}
+          {/* Cards de estatísticas das entidades */}
           <div className="overflow-x-auto -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-2 sm:gap-3 md:gap-4 mb-6">
               <Card title="Atletas" value={players.length} />
               <Card title="Responsáveis" value={guardians.length} />
               <Card title="Treinadores" value={trainers.length} />
-              <Card title="Escolas" value={schools.length} />
               <Card title="Categorias" value={categories.length} />
               <Card title="Interessados" value={leads.length} />
               <Card title="Turmas" value={classes.length} />
               <Card title="Modalidades" value={modalities.length} />
+              <Card title="Usuários" value={users.length} />
             </div>
           </div>
 
-          {/* GRÁFICO DE DADOS - RESPONSIVO */}
+          {/* Gráficos de dados - responsivo para cada tamanho de tela */}
           <div className="mt-8 sm:mt-10 md:mt-12 bg-white rounded-lg shadow-lg p-4 sm:p-6 border border-gray-100 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8">
             <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
               Resumo de Cadastros
             </h3>
-
-            {/* Dados comuns para todos os gráficos */}
+            {/* Renderiza o gráfico adequado ao tamanho da tela */}
             {screenSize === "sm" ? (
-              // TELA PEQUENA (Mobile) - Gráfico de Colunas Vertical
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart
                   data={[
                     { name: "Atletas", value: players.length },
-                    { name: "Guardians", value: guardians.length },
+                    { name: "Responsáveis", value: guardians.length },
                     { name: "Treinadores", value: trainers.length },
-                    { name: "Escolas", value: schools.length },
+                    { name: "Usuários", value: schools.length },
                     { name: "Categorias", value: categories.length },
                     { name: "Interessados", value: leads.length },
                     { name: "Turmas", value: classes.length },
@@ -326,7 +323,6 @@ export default function Dashboard() {
                 </BarChart>
               </ResponsiveContainer>
             ) : screenSize === "md" ? (
-              // TELA MÉDIA (Tablet) - Gráfico de Linhas
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart
                   data={[
@@ -400,7 +396,6 @@ export default function Dashboard() {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              // TELA GRANDE (Desktop) - Gráfico de Donut
               <ResponsiveContainer width="100%" height={400}>
                 <PieChart>
                   <Pie
@@ -412,7 +407,7 @@ export default function Dashboard() {
                       { name: "Categories", value: categories.length },
                       { name: "Leads", value: leads.length },
                       { name: "Classes", value: classes.length },
-                      { name: "Modalities", value: modalities.length },
+                      { name: "Modalidades", value: modalities.length },
                     ]}
                     cx="50%"
                     cy="50%"
@@ -438,7 +433,7 @@ export default function Dashboard() {
           </div>
         </section>
       </main>
-      {/* Modais acionados pelas Ações Rápidas */}
+      {/* Modais de cadastro - cada um recebe props e handlers específicos */}
       <ModalCadastroAtleta
         aberto={abrirCadastroAtleta}
         onClose={() => setAbrirCadastroAtleta(false)}
@@ -466,19 +461,31 @@ export default function Dashboard() {
       />
       <ModalCadastroTurma
         aberto={abrirCadastroTurma}
-        onClose={abrirFechasTurma}
-        onSave={abrirFechasTurma}
+        onClose={() => setAbrirCadastroTurma(false)}
+        onSave={handleSalvarTurma}
       />
       <ModalCadastroModalidade
         aberto={abrirCadastroModalidade}
-        onClose={abrirFechasModalidade}
-        onSave={abrirFechasModalidade}
+        onClose={() => setAbrirCadastroModalidade(false)}
+        onSave={handleSalvarModalidade}
+      />
+      <ModalCadastroUsuario
+        aberto={abrirCadastroUsuario}
+        formDataUsuario={formDataUsuario}
+        onChange={(e) =>
+          setFormDataUsuario({
+            ...formDataUsuario,
+            [e.target.name]: e.target.value,
+          })
+        }
+        onSalvar={handleSalvarUsuario}
+        onCancelar={() => setAbrirCadastroUsuario(false)}
       />
     </Layout>
   );
 }
 
-/* 🔵 COMPONENTES AUXILIARES */
+// Componentes auxiliares para tabelas (se necessário)
 function Input({ label, ...props }) {
   return (
     <input
@@ -490,7 +497,6 @@ function Input({ label, ...props }) {
     />
   );
 }
-
 function Th({ children }) {
   return (
     <th className="px-3 py-2 font-semibold text-xs sm:text-sm md:text-base">
@@ -498,11 +504,9 @@ function Th({ children }) {
     </th>
   );
 }
-
 function Td({ children }) {
   return (
     <td className="px-3 py-2 text-xs sm:text-sm md:text-base">{children}</td>
   );
 }
-
-// (sem exports adicionais)
+// Fim do arquivo

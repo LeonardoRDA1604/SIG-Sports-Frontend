@@ -53,7 +53,7 @@ export default function NavbarMobile({ expanded, setExpanded }) {
         {/* Logo */}
         <div className="flex items-center justify-center mb-4 relative py-8 mt-4">
           <img
-            src="src/assets/icons/ps-sports-logo-color.svg"
+            src="src/assets/SigSports.png"
             alt="Logo"
             className="filter drop-shadow-[0_0_05px_rgba(255,255,255,0.7)] w-40"
           />

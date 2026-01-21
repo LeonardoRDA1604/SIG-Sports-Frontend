@@ -235,7 +235,7 @@ export default function Cadastro() {
         email: formData.email,
         cpf: formData.cpf.replace(/\D/g, ""), // Remove formatação antes de enviar
         rg: formData.rg.replace(/\D/g, ""), // Remove formatação antes de enviar
-        birthDate: dataFormatada,
+        birth_date: dataFormatada,
         phone: formData.telefone.replace(/\D/g, ""), // Remove formatação antes de enviar
         password: formData.senha,
         status: "Ativo",
@@ -261,22 +261,24 @@ export default function Cadastro() {
     <div
       className="min-h-screen flex items-center justify-center p-4"
       style={{
-        background: "radial-gradient(circle at 50% 50%, #0036cc, #000125)",
+        background: "radial-gradient(circle at 50% 80%, #00b5ff, #03054b)",
       }}
     >
-      <div className="bg-gray-800 shadow-2xl rounded-2xl overflow-hidden w-full max-w-5xl flex flex-col md:flex-row bg-opacity-90 max-h-[90vh] md:max-h-screen">
-        {/* FORMULÁRIO */}
-        <div className="w-full md:w-1/2 p-5 sm:p-6 md:p-6 bg-gray-900 rounded-l-2xl flex flex-col justify-center overflow-y-auto">
-          <h2 className="text-xl sm:text-xl md:text-2xl font-bold mb-4 sm:mb-4 text-center text-white tracking-wider">
-            Criar Nova Conta
-          </h2>
 
+        {/* FORMULÁRIO */}
+        <div className="bg-black bg-opacity-90 border-solid border-2 border-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+           <img
+              src="/src/assets/SigSports.png"
+              alt="Logo da Aplicação"
+              className=" object-contain mb-10 mx-auto w-2/4 h-auto"
+            />
+          
           <form
-            className="flex flex-col gap-3 sm:gap-3.5 md:gap-4"
+            className="flex flex-col gap-3 sm:gap-4"
             onSubmit={handleSubmit}
           >
             {/* Nome e Email */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3">
               {/* Nome */}
               <div className="relative">
                 <input
@@ -492,16 +494,6 @@ export default function Cadastro() {
             </button>
           </form>
         </div>
-
-        {/* IMAGEM */}
-        <div className="hidden md:flex md:w-1/2 items-center justify-center bg-linear-to-b from-gray-800 via-white to-gray-900 p-8">
-          <img
-            src="/src/assets/icons/ps-sports-logo-color.svg"
-            alt="Logo da aplicação"
-            className="w-3/4"
-          />
-        </div>
-      </div>
     </div>
   );
 }

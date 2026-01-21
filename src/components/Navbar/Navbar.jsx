@@ -26,28 +26,27 @@ function Navbar({ expanded, setExpanded }) {
       `}
     >
       {/* Logo com possivel alteração */}
-      <div className="flex items-center justify-center mb-2 relative py-14 mt-20">
-        {/* Logo Grande*/}
-
+      <div className="flex items-center justify-center mb-6 relative py-14 mt-20 lg:mt-10">
+        {/* Logo Expandida */}
         <img
-          src="src/assets/icons/ps-sports-logo-color.svg"
+          src="src/assets/SigSports.png"
           alt="Logo Expandida"
-          className={` filter drop-shadow-[0_0_05px_rgba(255,255,255,0.7)] absolute  py-4 transition-all duration-300 ${
+          className={`filter  absolute py-4 transition-all duration-300 ${
             expanded ? "opacity-100 w-48" : "opacity-0 w-12"
           }`}
         />
 
-        {/* Logo Pequena */}
+        {/* Logo Retraída */}
         <img
-          src="src/assets/icons/ps-sports-logo-color.svg"
+          src="src/assets/SigSports.png"
           alt="Logo Minimizada"
-          className={` filter drop-shadow-[0_0_05px_rgba(255,255,255,0.7)] absolute py-4 transition-all duration-300 ${
-            expanded ? "opacity-0 w-48" : "opacity-100 w-22"
+          className={`filter  absolute py-4 transition-all duration-300 ${
+            expanded ? "opacity-0 w-48" : "opacity-100 w-20"
           }`}
         />
       </div>
 
-      <div className="flex flex-col h-full px-6 p-6 mt-15 justify-between">
+      <div className="flex flex-col h-full px-6 p-6 mt-10 justify-between">
         {/* MENU */}
         <nav className="flex-2">
           <ul className="space-y-4 text-slate-900 ">
@@ -145,9 +144,9 @@ export default function Layout({ children, title, subtitle }) {
       >
         <div className="flex items-center justify-center p-6 sm:p-3 sm:-mt-4">
           <img
-            src="src/assets/icons/ps-sports-logo-color.svg"
+            src="src/assets/SigSports.png"
             alt="Logo"
-            className="w-48 sm:w-56"
+            className="w-48 sm:w-56 mt-50"
           />
           <button
             onClick={() => setMobileMenuOpen(false)}
@@ -157,7 +156,7 @@ export default function Layout({ children, title, subtitle }) {
           </button>
         </div>
 
-        <nav className="flex-1 px-6 py-0 sm:px-4 sm:py-0 sm:py-4 lg:py-0 flex flex-col sm:flex-col lg:flex-col items-center sm:items-stretch lg:items-start justify-center sm:justify-start lg:justify-start gap-4 sm:gap-4 sm:gap-6 lg:gap-4">
+        <nav className="flex-1 flex flex-col justify-between px-6 pb-6 ">
           {/* Avatar e Logout no Mobile - Esquerda (apenas landscape) */}
           <div className="hidden lg:flex flex-col items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center ring-2 ring-white/20 flex-shrink-0">

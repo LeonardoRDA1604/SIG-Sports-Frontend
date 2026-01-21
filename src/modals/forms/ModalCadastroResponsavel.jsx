@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import AutocompleteAtleta from "../../components/AutocompleteAtleta";
+import { list } from "../../data/api";
 import { createPortal } from "react-dom";
 import { HiChevronDown } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
@@ -20,6 +22,7 @@ export default function ModalCadastroResponsavel({
     cep: "",
     bairro: "",
     cidade: "",
+    numero: "",
     uf: "",
     logradouro: "",
     complemento: "",
@@ -27,6 +30,16 @@ export default function ModalCadastroResponsavel({
 
   const [formData, setFormData] = useState(estadoInicial); // Utiliza o estado inicial do formulário para iniciar o estado dos campos
   const [emailErro, setEmailErro] = useState(false); // Estado de erro do email
+  const [atletas, setAtletas] = useState([]);
+  const [atletasAdicionados, setAtletasAdicionados] = useState([]);
+  // Buscar atletas cadastrados ao abrir o modal
+  useEffect(() => {
+    if (aberto) {
+      list("players")
+        .then((data) => setAtletas(data))
+        .catch(() => setAtletas([]));
+    }
+  }, [aberto]);
 
   // Preencher dados quando estiver editando
   useEffect(() => {
@@ -44,11 +57,11 @@ export default function ModalCadastroResponsavel({
       "cpf",
       "email",
       "telefone",
-      "nomeAtleta",
       "parentesco",
       "cep",
       "bairro",
       "cidade",
+      "numero",
       "uf",
       "logradouro",
       "complemento",
@@ -59,8 +72,11 @@ export default function ModalCadastroResponsavel({
       (campo) => formData[campo]?.trim() !== "",
     );
 
-    // O botão só habilita se tudo estiver preenchido E não houver erro de formato de email
-    return todosPreenchidos && !emailErro;
+    // Pelo menos um atleta deve ser adicionado
+    const temAtleta = atletasAdicionados.length > 0;
+
+    // O botão só habilita se tudo estiver preenchido, tem atleta e não houver erro de formato de email
+    return todosPreenchidos && temAtleta && !emailErro;
   };
 
   // Função para fechar o modal e resetar os campos
@@ -77,11 +93,12 @@ export default function ModalCadastroResponsavel({
       cpf: formData.cpf,
       email: formData.email,
       phoneNumber: formData.telefone,
-      athletes: formData.nomeAtleta ? [formData.nomeAtleta] : [],
+      athletes: atletasAdicionados.map((a) => a.nome),
       kinship: formData.parentesco,
       cep: formData.cep,
       bairro: formData.bairro,
       cidade: formData.cidade,
+      numero: formData.numero,
       uf: formData.uf,
       logradouro: formData.logradouro,
       complemento: formData.complemento,
@@ -262,60 +279,162 @@ export default function ModalCadastroResponsavel({
           </div>
 
           {/* Atleta */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-1">
-              Nome completo do atleta <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="nomeAtleta"
-              value={formData.nomeAtleta}
-              onChange={handleChange}
-              placeholder="Digite o nome do atleta"
-              className={inputStyle}
-            />
+          <div className="flex items-end gap-2">
+            <div className="flex-1">
+              <label className="block text-sm font-semibold text-slate-600 mb-1">
+                Selecionar atleta já cadastrado{" "}
+                <span className="text-red-500">*</span>
+              </label>
+              <AutocompleteAtleta
+                atletas={atletas}
+                value={formData.nomeAtleta}
+                onChange={(nome) =>
+                  setFormData((prev) => ({ ...prev, nomeAtleta: nome }))
+                }
+                placeholder="Buscar atleta..."
+              />
+            </div>
+            <button
+              type="button"
+              className="bg-primary-900 hover:bg-primary-800 text-white rounded-full px-3 py-2 flex items-center shadow-md transition-all duration-150 cursor-pointer"
+              title="Adicionar atleta à lista"
+              disabled={!formData.nomeAtleta}
+              onClick={() => {
+                if (!formData.nomeAtleta) return;
+                // Evitar duplicados
+                if (
+                  atletasAdicionados.some((a) => a.nome === formData.nomeAtleta)
+                )
+                  return;
+                // Buscar o atleta selecionado
+                const atletaObj = atletas.find(
+                  (a) =>
+                    (a.user_name || a.nome || a.name) === formData.nomeAtleta,
+                );
+                if (atletaObj) {
+                  setAtletasAdicionados([
+                    ...atletasAdicionados,
+                    {
+                      id: atletaObj.id,
+                      nome:
+                        atletaObj.user_name || atletaObj.nome || atletaObj.name,
+                    },
+                  ]);
+                  setFormData({ ...formData, nomeAtleta: "" });
+                }
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </button>
           </div>
+
+          {/* Lista de atletas adicionados */}
+          {atletasAdicionados.length > 0 && (
+            <div className="mt-3">
+              <label className="block text-sm font-semibold text-primary-900 mb-2">
+                Atletas adicionados:
+              </label>
+              <ul className="rounded-xl bg-primary-50 p-4 space-y-3 shadow-md">
+                {atletasAdicionados.map((a, idx) => (
+                  <li
+                    key={a.id}
+                    className="flex items-center justify-between py-2 px-3 rounded-lg bg-primary-100 hover:bg-primary-200 transition-all"
+                  >
+                    <span className="font-semibold text-primary-900 text-base tracking-wide">
+                      <span className="inline-block bg-primary-900 text-white rounded px-2 py-0.5 mr-2 text-xs font-bold">
+                        ID:{a.id}
+                      </span>
+                      {a.nome}
+                    </span>
+                    <button
+                      type="button"
+                      className="ml-2 bg-white border border-primary-900 text-primary-900 hover:bg-primary-900 hover:text-white rounded-full p-2 shadow-sm transition-all duration-150 flex items-center justify-center cursor-pointer"
+                      title="Remover atleta"
+                      onClick={() => {
+                        setAtletasAdicionados(
+                          atletasAdicionados.filter((item, i) => i !== idx),
+                        );
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          fill="currentColor"
+                          className="opacity-10"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Grau de Parentesco */}
           <div>
             <label className="block text-sm font-semibold text-slate-600 mb-1">
               Grau de parentesco <span className="text-red-500">*</span>
             </label>
-            <div className="relative">
-              <select
-                name="parentesco"
-                value={formData.parentesco}
-                onChange={handleChange}
-                className={selectStyle}
-              >
-                <option value="">Selecione o parentesco</option>
-                <option value="mae">Mãe</option>
-                <option value="pai">Pai</option>
-                <option value="avo_f">Avó</option>
-                <option value="avo_m">Avô</option>
-                <option value="irmao">Irmão/Irmã</option>
-                <option value="tio">Tio/Tia</option>
-                <option value="outro">Outro</option>
-              </select>
-              <HiChevronDown
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-                size={20}
-              />
-            </div>
+            <select
+              name="parentesco"
+              value={formData.parentesco}
+              onChange={handleChange}
+              className={
+                selectStyle +
+                " bg-white text-gray-700 text-sm pl-3 pr-8 py-2 rounded-lg focus:ring-1 focus:ring-primary-300 outline-none border border-gray-300 appearance-none w-full"
+              }
+            >
+              <option value="" className="text-gray-400 font-normal">
+                Selecione o grau
+              </option>
+              <option value="Pai">Pai</option>
+              <option value="Mãe">Mãe</option>
+              <option value="Avô">Avô</option>
+              <option value="Avó">Avó</option>
+              <option value="Tio">Tio</option>
+              <option value="Tia">Tia</option>
+              <option value="Irmão">Irmão</option>
+              <option value="Irmã">Irmã</option>
+              <option value="Responsável legal">Responsável legal</option>
+              <option value="Outro">Outro</option>
+            </select>
           </div>
-
-          {/* Divisor Endereço */}
-          <h3 className="text-lg font-bold text-[#101944] pt-4 border-t border-gray-50">
-            Endereço
-          </h3>
-
-          {/* CEP (com máscara) e Bairro */}
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-5">
+          <div className="grid grid-cols-12 gap-4 ">
+            <div className="col-span-4">
               <label className="block text-sm font-semibold text-slate-600 mb-1">
                 CEP <span className="text-red-500">*</span>
               </label>
               <input
+                type="text"
                 name="cep"
                 value={formData.cep}
                 onChange={handleChange}
@@ -323,7 +442,7 @@ export default function ModalCadastroResponsavel({
                 className={inputStyle}
               />
             </div>
-            <div className="col-span-7">
+            <div className="col-span-8">
               <label className="block text-sm font-semibold text-slate-600 mb-1">
                 Bairro <span className="text-red-500">*</span>
               </label>
@@ -340,7 +459,7 @@ export default function ModalCadastroResponsavel({
 
           {/* Cidade e UF */}
           <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-8">
+            <div className="col-span-6">
               <label className="block text-sm font-semibold text-slate-600 mb-1">
                 Cidade <span className="text-red-500">*</span>
               </label>
@@ -353,8 +472,8 @@ export default function ModalCadastroResponsavel({
                 className={inputStyle}
               />
             </div>
-            <div className="col-span-4">
-              <label className="block text-sm font-semibold text-slate-600 mb-1">
+            <div className="col-span-3">
+              <label className="block text-xs font-semibold text-slate-600 mb-1">
                 UF <span className="text-red-500">*</span>
               </label>
               <div className="relative">
@@ -362,9 +481,19 @@ export default function ModalCadastroResponsavel({
                   name="uf"
                   value={formData.uf}
                   onChange={handleChange}
-                  className={selectStyle}
+                  className={
+                    selectStyle +
+                    " bg-white text-gray-700 text-sm pl-3 pr-8 py-2 rounded-lg focus:ring-1 focus:ring-primary-300 outline-none border border-gray-300 appearance-none w-full"
+                  }
+                  style={{
+                    minHeight: "40px",
+                    paddingRight: "1rem",
+                    minWidth: "90px",
+                  }}
                 >
-                  <option value="">Selecione o estado</option>
+                  <option value="" className="text-gray-400 font-normal">
+                    Estado
+                  </option>
                   {[
                     "AC",
                     "AL",
@@ -394,16 +523,33 @@ export default function ModalCadastroResponsavel({
                     "SE",
                     "TO",
                   ].map((uf) => (
-                    <option key={uf} value={uf}>
+                    <option
+                      key={uf}
+                      value={uf}
+                      className="text-gray-700 text-sm"
+                    >
                       {uf}
                     </option>
                   ))}
                 </select>
                 <HiChevronDown
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-                  size={20}
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                  size={15}
                 />
               </div>
+            </div>
+            <div className="col-span-3">
+              <label className="block text-sm font-semibold text-slate-600 mb-1">
+                Número <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="numero"
+                value={formData.numero}
+                onChange={handleChange}
+                placeholder="Nº"
+                className={inputStyle}
+              />
             </div>
           </div>
 
@@ -440,7 +586,7 @@ export default function ModalCadastroResponsavel({
         <div className="flex flex-col-reverse sm:flex-row gap-3 justify-end px-6 py-5 border-t border-gray-100 bg-primary-50 rounded-b-2xl">
           <button
             type="button"
-            className="w-full sm:w-auto px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors text-sm"
+            className="w-full sm:w-auto px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors text-sm cursor-pointer"
             onClick={handleClose}
           >
             Cancelar
@@ -450,7 +596,7 @@ export default function ModalCadastroResponsavel({
             type="button"
             onClick={handleSalvar}
             disabled={!validarCampos()}
-            className="w-full sm:w-auto px-6 py-2.5 bg-primary-900 text-white font-medium rounded-lg hover:bg-primary-800 transition-colors shadow-sm disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:shadow-none text-sm"
+            className="w-full sm:w-auto px-6 py-2.5 bg-primary-900 text-white font-medium rounded-lg hover:bg-primary-800 transition-colors shadow-sm disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:shadow-none text-sm cursor-pointer"
           >
             Salvar
           </button>

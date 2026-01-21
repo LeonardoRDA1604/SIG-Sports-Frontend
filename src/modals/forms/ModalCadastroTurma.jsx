@@ -15,9 +15,9 @@ export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
     weekdays: "",
     schedule: "",
     status: "Ativa",
-    modality_id: "",
-    category_id: "",
-    trainer_id: "",
+    modality: "",
+    category: "",
+    trainer: "",
   };
 
   const [formData, setFormData] = useState(estadoInicial);
@@ -35,15 +35,26 @@ export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
 
   const carregarOpcoes = async () => {
     try {
-      const [modalidadesData, categoriasData, treinadoresData] =
+      const [modalidadesData, categoriasData, treinadoresData, usuariosData] =
         await Promise.all([
           list("modalities"),
           list("categories"),
           list("trainers"),
+          list("users"),
         ]);
       setModalidades(modalidadesData || []);
       setCategorias(categoriasData || []);
-      setTreinadores(treinadoresData || []);
+      // Faz join para adicionar nome do usuário ao treinador
+      const treinadoresComNome = (treinadoresData || []).map((t) => {
+        const usuario = (usuariosData || []).find(
+          (u) => String(u.id) === String(t.user_id),
+        );
+        return {
+          ...t,
+          name: usuario?.name || usuario?.nome || "-",
+        };
+      });
+      setTreinadores(treinadoresComNome);
     } catch (error) {
       console.error("Erro ao carregar opções:", error);
     }
@@ -55,9 +66,9 @@ export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
       "weekdays",
       "schedule",
       "status",
-      "modality_id",
-      "category_id",
-      "trainer_id",
+      "modality",
+      "category",
+      "trainer",
     ];
     return obrigatorios.every((campo) => {
       const valor = formData[campo];
@@ -91,9 +102,9 @@ export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
         weekdays: formData.weekdays.trim(),
         schedule: scheduleDateTime,
         status: formData.status,
-        modality_id: formData.modality_id,
-        category_id: formData.category_id,
-        trainer_id: formData.trainer_id,
+        modality: formData.modality,
+        category: formData.category,
+        trainer: formData.trainer,
       };
 
       onSave?.(payload);
@@ -213,14 +224,14 @@ export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
             </label>
             <div className="relative">
               <select
-                name="modality_id"
-                value={formData.modality_id}
+                name="modality"
+                value={formData.modality}
                 onChange={handleChange}
                 className={selectStyle}
               >
                 <option value="">Selecione a modalidade</option>
                 {modalidades.map((mod) => (
-                  <option key={mod.id} value={mod.id}>
+                  <option key={mod.id} value={mod.name || mod.modalidade}>
                     {mod.name || mod.modalidade}
                   </option>
                 ))}
@@ -238,14 +249,14 @@ export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
             </label>
             <div className="relative">
               <select
-                name="category_id"
-                value={formData.category_id}
+                name="category"
+                value={formData.category}
                 onChange={handleChange}
                 className={selectStyle}
               >
                 <option value="">Selecione a categoria</option>
                 {categorias.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
+                  <option key={cat.id} value={cat.name || cat.categoria}>
                     {cat.name || cat.categoria}
                   </option>
                 ))}
@@ -263,14 +274,14 @@ export default function ModalCadastroTurma({ aberto, onClose, onSave, turma }) {
             </label>
             <div className="relative">
               <select
-                name="trainer_id"
-                value={formData.trainer_id}
+                name="trainer"
+                value={formData.trainer}
                 onChange={handleChange}
                 className={selectStyle}
               >
                 <option value="">Selecione o treinador</option>
                 {treinadores.map((trainer) => (
-                  <option key={trainer.id} value={trainer.id}>
+                  <option key={trainer.id} value={trainer.name || trainer.nome}>
                     {trainer.name || trainer.nome}
                   </option>
                 ))}

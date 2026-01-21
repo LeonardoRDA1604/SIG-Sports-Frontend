@@ -10,10 +10,18 @@ export default function ModalCadastroInteressado({
   interessado,
   modalidades = [],
 }) {
+  function getLocalDateTimeString() {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 16);
+  }
   const estadoInicial = {
-    nome: "",
-    modalidade: "",
-    telefone: "",
+    name: "",
+    email: "",
+    source: "",
+    phone: "",
+    entry_date: getLocalDateTimeString(),
+    status: "Novo",
   };
 
   const [formData, setFormData] = useState(estadoInicial);
@@ -21,12 +29,15 @@ export default function ModalCadastroInteressado({
   // Preencher dados quando estiver editando
   useEffect(() => {
     if (aberto && interessado) {
-      // Mapear os campos corretamente
       setFormData({
-        nome: interessado.name || interessado.nome || "",
-        modalidade: interessado.source || interessado.modalidade || "",
-        telefone: interessado.phone || interessado.telefone || "",
+        name: interessado.name || "",
         email: interessado.email || "",
+        source: interessado.source || "",
+        phone: interessado.phone || "",
+        entry_date: interessado.entry_date
+          ? interessado.entry_date.slice(0, 16)
+          : getLocalDateTimeString(),
+        status: interessado.status || "Novo",
       });
     } else {
       setFormData(estadoInicial);
@@ -42,7 +53,7 @@ export default function ModalCadastroInteressado({
     const { name, value } = e.target;
     let maskedValue = value;
 
-    if (name === "telefone") {
+    if (name === "phone") {
       maskedValue = value
         .replace(/\D/g, "")
         .replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")
@@ -54,20 +65,24 @@ export default function ModalCadastroInteressado({
 
   const validarCampos = () => {
     return (
-      formData.nome.trim() !== "" &&
-      formData.modalidade !== "" &&
-      formData.telefone.trim() !== ""
+      formData.name.trim() !== "" &&
+      formData.email.trim() !== "" &&
+      formData.source !== "" &&
+      formData.phone.trim() !== "" &&
+      formData.entry_date !== "" &&
+      formData.status !== ""
     );
   };
 
   const handleSalvar = () => {
     if (!validarCampos()) return;
     const payload = {
-      name: formData.nome,
-      email: formData.email || null,
-      phone: formData.telefone,
-      source: formData.modalidade,
-      status: "Novo",
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      source: formData.source,
+      entry_date: formData.entry_date,
+      status: formData.status,
     };
     onSave?.(payload);
     handleClose();
@@ -105,10 +120,25 @@ export default function ModalCadastroInteressado({
             </label>
             <input
               type="text"
-              name="nome"
-              value={formData.nome}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               className={inputStyle}
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-600 mb-1">
+              E-mail <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={inputStyle}
+              placeholder="email@exemplo.com"
             />
           </div>
 
@@ -119,8 +149,8 @@ export default function ModalCadastroInteressado({
             </label>
             <div className="relative">
               <select
-                name="modalidade"
-                value={formData.modalidade}
+                name="source"
+                value={formData.source}
                 onChange={handleChange}
                 className={selectStyle}
               >
@@ -142,6 +172,27 @@ export default function ModalCadastroInteressado({
             </div>
           </div>
 
+          {/* Data de Entrada removida do formulário, mas será salva automaticamente */}
+
+          {/* Status */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-600 mb-1">
+              Status <span className="text-red-500">*</span>
+            </label>
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className={selectStyle}
+            >
+              <option value="Novo">Novo</option>
+              <option value="Em contato">Em contato</option>
+              <option value="Agendado">Agendado</option>
+              <option value="Convertido">Convertido</option>
+              <option value="Desqualificado">Desqualificado</option>
+            </select>
+          </div>
+
           {/* Telefone */}
           <div>
             <label className="block text-sm font-semibold text-slate-600 mb-1">
@@ -149,8 +200,8 @@ export default function ModalCadastroInteressado({
             </label>
             <input
               type="text"
-              name="telefone"
-              value={formData.telefone}
+              name="phone"
+              value={formData.phone}
               onChange={handleChange}
               placeholder="(00) 00000-0000"
               className={inputStyle}

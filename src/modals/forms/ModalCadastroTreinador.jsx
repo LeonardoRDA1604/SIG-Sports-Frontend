@@ -113,6 +113,7 @@ export default function ModalCadastroTreinador({
   };
 
   const handleSalvar = async () => {
+    if (loading) return;
     if (!camposValidos) {
       setErro("Por favor, preencha todos os campos obrigatórios");
       return;
@@ -125,6 +126,16 @@ export default function ModalCadastroTreinador({
 
     setLoading(true);
     try {
+      // Função para gerar data/hora atual no timezone de Recife
+      const getRecifeDateISOString = () => {
+        const now = new Date();
+        // Ajusta para -03:00 (Recife)
+        const offsetMs = -3 * 60 * 60 * 1000;
+        const localDate = new Date(now.getTime() + offsetMs);
+        // Retorna string ISO com offset
+        return localDate.toISOString().replace("Z", "-03:00");
+      };
+
       const payload = {
         license_level: formData.license_level.trim(),
         specialty: formData.specialty.trim(),
@@ -139,18 +150,28 @@ export default function ModalCadastroTreinador({
       let resultado;
       if (treinador?.id) {
         console.log("🔄 Atualizando treinador ID:", treinador.id);
-        resultado = await update("trainers", treinador.id, payload);
+        const atualizado = {
+          id: treinador.id,
+          ...payload,
+          updated_at: getRecifeDateISOString(),
+        };
+        onSave?.(atualizado);
         setErro("");
-        alert("✅ Treinador atualizado com sucesso!");
       } else {
-        console.log("✨ Criando novo treinador");
-        resultado = await create("trainers", payload);
+        // Gera id único para o novo treinador
+        const uniqueId = Math.random().toString(36).substring(2, 8);
+        const novoTreinador = {
+          id: uniqueId,
+          ...payload,
+          entry_date: getRecifeDateISOString(),
+          updated_at: getRecifeDateISOString(),
+        };
+        console.log("✨ Criando novo treinador", novoTreinador);
+        onSave?.(novoTreinador);
         setErro("");
-        alert("✅ Treinador cadastrado com sucesso!");
       }
 
       console.log("✅ Resposta da API:", resultado);
-      onSave?.(resultado);
       handleClose();
     } catch (error) {
       console.error("❌ Erro ao salvar treinador:", error);

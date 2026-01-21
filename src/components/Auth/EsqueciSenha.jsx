@@ -40,13 +40,17 @@ export default function EsqueciSenha() {
     <div
       className="min-h-screen flex items-center justify-center p-4"
       style={{
-        background: "radial-gradient(circle at 50% 50%, #0036cc, #000125)",
+        background: "radial-gradient(circle at 50% 80%, #00b5ff, #03054b)",
       }}
     >
-      {/* Cartão de Recuperação de Senha */}
-      <div className="bg-gray-800 shadow-2xl rounded-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row bg-opacity-90">
+      
         {/* FORMULÁRIO (Lado Esquerdo) - Adaptado para Esqueci a Senha */}
-        <div className="w-full md:w-1/2 p-10 bg-gray-900 rounded-l-2xl flex flex-col justify-center">
+        <div className="bg-black bg-opacity-90 border-solid border-2 border-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+          <img
+              src="/src/assets/SigSports.png"
+              alt="Logo da Aplicação"
+              className=" object-contain mb-10 mx-auto w-3/4 h-auto"
+            />
           <h2 className="text-2xl font-bold mb-4 text-center text-white tracking-wider">
             Recuperar Senha
           </h2>
@@ -106,18 +110,6 @@ export default function EsqueciSenha() {
             </button>
           </form>
         </div>
-
-        {/* IMAGEM (Lado Direito) - Mantido igual ao Login */}
-        <div className="hidden md:block md:w-1/2 rounded-r-2xl overflow-hidden">
-          <div className="w-full h-full flex items-center justify-center bg-linear-to-b from-gray-800 via-white to-gray-900 p-8">
-            <img
-              src="/src/assets/icons/ps-sports-logo-color.svg"
-              alt="Logo da Aplicação"
-              className="w-3/4 h-auto object-contain"
-            />
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
