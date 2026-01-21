@@ -2,11 +2,16 @@
 <!-- <div style="background-color: rgba(2, 103, 255, 0.4); padding: 20px;"> -->
 
 <img src="./src/assets/icons/readme-icons/SIG Sports Logo.png" alt="SIG Sports Logo" width="1000"/>
-<!-- <img src="./src/assets/icons/readme-icons/SIG Sports Logo-old.png" alt="Vite" width="800" height="450"/> -->
+<!-- logo centralizada abaixo -->
+<!-- <div style="text-align: center;">
+  <img src="./src/assets/icons/readme-icons/SIG Sports Logo.png" alt="SIG Sports Logo" width="1000">
+</div> -->
+
+<!-- → -->
 
 # ***SIG Sports*** – **S**istema **I**ntegrado de **G**erenciamento **<font color="#0179db">Esportivo</font>**
 ### 📝 Descrição:
-O **[<font color="#0179db">*SIG Sports*</font>](https://sites.google.com/view/sig-sports-frontend-project/)** foi desenvolvido para suprir as necessidades da escola de futebol [*PS Sport's*](https://pssports.com.br/), no âmbito do **Projeto Integrador** do programa [*Bolsa Futuro Digital (BFD)*](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [*Aponti*](https://aponti.org.br/). A [*PS Sport's*](https://pssports.com.br/) necessitava de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
+O **[<font color="#0179db">*SIG Sports*</font>](https://sites.google.com/view/sig-sports-frontend-project/)** foi desenvolvido para suprir as necessidades da escola de futebol [*PS Sport's*](https://pssports.com.br/), no âmbito do **Projeto Integrador** como atividade de culminância da formação do programa [*Bolsa Futuro Digital (BFD)*](https://aponti.org.br/capital-humano#programa-bfd), promovido pela [*Aponti*](https://aponti.org.br/). A [*PS Sport's*](https://pssports.com.br/) necessitava de uma plataforma digital para apoiar e otimizar seus processos internos, centralizando informações e facilitando a gestão das atividades administrativas e esportivas.
 
 Diante dessa demanda, este projeto tem como objetivo facilitar o gerenciamento de **atletas**, **responsáveis**, **interessados (leads)**, **treinadores**, **turmas**, **categorias** e **modalidades**, por meio de uma interface *moderna*, *responsiva* e *intuitiva*. O frontend foi desenvolvido para consumir APIs externas (Backend), permitindo a exibição dos dados de forma *clara*, *organizada* e *eficiente*.
 
@@ -39,7 +44,8 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
     - [14.1. Significado das versões](#-significado-das-versões)
     - [14.2. Objetivo do versionamento](#-objetivo-do-versionamento)
 - [15. Colaboração](#-colaboração)
-- [16. Licença](#-licença)
+- [16. Documentação do Sistema](#-documentação-do-sistema)
+- [17. Licença](#-licença)
 <!-- - [Como baixar e utilizar o sistema](#️-como-baixar-e-utilizar-o-sistema) -->
 
 ---
@@ -583,6 +589,11 @@ Ideias, sugestões de melhorias e feedbacks são sempre bem-vindos!
 
 ---
 
+## 📖 Documentação do Sistema
+A documentação detalhada dos requisitos, fluxos de interface e especificações técnicas do front-end está disponível para consulta externa e pode ser visualizada no documento através do link abaixo:
+- [📄 Visualizar Documentação Técnica (PDF)](https://drive.google.com/file/d/1pUAkCxrXqQsrxrY-NJn3jxBiqQwk9jAW/view?usp=sharing)
+
+---
 ## 📄 Licença
 Este projeto está sob a [Licença MIT](https://opensource.org/license/mit) - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
