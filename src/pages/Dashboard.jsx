@@ -21,6 +21,11 @@ import {
 } from "recharts";
 import { Card } from "../components/Card";
 import { AcaoRapida } from "../components/AcaoRapida/index";
+import { FaRunning, FaUserFriends } from "react-icons/fa";
+import { FaPersonChalkboard } from "react-icons/fa6";
+import { FaTableList } from "react-icons/fa6";
+import { MdSportsSoccer, MdPersonAdd } from "react-icons/md";
+import { HiMiniUserGroup } from "react-icons/hi2";
 import Layout from "../components/Navbar/Navbar";
 import ModalCadastroAtleta from "../modals/forms/PlayerTemplateModal";
 import ModalCadastroResponsavel from "../modals/forms/ModalCadastroResponsavel";
@@ -213,61 +218,72 @@ export default function Dashboard() {
   return (
     <Layout title="Dashboard" subtitle="Visão geral do PS Sport’s">
       {/* Seção principal do dashboard */}
-      <main className="flex-1 transition-all duration-300 px-4 sm:px-6 md:px-8 pt-8 sm:pt-5 md:pt-5">
-        <section className="cards">
+      <main className="flex-1 transition-all duration-300 px-1 sm:px-4 md:px-6 pt-2 sm:pt-5 md:pt-8 mx-auto max-w-7xl flex flex-col lg:grid lg:grid-cols-2 gap-2 sm:gap-8 items-stretch justify-center">
+        <section className="cards w-full flex flex-col items-center justify-center">
           {/* Ações rápidas para cadastro */}
-          <div className="acoes-rapidas mt-6 sm:mt-8 md:mt-10">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 md:mb-6">
+          <div className="acoes-rapidas flex flex-col items-start justify-center w-full">
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-5 text-primary-50 tracking-tight flex items-center gap-2"
+              style={{ textShadow: "2px 4px 10px #000, 0 1px 0 #333" }}
+            >
               Ações Rápidas
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-2 sm:gap-3 md:gap-4 mb-6">
+            <div className="gap-2 grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 mb-4 sm:mb-6 w-full justify-center items-center">
               {/* Cada botão abre um modal de cadastro correspondente */}
               <AcaoRapida
                 subTitle="Cadastrar Atleta"
+                icon={<FaRunning />}
                 onClick={() => setAbrirCadastroAtleta(true)}
                 disabled={!isAdmin}
               />
               <AcaoRapida
                 subTitle="Cadastrar Responsável"
+                icon={<FaUserFriends />}
                 onClick={() => setAbrirCadastroResponsavel(true)}
                 disabled={!isAdmin}
               />
               <AcaoRapida
                 subTitle="Cadastrar Treinador"
+                icon={<FaPersonChalkboard />}
                 onClick={() => setAbrirCadastroTreinador(true)}
                 disabled={!isAdmin}
               />
               <AcaoRapida
                 subTitle="Cadastrar Categoria"
+                icon={<FaTableList />}
                 onClick={() => setAbrirCadastroCategoria(true)}
                 disabled={!isAdmin}
               />
               <AcaoRapida
                 subTitle="Cadastrar Interessado"
+                icon={<MdPersonAdd />}
                 onClick={() => setAbrirCadastroInteressado(true)}
                 disabled={!isAdmin}
               />
               <AcaoRapida
                 subTitle="Cadastrar Turma"
+                icon={<HiMiniUserGroup />}
                 onClick={() => setAbrirCadastroTurma(true)}
                 disabled={!isAdmin}
               />
               <AcaoRapida
                 subTitle="Cadastrar Modalidade"
+                icon={<MdSportsSoccer />}
                 onClick={() => setAbrirCadastroModalidade(true)}
-                disabled={!isAdmin}
-              />
-              <AcaoRapida
-                subTitle="Cadastrar Usuário"
-                onClick={() => setAbrirCadastroUsuario(true)}
                 disabled={!isAdmin}
               />
             </div>
           </div>
 
           {/* Cards de estatísticas das entidades */}
-          <div className="overflow-x-auto -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-2 sm:gap-3 md:gap-4 mb-6">
+          <div className="overflow-x-auto w-full flex flex-col items-start justify-center ">
+            <h2
+              className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary-50 mb-3 sm:mb-6 mt-2 tracking-tight flex items-center gap-2"
+              style={{ textShadow: "2px 4px 10px #000, 0 1px 0 #333" }}
+            >
+              Visão Geral dos Cadastros
+            </h2>
+            <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2 sm:gap-4 mb-4 sm:mb-6 w-full justify-center items-center">
               <Card title="Atletas" value={players.length} />
               <Card title="Responsáveis" value={guardians.length} />
               <Card title="Treinadores" value={trainers.length} />
@@ -275,163 +291,173 @@ export default function Dashboard() {
               <Card title="Interessados" value={leads.length} />
               <Card title="Turmas" value={classes.length} />
               <Card title="Modalidades" value={modalities.length} />
-              <Card title="Usuários" value={users.length} />
             </div>
           </div>
-
-          {/* Gráficos de dados - responsivo para cada tamanho de tela */}
-          <div className="mt-8 sm:mt-10 md:mt-12 bg-white rounded-lg shadow-lg p-4 sm:p-6 border border-gray-100 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8">
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
+        </section>
+        <aside className="w-full mt-4 lg:mt-0 lg:w-auto flex flex-col items-center justify-center h-full">
+          <div
+            className="mt-0 lg:mt-8 rounded-lg shadow-lg p-4 sm:p-6 border border-gray-100 w-full flex flex-col items-center justify-center h-full"
+            style={{
+              background: "linear-gradient(to top, #0c0a1f, #00000000)",
+            }}
+          >
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-primary-50 mb-4 sm:mb-6 tracking-tight flex items-center gap-2">
               Resumo de Cadastros
             </h3>
             {/* Renderiza o gráfico adequado ao tamanho da tela */}
             {screenSize === "sm" ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart
-                  data={[
-                    { name: "Atletas", value: players.length },
-                    { name: "Responsáveis", value: guardians.length },
-                    { name: "Treinadores", value: trainers.length },
-                    { name: "Usuários", value: schools.length },
-                    { name: "Categorias", value: categories.length },
-                    { name: "Interessados", value: leads.length },
-                    { name: "Turmas", value: classes.length },
-                    { name: "Modalidades", value: modalities.length },
-                  ]}
-                  margin={{ top: 5, right: 10, left: 10, bottom: 60 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    dataKey="name"
-                    angle={-45}
-                    textAnchor="end"
-                    height={80}
-                    tick={{ fontSize: 12 }}
-                  />
-                  <YAxis />
-                  <Tooltip formatter={(value) => `${value} itens`} />
-                  <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                    <Cell fill="#003366" />
-                    <Cell fill="#0066cc" />
-                    <Cell fill="#0099ff" />
-                    <Cell fill="#00cc99" />
-                    <Cell fill="#66ddff" />
-                    <Cell fill="#99eeff" />
-                    <Cell fill="#ff6b6b" />
-                    <Cell fill="#ffb3b3" />
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            ) : screenSize === "md" ? (
-              <ResponsiveContainer width="100%" height={350}>
-                <LineChart
-                  data={[
-                    {
-                      name: "Dados",
-                      players: players.length,
-                      guardians: guardians.length,
-                      trainers: trainers.length,
-                      schools: schools.length,
-                      categories: categories.length,
-                      leads: leads.length,
-                      classes: classes.length,
-                      modalities: modalities.length,
-                    },
-                  ]}
-                  margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip formatter={(value) => `${value} itens`} />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="players"
-                    stroke="#003366"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="guardians"
-                    stroke="#0066cc"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="trainers"
-                    stroke="#0099ff"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="schools"
-                    stroke="#00cc99"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="categories"
-                    stroke="#ccecff"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="leads"
-                    stroke="#ff6b6b"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="classes"
-                    stroke="#ffb3b3"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="modalities"
-                    stroke="#ffd9d9"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            ) : (
-              <ResponsiveContainer width="100%" height={400}>
-                <PieChart>
-                  <Pie
+              <div className="w-full flex items-center justify-center min-h-[220px] max-h-[320px] h-[260px] sm:h-[320px] p-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
                     data={[
-                      { name: "Players", value: players.length },
-                      { name: "Guardians", value: guardians.length },
-                      { name: "Trainers", value: trainers.length },
-                      { name: "Schools", value: schools.length },
-                      { name: "Categories", value: categories.length },
-                      { name: "Leads", value: leads.length },
-                      { name: "Classes", value: classes.length },
+                      { name: "Atletas", value: players.length },
+                      { name: "Responsáveis", value: guardians.length },
+                      { name: "Treinadores", value: trainers.length },
+                      { name: "Usuários", value: schools.length },
+                      { name: "Categorias", value: categories.length },
+                      { name: "Interessados", value: leads.length },
+                      { name: "Turmas", value: classes.length },
                       { name: "Modalidades", value: modalities.length },
                     ]}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={120}
-                    paddingAngle={5}
-                    dataKey="value"
+                    margin={{ top: 5, right: 10, left: 10, bottom: 60 }}
                   >
-                    <Cell fill="#003366" />
-                    <Cell fill="#0066cc" />
-                    <Cell fill="#0099ff" />
-                    <Cell fill="#00cc99" />
-                    <Cell fill="#99eeff" />
-                    <Cell fill="#ff6b6b" />
-                    <Cell fill="#ffb3b3" />
-                    <Cell fill="#ffd9d9" />
-                  </Pie>
-                  <Tooltip formatter={(value) => `${value} itens`} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis
+                      dataKey="name"
+                      angle={-45}
+                      textAnchor="end"
+                      height={80}
+                      tick={{ fontSize: 12 }}
+                    />
+                    <YAxis />
+                    <Tooltip formatter={(value) => `${value} itens`} />
+                    <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                      <Cell fill="#003366" />
+                      <Cell fill="#0066cc" />
+                      <Cell fill="#0099ff" />
+                      <Cell fill="#00cc99" />
+                      <Cell fill="#66ddff" />
+                      <Cell fill="#99eeff" />
+                      <Cell fill="#ff6b6b" />
+                      <Cell fill="#ffb3b3" />
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            ) : screenSize === "md" ? (
+              <div className="w-full flex items-center justify-center min-h-[220px] max-h-[320px] h-[260px] sm:h-[320px] p-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                    data={[
+                      {
+                        name: "Dados",
+                        players: players.length,
+                        guardians: guardians.length,
+                        trainers: trainers.length,
+                        schools: schools.length,
+                        categories: categories.length,
+                        leads: leads.length,
+                        classes: classes.length,
+                        modalities: modalities.length,
+                      },
+                    ]}
+                    margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => `${value} itens`} />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="players"
+                      stroke="#003366"
+                      strokeWidth={2}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="guardians"
+                      stroke="#0066cc"
+                      strokeWidth={2}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="trainers"
+                      stroke="#0099ff"
+                      strokeWidth={2}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="schools"
+                      stroke="#00cc99"
+                      strokeWidth={2}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="categories"
+                      stroke="#ccecff"
+                      strokeWidth={2}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="leads"
+                      stroke="#ff6b6b"
+                      strokeWidth={2}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="classes"
+                      stroke="#ffb3b3"
+                      strokeWidth={2}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="modalities"
+                      stroke="#ffd9d9"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="w-full flex items-center justify-center min-h-[220px] max-h-[320px] h-[260px] sm:h-[320px] p-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Atletas", value: players.length },
+                        { name: "Responsáveis", value: guardians.length },
+                        { name: "Treinadores", value: trainers.length },
+                        { name: "Usuários", value: schools.length },
+                        { name: "Categorias", value: categories.length },
+                        { name: "Interessados", value: leads.length },
+                        { name: "Turmas", value: classes.length },
+                        { name: "Modalidades", value: modalities.length },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={120}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      <Cell fill="#003366" />
+                      <Cell fill="#0066cc" />
+                      <Cell fill="#0099ff" />
+                      <Cell fill="#00cc99" />
+                      <Cell fill="#99eeff" />
+                      <Cell fill="#ff6b6b" />
+                      <Cell fill="#ffb3b3" />
+                      <Cell fill="#ffd9d9" />
+                    </Pie>
+                    <Tooltip formatter={(value) => `${value} itens`} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
             )}
           </div>
-        </section>
+        </aside>
       </main>
       {/* Modais de cadastro - cada um recebe props e handlers específicos */}
       <ModalCadastroAtleta

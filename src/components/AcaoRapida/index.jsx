@@ -3,33 +3,39 @@ import { IoLockClosed } from "react-icons/io5";
 
 export function AcaoRapida(props) {
   return (
-    <>
-      <button
-        type="button"
-        disabled={props.disabled}
-        className={`
-        flex flex-col sm:flex-row items-center justify-center p-2 sm:p-3 md:p-4
-        rounded-lg text-primary-50 font-semibold text-xs sm:text-sm md:text-base
-        transform scale-100 transition-all duration-200 min-h-20 sm:min-h-25 md:min-h-30
-        active:scale-95 touch-manipulation
-        ${
-          props.disabled
-            ? "bg-gray-400 cursor-not-allowed opacity-60"
-            : "bg-primary-900 hover:bg-primary-400 hover:scale-102 cursor-pointer active:bg-primary-500"
-        }
-        `}
-        onClick={props.onClick}
-        title={props.disabled ? "Treinadores não podem realizar esta ação" : ""}
-      >
+    <button
+      type="button"
+      disabled={props.disabled}
+      className={`
+           flex flex-col items-center justify-center text-center
+           rounded-xl font-semibold text-xs sm:text-sm md:text-base min-h-25 sm:min-h-24 md:min-h-28 px-2 sm:px-3 md:px-4 w-full sm:w-36 md:w-40 lg:w-36
+           shadow-md border border-primary-200 bg-gradient-to-br
+           transform scale-100 transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2
+           active:scale-95 touch-manipulation
+           ${
+             props.disabled
+               ? "from-gray-300 to-gray-400 text-gray-500 cursor-not-allowed opacity-60 border-gray-300"
+               : "from-primary-800 to-primary-500 text-white hover:from-primary-700 hover:to-primary-400 hover:shadow-lg hover:scale-105 cursor-pointer active:from-primary-900"
+           }
+         `}
+      onClick={props.onClick}
+      title={props.disabled ? "Treinadores não podem realizar esta ação" : ""}
+    >
+      <div className="flex flex-col items-center justify-center w-full h-full">
         {props.disabled ? (
-          <IoLockClosed className="text-2xl sm:text-3xl md:text-4xl text-primary-50 mb-1 sm:mb-0 sm:mr-2" />
+          <IoLockClosed className="text-lg sm:text-xl md:text-2xl mb-1" />
+        ) : props.icon ? (
+          <span className="text-lg sm:text-xl md:text-2xl mb-1">
+            {props.icon}
+          </span>
         ) : (
-          <HiOutlineUserAdd className="text-2xl sm:text-3xl md:text-4xl text-primary-50 mb-1 sm:mb-0 sm:mr-2" />
+          <HiOutlineUserAdd className="text-lg sm:text-xl md:text-2xl mb-1" />
         )}
-        <span className="text-center sm:text-left line-clamp-2">
+        <span className="text-[9px] sm:text-[11px] md:text-xs text-center line-clamp-2">
           {props.subTitle}
         </span>
-      </button>
-    </>
+      </div>
+    </button>
   );
 }

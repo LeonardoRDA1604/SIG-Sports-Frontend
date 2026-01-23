@@ -53,7 +53,7 @@ const DataTable = ({
           {data.length > 0 ? (
             data.map((row, rowIndex) => (
               <tr
-                key={row.id || rowIndex}
+                key={row.id ? `${row.id}-${rowIndex}` : rowIndex}
                 className="bg-white border-b border-gray-200 hover:bg-gray-50"
               >
                 {showCheckbox && (
@@ -82,7 +82,7 @@ const DataTable = ({
                           />
                         )}
                         <div>
-                          <div className="text-base font-semibold text-gray-900">
+                          <div className="text-base font-bold text-blue-700">
                             {column.render
                               ? column.render(row[column.key], row)
                               : row[column.key] || "-"}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import AutocompleteAtleta from "../../components/AutocompleteAtleta";
-import { list } from "../../data/api";
+import { list, create, update } from "../../data/api";
 import { createPortal } from "react-dom";
 import { HiChevronDown } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
@@ -45,8 +45,32 @@ export default function ModalCadastroResponsavel({
   useEffect(() => {
     if (aberto && responsavel) {
       setFormData(responsavel);
+      // Preencher atletas vinculados ao responsável
+      if (
+        Array.isArray(responsavel.atletas) &&
+        responsavel.atletas.length > 0
+      ) {
+        list("players").then((allPlayers) => {
+          const atletasVinculados = responsavel.atletas
+            .map((cpf) => {
+              const atleta = allPlayers.find((a) => a.cpf === cpf);
+              return atleta
+                ? {
+                    id: atleta.id,
+                    nome: atleta.name || atleta.nome || "",
+                    cpf: atleta.cpf,
+                  }
+                : null;
+            })
+            .filter(Boolean);
+          setAtletasAdicionados(atletasVinculados);
+        });
+      } else {
+        setAtletasAdicionados([]);
+      }
     } else {
       setFormData(estadoInicial);
+      setAtletasAdicionados([]);
     }
   }, [aberto, responsavel]);
 
@@ -86,14 +110,15 @@ export default function ModalCadastroResponsavel({
     onClose(); // Chama a função de fechar vinda do componente pai
   };
 
-  const handleSalvar = () => {
+  // Função para atualizar o db.json simulando vínculo bidirecional por CPF
+  const handleSalvar = async () => {
     if (!validarCampos()) return;
     const payload = {
       name: formData.nome,
       cpf: formData.cpf,
       email: formData.email,
       phoneNumber: formData.telefone,
-      athletes: atletasAdicionados.map((a) => a.nome),
+      athletes: atletasAdicionados.map((a) => a.cpf), // Salva array de CPFs
       kinship: formData.parentesco,
       cep: formData.cep,
       bairro: formData.bairro,
@@ -103,6 +128,36 @@ export default function ModalCadastroResponsavel({
       logradouro: formData.logradouro,
       complemento: formData.complemento,
     };
+
+    // Verifica se já existe responsável com o mesmo CPF
+    const existentes = await list(
+      `guardians?cpf=${encodeURIComponent(formData.cpf)}`,
+    );
+    if (Array.isArray(existentes) && existentes.length > 0) {
+      // Atualiza o responsável existente
+      await update("guardians", existentes[0].id, payload);
+    } else {
+      // Cria novo responsável
+      await create("guardians", payload);
+    }
+
+    // Para cada atleta vinculado, atualiza o array de responsáveis (por CPF)
+    for (const atleta of atletasAdicionados) {
+      // Busca o atleta pelo CPF
+      const res = await list(`players?cpf=${encodeURIComponent(atleta.cpf)}`);
+      const player = Array.isArray(res) ? res[0] : res;
+      if (player) {
+        // Atualiza o array de responsáveis do atleta
+        const responsaveis = Array.isArray(player.responsaveis)
+          ? player.responsaveis
+          : [];
+        if (!responsaveis.includes(formData.cpf)) {
+          responsaveis.push(formData.cpf);
+        }
+        await update("players", player.id, { responsaveis });
+      }
+    }
+
     onSave?.(payload);
     handleClose();
   };

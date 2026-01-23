@@ -12,7 +12,38 @@
       "status": "Ativo",
       "role": "Administrador",
       "updated_at": "2026-01-21T02:54:37.713Z",
-      "entry_date": "2026-01-21T02:53:29.520Z"
+      "entry_date": "2026-01-21T02:53:29.520Z",
+      "created_at": "2026-01-21T02:53:29.520Z"
+    },
+    {
+      "id": "7c11",
+      "name": "Leandro Melo",
+      "email": "lm@teste.com",
+      "cpf": "20261516151",
+      "rg": "651616516",
+      "birthDate": "2012-02-01",
+      "phone": "65161616135",
+      "password": "Leo1985@",
+      "status": "Suspenso",
+      "role": "Administrador",
+      "updated_at": "2026-01-21T02:56:01.914Z",
+      "entry_date": "2026-01-21T02:56:01.914Z",
+      "created_at": "2026-01-21T02:56:01.914Z"
+    },
+    {
+      "id": "6554",
+      "name": "Mateus Soares",
+      "email": "mateus@admin.com",
+      "birthDate": "2007-10-02",
+      "cpf": "56456454654",
+      "rg": "5646556",
+      "role": "Administrador",
+      "status": "Ativo",
+      "password": "Leo1985@",
+      "phone": "02311111656",
+      "updated_at": "2026-01-21T02:57:39.006Z",
+      "entry_date": "2026-01-21T02:57:39.006Z",
+      "created_at": "2026-01-21T02:57:39.006Z"
     },
     {
       "id": "ae09",
@@ -26,63 +57,8 @@
       "password": "Leo1985@",
       "phone": "65445454659",
       "updated_at": "2026-01-21T02:58:43.290Z",
-      "entry_date": "2026-01-21T02:58:43.290Z"
-    },
-    {
-      "id": "108f",
-      "name": "manu",
-      "email": "m@teste.com",
-      "birthDate": "2011-01-01",
-      "cpf": "23123132123",
-      "rg": "5151561",
-      "role": "Administrador",
-      "status": "Ativo",
-      "password": "Leo1985@",
-      "phone": "51551561515",
-      "entry_date": "2026-01-21T05:01:08.233Z",
-      "updated_at": "2026-01-21T05:01:08.233Z"
-    },
-    {
-      "id": "gh26",
-      "name": "Guilherme Henrique",
-      "email": "guilherme@teste.com",
-      "cpf": "12345678910",
-      "rg": "9876543",
-      "birthDate": "1995-05-15",
-      "phone": "81988887777",
-      "password": "Leo1985@",
-      "status": "Ativo",
-      "role": "Administrador",
-      "updated_at": "2026-01-21T09:45:00.000Z",
-      "entry_date": "2026-01-21T09:45:00.000Z"
-    },
-    {
-      "id": "7c11",
-      "name": "Leandro Melo",
-      "email": "lm@teste.com",
-      "cpf": "20261516151",
-      "rg": "651616516",
-      "birthDate": "2012-02-01",
-      "phone": "65161616135",
-      "password": "Leo1985@",
-      "status": "Ativo",
-      "role": "Treinador",
-      "updated_at": "2026-01-21T02:56:01.914Z",
-      "entry_date": "2026-01-21T02:56:01.914Z"
-    },
-    {
-      "id": "6554",
-      "name": "Mateus Soares",
-      "email": "mateus@admin.com",
-      "birthDate": "2007-10-02",
-      "cpf": "56456454654",
-      "rg": "5646556",
-      "role": "Treinador",
-      "status": "Ativo",
-      "password": "Leo1985@",
-      "phone": "02311111656",
-      "updated_at": "2026-01-21T02:57:39.006Z",
-      "entry_date": "2026-01-21T02:57:39.006Z"
+      "entry_date": "2026-01-21T02:58:43.290Z",
+      "created_at": "2026-01-21T02:58:43.290Z"
     },
     {
       "id": "a34e",
@@ -96,7 +72,8 @@
       "password": "Leo1985@",
       "phone": "54565656458",
       "updated_at": "2026-01-21T02:58:50.854Z",
-      "entry_date": "2026-01-21T02:58:50.854Z"
+      "entry_date": "2026-01-21T02:58:50.854Z",
+      "created_at": "2026-01-21T02:58:50.854Z"
     },
     {
       "id": "f9b3",
@@ -110,99 +87,301 @@
       "password": "Leo1985@",
       "phone": "12323132199",
       "updated_at": "2026-01-21T02:59:02.568Z",
-      "entry_date": "2026-01-21T02:59:02.568Z"
+      "entry_date": "2026-01-21T02:59:02.568Z",
+      "created_at": "2026-01-21T02:59:02.568Z"
     },
     {
-      "id": "04d7",
-      "name": "Gabriel",
-      "email": "gabriel@teste.com",
-      "birthDate": "2211-12-12",
-      "cpf": "34242424242",
-      "rg": "1231231",
+      "id": "9cf4",
+      "name": "Emanoel Silva",
+      "email": "es@teste.com",
+      "birthDate": "1978-02-01",
+      "cpf": "21321555456",
+      "rg": "5645645",
       "role": "Treinador",
       "status": "Inativo",
       "password": "Leo1985@",
-      "phone": "12131231312",
-      "entry_date": "2026-01-21T04:54:10.617Z",
-      "updated_at": "2026-01-21T04:54:10.617Z"
-    },
-    {
-      "id": "b9ec",
-      "name": "Maria Cadu",
-      "email": "cadu@teste.com",
-      "birthDate": "2011-01-01",
-      "cpf": "32123132131",
-      "rg": "5151156",
-      "role": "Treinador",
-      "status": "Ativo",
-      "password": "Leo1985@",
-      "phone": "16165116516",
-      "entry_date": "2026-01-21T05:03:21.506Z",
-      "updated_at": "2026-01-21T05:03:21.506Z"
+      "phone": "81945465465",
+      "entry_date": "2026-01-23T05:54:46.940Z",
+      "updated_at": "2026-01-23T05:54:46.940Z",
+      "created_at": "2026-01-23T05:54:46.940Z"
     }
   ],
   "players": [
-    { "id": "p1", "name": "Arthur Santos", "email": "arthur@teste.com", "cpf": "777.888.999-00", "rg": "77.888.999", "nascimento": "2012-01-10", "category": "c1", "modalidade": "m2", "classes": "cl1", "user_id": "gh26", "weigth": "50", "heigth": "158", "primary_position": "Lateral Direito", "second_position": "Zagueiro", "dominant_foot": "Destro", "sport_status": "Ativo", "cep": "54310-000", "bairro": "Prazeres", "cidade": "Jaboatão", "uf": "PE", "logradouro": "Estrada da Batalha", "complemento": "Casa 10", "notes": "Focado", "entry_date": "2026-01-21T11:00:00Z", "updated_at": "2026-01-21T11:00:00Z", "responsaveis": [{ "respNome": "Sérgio Santos", "respParentesco": "Pai", "respCpf": "123.000.444-55", "respTelefone": "(81) 98888-3333", "respEmail": "sergio@email.com" }] },
-    { "id": "p2", "name": "Beatriz Souza", "email": "bia@teste.com", "cpf": "888.999.000-11", "rg": "88.999.000", "nascimento": "2013-05-05", "category": "c1", "modalidade": "m4", "classes": "cl3", "user_id": "74ee", "weigth": "42", "heigth": "150", "primary_position": "Pivô", "second_position": "Ala", "dominant_foot": "Destro", "sport_status": "Ativo", "cep": "52000-000", "bairro": "Espinheiro", "cidade": "Recife", "uf": "PE", "logradouro": "Rua da Hora", "complemento": "Edf Time", "notes": "Rápida", "entry_date": "2026-01-21T11:30:00Z", "updated_at": "2026-01-21T11:30:00Z", "responsaveis": [{ "respNome": "Carla Souza", "respParentesco": "Mãe", "respCpf": "888.222.333-44", "respEmail": "carla@email.com" }, { "respNome": "Ricardo Souza", "respParentesco": "Pai", "respEmail": "ricardo@email.com" }] },
-    { "id": "p3", "name": "Enzo Santos", "email": "enzo@teste.com", "cpf": "333.444.555-66", "rg": "33.444.555", "nascimento": "2011-02-05", "category": "c4", "modalidade": "m3", "classes": "cl5", "user_id": "gh26", "weigth": "58", "heigth": "165", "primary_position": "Ala Esquerda", "second_position": "Pivô", "dominant_foot": "Destro", "sport_status": "Ativo", "cep": "50050-000", "bairro": "Santo Amaro", "cidade": "Recife", "uf": "PE", "logradouro": "Rua da Aurora", "complemento": "Casa Verde", "notes": "Agressivo", "entry_date": "2026-01-21T09:00:00Z", "updated_at": "2026-01-21T09:00:00Z", "responsaveis": [{ "respNome": "Miraildes Maria dos Santos", "respParentesco": "Mãe", "respCpf": "333.444.555-66", "respEmail": "mira@email.com" }] },
-    { "id": "p4", "name": "Gabriel Bezerra", "email": "gab@teste.com", "cpf": "222.333.444-55", "rg": "22.333.444", "nascimento": "2012-10-20", "category": "c1", "modalidade": "m4", "classes": "cl3", "user_id": "74ee", "weigth": "52", "heigth": "160", "primary_position": "Goleiro", "second_position": "Fixo", "dominant_foot": "Canhoto", "sport_status": "Ativo", "cep": "51020-000", "bairro": "Boa Viagem", "cidade": "Recife", "uf": "PE", "logradouro": "Av Boa Viagem", "complemento": "Apto 101", "notes": "Seguro", "entry_date": "2026-01-21T08:30:00Z", "updated_at": "2026-01-21T08:30:00Z", "responsaveis": [{ "respNome": "Ronaldo Ferreira Bezerra", "respParentesco": "Pai", "respCpf": "222.333.444-55", "respEmail": "ronaldo@email.com" }] },
-    { "id": "p5", "name": "João Pedro", "email": "jp@teste.com", "cpf": "999.000.111-22", "rg": "99.000.111", "nascimento": "2011-11-11", "category": "c1", "modalidade": "m2", "classes": "cl1", "user_id": "gh26", "weigth": "55", "heigth": "165", "primary_position": "Meio-Campo", "second_position": "Ponta", "dominant_foot": "Canhoto", "sport_status": "Ativo", "cep": "50000-000", "bairro": "Centro", "cidade": "Recife", "uf": "PE", "logradouro": "Rua Nova", "complemento": "Apto 01", "notes": "Habilidoso", "entry_date": "2026-01-21T12:00:00Z", "updated_at": "2026-01-21T12:00:00Z", "responsaveis": [{ "respNome": "Marcos Vinícius", "respParentesco": "Pai", "respCpf": "999.000.111-22", "respEmail": "marcos@email.com" }] },
-    { "id": "p6", "name": "Lucas Melo", "email": "lucas@teste.com", "cpf": "666.777.888-99", "rg": "66.777.888", "nascimento": "2014-03-22", "category": "c1", "modalidade": "m4", "classes": "cl3", "user_id": "74ee", "weigth": "38", "heigth": "145", "primary_position": "Ala Esquerda", "second_position": "Ala Direita", "dominant_foot": "Destro", "sport_status": "Ativo", "cep": "51020-020", "bairro": "Boa Viagem", "cidade": "Recife", "uf": "PE", "logradouro": "Av Domingos Ferreira", "complemento": "Edf Mar Azul", "notes": "Rápido", "entry_date": "2026-01-21T10:30:00Z", "updated_at": "2026-01-21T10:30:00Z", "responsaveis": [{ "respNome": "Roberto Melo", "respParentesco": "Pai", "respCpf": "777.666.555-44", "respEmail": "roberto.m@email.com" }] },
-    { "id": "p7", "name": "Mateus Silva", "email": "mateus@teste.com", "cpf": "123.444.555-66", "rg": "11.222.333", "nascimento": "2013-05-13", "category": "c1", "modalidade": "m2", "classes": "cl1", "user_id": "gh26", "weigth": "45", "heigth": "155", "primary_position": "Atacante", "second_position": "Ponta", "dominant_foot": "Destro", "sport_status": "Ativo", "cep": "50000-000", "bairro": "Centro", "cidade": "Recife", "uf": "PE", "logradouro": "Rua A", "complemento": "Casa 10", "notes": "Finalizador", "entry_date": "2026-01-21T08:00:00Z", "updated_at": "2026-01-21T08:00:00Z", "responsaveis": [{ "respNome": "Roberto Carlos da Silva", "respParentesco": "Pai", "respCpf": "111.222.333-44", "respEmail": "roberto.silva@email.com" }, { "respNome": "Luciana Silva", "respParentesco": "Mãe", "respEmail": "luciana.silva@email.com" }] },
-    { "id": "p8", "name": "Nathan Albuquerque", "email": "nathan@teste.com", "cpf": "555.666.777-88", "rg": "55.666.777", "nascimento": "2010-12-30", "category": "c3", "modalidade": "m1", "classes": "cl4", "user_id": "gh26", "weigth": "60", "heigth": "168", "primary_position": "Meio-Campo", "second_position": "Volante", "dominant_foot": "Canhoto", "sport_status": "Ativo", "cep": "52050-000", "bairro": "Aflitos", "cidade": "Recife", "uf": "PE", "logradouro": "Rua do Futuro", "complemento": "Apto 202", "notes": "Visão de jogo", "entry_date": "2026-01-21T10:00:00Z", "updated_at": "2026-01-21T10:00:00Z", "responsaveis": [{ "respNome": "Marta Vieira", "respParentesco": "Mãe", "respCpf": "555.444.333-22", "respEmail": "marta@email.com" }, { "respNome": "José Albuquerque", "respParentesco": "Pai", "respEmail": "jose@email.com" }] },
-    { "id": "p9", "name": "Thiago Lima", "email": "thiago@teste.com", "cpf": "444.555.666-77", "rg": "44.555.666", "nascimento": "2009-08-15", "category": "c2", "modalidade": "m4", "classes": "cl2", "user_id": "74ee", "weigth": "65", "heigth": "172", "primary_position": "Zagueiro", "second_position": "Lateral", "dominant_foot": "Destro", "sport_status": "Ativo", "cep": "52011-050", "bairro": "Graças", "cidade": "Recife", "uf": "PE", "logradouro": "Rua Amélia", "complemento": "Bloco B", "notes": "Forte", "entry_date": "2026-01-21T09:30:00Z", "updated_at": "2026-01-21T09:30:00Z", "responsaveis": [{ "respNome": "Thiago Souza Lima", "respParentesco": "Pai", "respCpf": "444.555.666-77", "respEmail": "thiago.s@email.com" }] },
-    { "id": "p10", "name": "Vinícius Jr", "email": "vini@teste.com", "cpf": "101.101.101-10", "rg": "10.101.101", "nascimento": "2008-07-12", "category": "c2", "modalidade": "m4", "classes": "cl2", "user_id": "gh26", "weigth": "70", "heigth": "176", "primary_position": "Ponta Esquerda", "second_position": "Atacante", "dominant_foot": "Destro", "sport_status": "Ativo", "cep": "51020-000", "bairro": "Boa Viagem", "cidade": "Recife", "uf": "PE", "logradouro": "Av. Boa Viagem", "complemento": "Edf Real", "notes": "Velocista", "entry_date": "2026-01-21T12:30:00Z", "updated_at": "2026-01-21T12:30:00Z", "responsaveis": [{ "respNome": "Paulo Vinícius", "respParentesco": "Pai", "respCpf": "101.000.101-99", "respEmail": "paulo@email.com" }] }
-  ],
-  "guardians": [
-    { "id": "g1", "name": "Ana Ferreira", "cpf": "777.666.555-00", "email": "ana.f@gmail.com", "phoneNumber": "(81) 99111-0000", "athletes": ["Arthur Vinícius"], "kinship": "Mãe", "cep": "51020-020", "bairro": "Boa Viagem", "cidade": "Recife", "uf": "PE", "logradouro": "Av. Domingos Ferreira", "complemento": "Edf. Mar Azul" },
-    { "id": "g2", "name": "Carla Souza", "cpf": "888.222.333-44", "email": "carla@email.com", "phoneNumber": "(81) 98888-2222", "athletes": ["Beatriz Souza"], "kinship": "Mãe", "cep": "52000-000", "bairro": "Espinheiro", "cidade": "Recife", "uf": "PE", "logradouro": "Rua da Hora", "complemento": "Edf. Time" },
-    { "id": "g3", "name": "José Albuquerque", "cpf": "555.444.333-11", "email": "jose@email.com", "phoneNumber": "(81) 98811-4455", "athletes": ["Nathan Albuquerque"], "kinship": "Pai", "cep": "52.050-000", "bairro": "Aflitos", "cidade": "Recife", "uf": "PE", "logradouro": "Rua do Futuro", "complemento": "Apto 202" },
-    { "id": "g4", "name": "Luciana Silva", "cpf": "111.222.333-00", "email": "luciana.silva@email.com", "phoneNumber": "(81) 98877-0000", "athletes": ["Mateus Silva"], "kinship": "Mãe", "cep": "50.968-305", "bairro": "Recife Antigo", "cidade": "Recife", "uf": "PE", "logradouro": "Rua do Bom Jesus", "complemento": "Casa D" },
-    { "id": "g5", "name": "Marcos Vinícius", "cpf": "999.000.111-22", "email": "marcos@email.com", "phoneNumber": "(81) 98888-1111", "athletes": ["João Pedro"], "kinship": "Pai", "cep": "50000-000", "bairro": "Centro", "cidade": "Recife", "uf": "PE", "logradouro": "Rua Nova", "complemento": "Apto 01" },
-    { "id": "g6", "name": "Marta Vieira", "cpf": "555.444.333-22", "email": "marta.alb@email.com", "phoneNumber": "(81) 98811-2233", "athletes": ["Nathan Albuquerque"], "kinship": "Mãe", "cep": "52.050-000", "bairro": "Aflitos", "cidade": "Recife", "uf": "PE", "logradouro": "Rua do Futuro", "complemento": "Apto 202" },
-    { "id": "g7", "name": "Miraildes Maria dos Santos", "cpf": "333.444.555-66", "email": "miraildes.m@email.com", "phoneNumber": "(81) 98765-4321", "athletes": ["Enzo Santos"], "kinship": "Mãe", "cep": "50050-000", "bairro": "Santo Amaro", "cidade": "Recife", "uf": "PE", "logradouro": "Rua da Aurora", "complemento": "Casa Verde" },
-    { "id": "g8", "name": "Paulo Vinícius", "cpf": "101.000.101-99", "email": "paulo@email.com", "phoneNumber": "(81) 98888-9999", "athletes": ["Vinícius Jr"], "kinship": "Pai", "cep": "51020-000", "bairro": "Boa Viagem", "cidade": "Recife", "uf": "PE", "logradouro": "Av. Boa Viagem", "complemento": "Edf Real" },
-    { "id": "g9", "name": "Ricardo Souza", "cpf": "888.222.333-55", "email": "ricardo@email.com", "phoneNumber": "(81) 98888-1111", "athletes": ["Beatriz Souza"], "kinship": "Pai", "cep": "52000-000", "bairro": "Espinheiro", "cidade": "Recife", "uf": "PE", "logradouro": "Rua da Hora", "complemento": "Edf. Time" },
-    { "id": "g10", "name": "Roberto Carlos da Silva", "cpf": "111.222.333-44", "email": "roberto.silva@email.com", "phoneNumber": "(81) 98877-6655", "athletes": ["Mateus Silva"], "kinship": "Pai", "cep": "50.968-305", "bairro": "Recife Antigo", "cidade": "Recife", "uf": "PE", "logradouro": "Rua do Bom Jesus", "complemento": "Casa D" },
-    { "id": "g11", "name": "Roberto Melo", "cpf": "777.666.555-44", "email": "roberto.m@email.com", "phoneNumber": "(81) 99111-2222", "athletes": ["Lucas Melo"], "kinship": "Pai", "cep": "51020-020", "bairro": "Boa Viagem", "cidade": "Recife", "uf": "PE", "logradouro": "Av Domingos Ferreira", "complemento": "Edf Mar Azul" },
-    { "id": "g12", "name": "Ronaldo Ferreira Bezerra", "cpf": "222.333.444-55", "email": "ronaldo.f@gmail.com", "phoneNumber": "(81) 99988-7766", "athletes": ["Gabriel Bezerra"], "kinship": "Pai", "cep": "51020-000", "bairro": "Boa Viagem", "cidade": "Recife", "uf": "PE", "logradouro": "Av. Boa Viagem", "complemento": "Apto 101" },
-    { "id": "g13", "name": "Sérgio Santos", "cpf": "123.000.444-55", "email": "sergio@email.com", "phoneNumber": "(81) 98888-3333", "athletes": ["Arthur Santos"], "kinship": "Pai", "cep": "54310-000", "bairro": "Prazeres", "cidade": "Jaboatão", "uf": "PE", "logradouro": "Estrada da Batalha", "complemento": "Casa 10" },
-    { "id": "g14", "name": "Thiago Souza Lima", "cpf": "444.555.666-77", "email": "thiago.s@email.com", "phoneNumber": "(81) 97766-5544", "athletes": ["Thiago Lima"], "kinship": "Pai", "cep": "52.011-050", "bairro": "Graças", "cidade": "Recife", "uf": "PE", "logradouro": "Rua Amélia", "complemento": "Bloco B" }
+    {
+      "id": "cb2f",
+      "name": "Rudimarcy",
+      "email": "rudi@teste.com",
+      "cpf": "000.000.000-01",
+      "rg": "00.000.01",
+      "nascimento": "2011-01-01",
+      "category": "79b3",
+      "modalidade": "1c40",
+      "classes": "f681",
+      "user_id": "74ee",
+      "weigth": "80",
+      "heigth": "170",
+      "primary_position": "Zagueiro",
+      "second_position": "Lateral Direito",
+      "dominant_foot": "Destro",
+      "sport_status": "Ativo",
+      "cep": "53433-200",
+      "bairro": "Pau Amarelo",
+      "cidade": "Paulista",
+      "uf": "PE",
+      "logradouro": "Rua República Sul Africana",
+      "complemento": "de 502/503 ao fim",
+      "responsaveis": [
+        "000.000.000-02"
+      ],
+      "observacoes": "ola",
+      "notes": "10",
+      "updated_at": "2026-01-23T02:28:53.697Z"
+    },
+    {
+      "id": "a4cc",
+      "name": "Egito",
+      "email": "egito@admin.com",
+      "cpf": "000.000.000-30",
+      "rg": "66.666.66",
+      "nascimento": "2012-01-01",
+      "category": "79b3",
+      "modalidade": "1c40",
+      "classes": "f681",
+      "user_id": "74ee",
+      "weigth": "50",
+      "heigth": "160",
+      "primary_position": "Volante",
+      "second_position": "Centroavante",
+      "dominant_foot": "Destro",
+      "sport_status": "Ativo",
+      "cep": "53433-200",
+      "bairro": "Pau Amarelo",
+      "cidade": "Paulista",
+      "uf": "PE",
+      "logradouro": "Rua República Sul Africana",
+      "complemento": "de 502/503 ao fim",
+      "responsaveis": [
+        "000.000.000-02"
+      ],
+      "observacoes": "tia maria ;D",
+      "notes": "10",
+      "entry_date": "2026-01-23T02:24:33.670Z",
+      "updated_at": "2026-01-23T02:36:18.746Z"
+    },
+    {
+      "id": "85b9",
+      "name": "Lionel Messi",
+      "email": "lm@teste.com",
+      "cpf": "000.000.000-10",
+      "rg": "00.000.10",
+      "nascimento": "2012-02-01",
+      "category": "79b3",
+      "modalidade": "1c40",
+      "classes": "f681",
+      "user_id": "6554",
+      "weigth": "56",
+      "heigth": "160",
+      "primary_position": "Atacante",
+      "second_position": "Segundo Atacante",
+      "dominant_foot": "Ambidestro",
+      "sport_status": "Ativo",
+      "cep": "54330-360",
+      "bairro": "Cajueiro Seco",
+      "cidade": "Jaboatão dos Guararapes",
+      "uf": "PE",
+      "logradouro": "Rua Professor Artur de Sá",
+      "complemento": "casa",
+      "responsaveis": [
+        "000.000.000-03",
+        "000.000.000-04"
+      ],
+      "observacoes": "Só alegria",
+      "notes": "10",
+      "entry_date": "2026-01-23T04:01:22.022Z",
+      "updated_at": "2026-01-23T04:01:22.022Z"
+    },
+    {
+      "id": "b6b7",
+      "name": "Ronaldinho Gaúcho",
+      "email": "r10@teste.com",
+      "cpf": "000.000.001-01",
+      "rg": "00.000.10",
+      "nascimento": "2010-01-01",
+      "category": "79b3",
+      "modalidade": "1c40",
+      "classes": "f681",
+      "user_id": "ae09",
+      "weigth": "85",
+      "heigth": "180",
+      "primary_position": "Meio-campista",
+      "second_position": "Segundo Atacante",
+      "dominant_foot": "Ambidestro",
+      "sport_status": "Ativo",
+      "cep": "50030-200",
+      "bairro": "Recife",
+      "cidade": "Recife",
+      "uf": "PE",
+      "logradouro": "Rua Domingos José Martins",
+      "complemento": "4 andar",
+      "responsaveis": [
+        "000.000.000-09"
+      ],
+      "observacoes": "Chorem",
+      "notes": "10",
+      "entry_date": "2026-01-23T09:15:10.781Z",
+      "updated_at": "2026-01-23T09:15:10.781Z"
+    }
   ],
   "categories": [
-    { "id": "c1", "name": "Sub-12", "min_age": 10, "max_age": 12 },
-    { "id": "c2", "name": "Sub-13", "min_age": 12, "max_age": 13 },
-    { "id": "c3", "name": "Sub-15", "min_age": 14, "max_age": 15 },
-    { "id": "c4", "name": "Sub-17", "min_age": 16, "max_age": 17 }
-  ],
-  "modalities": [
-    { "id": "m1", "name": "Beach Soccer" },
-    { "id": "m2", "name": "Futebol" },
-    { "id": "m3", "name": "Futsal" },
-    { "id": "m4", "name": "Fut7" }
-  ],
-  "trainers": [
-    { "id": "t1", "user_id": "04d7", "license_level": "B", "specialty": "Fut7" },
-    { "id": "t2", "user_id": "f9b3", "license_level": "A", "specialty": "Futsal" },
-    { "id": "t3", "user_id": "7c11", "license_level": "Pro", "specialty": "Futebol" },
-    { "id": "t4", "user_id": "a34e", "license_level": "Pro", "specialty": "Futebol" },
-    { "id": "t5", "user_id": "b9ec", "license_level": "A", "specialty": "Beach Soccer" },
-    { "id": "t6", "user_id": "6554", "license_level": "B", "specialty": "Futsal" }
-  ],
-  "classes": [
-    { "id": "cl1", "name": "Turma A12", "weekdays": "Segunda, Quarta", "schedule": "2026-01-21T08:00:00", "status": "Ativa", "modality": "Futebol", "category": "Sub-12", "trainer": "Luana Vitorino" },
-    { "id": "cl2", "name": "Turma A13", "weekdays": "Segunda, Quarta", "schedule": "2026-01-21T14:00:00", "status": "Ativa", "modality": "Futsal", "category": "Sub-13", "trainer": "Jean Menino" },
-    { "id": "cl3", "name": "Turma B12", "weekdays": "Terça, Quinta", "schedule": "2026-01-21T10:30:00", "status": "Ativa", "modality": "Futsal", "category": "Sub-12", "trainer": "Mateus Soares" },
-    { "id": "cl4", "name": "Turma B15", "weekdays": "Sexta", "schedule": "2026-01-21T16:45:00", "status": "Ativa", "modality": "Beach Soccer", "category": "Sub-15", "trainer": "Maria Cadu" },
-    { "id": "cl5", "name": "Turma C17", "weekdays": "Sábado", "schedule": "2026-01-21T09:15:00", "status": "Ativa", "modality": "Fut7", "category": "Sub-17", "trainer": "Gabriel" },
-    { "id": "cl6", "name": "Turma D13", "weekdays": "Quarta, Sexta", "schedule": "2026-01-21T19:00:00", "status": "Ativa", "modality": "Futebol", "category": "Sub-13", "trainer": "Leandro Melo" }
-  ],
-  "leads": [
-    { "id": "l1", "name": "João Silva", "email": "joao@email.com", "phone": "(81) 91111-2222", "source": "Instagram", "entry_date": "2026-01-21T10:00:00", "status": "Novo" },
-    { "id": "l2", "name": "Maria Santos", "email": "maria@email.com", "phone": "(81) 93333-4444", "source": "Indicação", "entry_date": "2026-01-21T10:05:00", "status": "Novo" },
-    { "id": "l3", "name": "Pedro Oliveira", "email": "pedro@email.com", "phone": "(81) 95555-6666", "source": "Google", "entry_date": "2026-01-21T10:10:00", "status": "Novo" }
+    {
+      "id": "79b3",
+      "name": "Sub-20",
+      "min_age": 9,
+      "max_age": 20
+    }
   ],
   "schools": [],
   "staff": [],
-  "phones": []
+  "trainers": [
+    {
+      "id": "4gzg1f",
+      "license_level": "B",
+      "specialty": "Futebol",
+      "user_id": "a34e"
+    }
+  ],
+  "turmas": [],
+  "modalidades": [],
+  "leads": [
+    {
+      "id": "5d91",
+      "name": "Emanuel Antunes",
+      "email": "et@teste.com",
+      "phone": "(54) 65455-6546",
+      "source": "Futebol",
+      "entry_date": "2026-01-20T21:14",
+      "status": "Novo"
+    }
+  ],
+  "phones": [],
+  "guardians": [
+    {
+      "id": "g1",
+      "nome": "Maria da Silva",
+      "cpf": "000.000.000-02",
+      "parentesco": "Mãe",
+      "telefone": "(81) 99999-9999",
+      "email": "maria.silva@email.com",
+      "atletas": [
+        "000.000.000-01",
+        "000.000.000-30"
+      ],
+      "cep": "53433-100",
+      "bairro": "Pau Amarelo",
+      "cidade": "Paulista",
+      "uf": "PE",
+      "logradouro": "Rua São José do Belmonte",
+      "complemento": "casa",
+      "name": "Maria da Silva",
+      "phoneNumber": "(81) 99999-9999",
+      "athletes": [
+        "000.000.000-01",
+        "000.000.000-30"
+      ],
+      "kinship": "Tia",
+      "numero": "45",
+      "vinculos": [
+        {
+          "cpfAtleta": "000.000.000-30",
+          "parentesco": "Tia"
+        }
+      ]
+    },
+    {
+      "id": "f994",
+      "nome": "Pep Guardiola",
+      "cpf": "000.000.000-03",
+      "telefone": "(81) 98235-2681",
+      "email": "pepg@teste.com",
+      "atletas": [
+        "000.000.000-10"
+      ],
+      "vinculos": [
+        {
+          "cpfAtleta": "000.000.000-10",
+          "parentesco": "Pai"
+        }
+      ],
+      "cep": "",
+      "bairro": "",
+      "cidade": "",
+      "uf": "",
+      "logradouro": "",
+      "complemento": ""
+    },
+    {
+      "id": "9358",
+      "nome": "Marta",
+      "cpf": "000.000.000-04",
+      "telefone": "(81) 90000-0035",
+      "email": "marta@teste.com",
+      "atletas": [
+        "000.000.000-10"
+      ],
+      "vinculos": [
+        {
+          "cpfAtleta": "000.000.000-10",
+          "parentesco": "Mãe"
+        }
+      ],
+      "cep": "",
+      "bairro": "",
+      "cidade": "",
+      "uf": "",
+      "logradouro": "",
+      "complemento": ""
+    },
+    {
+      "id": "a28d",
+      "nome": "Ronaldo Fenômeno",
+      "cpf": "000.000.000-09",
+      "telefone": "(81) 92322-1213",
+      "email": "r9@gmail.com",
+      "atletas": [
+        "000.000.001-01"
+      ],
+      "vinculos": [
+        {
+          "cpfAtleta": "000.000.001-01",
+          "parentesco": "Pai"
+        }
+      ],
+      "cep": "",
+      "bairro": "",
+      "cidade": "",
+      "uf": "",
+      "logradouro": "",
+      "complemento": ""
+    }
+  ],
+  "classes": [
+    {
+      "id": "f681",
+      "name": "Turma A20",
+      "weekdays": "Segunda, Quarta",
+      "schedule": "2026-01-21T09:00:00",
+      "status": "Ativa",
+      "modality": "Futebol",
+      "category": "Sub-20",
+      "trainer": "Luana Vitorino",
+      "entry_date": "2026-01-21T02:33:23.767Z",
+      "updated_at": "2026-01-21T02:33:23.767Z"
+    }
+  ],
+  "modalities": [
+    {
+      "id": "1c40",
+      "name": "Futebol"
+    }
+  ]
 }

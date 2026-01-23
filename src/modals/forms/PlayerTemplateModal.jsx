@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { list } from "../../data/api";
+import { list, create, update } from "../../data/api";
 import { createPortal } from "react-dom";
 import { IoClose } from "react-icons/io5";
 
@@ -53,15 +53,13 @@ export default function ModalCadastroAtleta({
   const [responsavelForm, setResponsavelForm] = useState({});
   const [editingResponsavel, setEditingResponsavel] = useState(null);
 
-  function handleResponsavelChange(e) {
+  async function handleResponsavelChange(e) {
     const { name, value } = e.target;
     let newValue = value;
     if (name === "respNome") {
-      // Permite apenas letras e espaços
       newValue = value.replace(/[^A-Za-zÀ-ÿ\s]/g, "");
     }
     if (name === "respTelefone") {
-      // Máscara para telefone brasileiro (celular)
       newValue = value
         .replace(/\D/g, "")
         .replace(/(\d{2})(\d)/, "($1) $2")
@@ -69,13 +67,40 @@ export default function ModalCadastroAtleta({
         .substring(0, 15);
     }
     if (name === "respCpf") {
-      // Máscara para CPF
       newValue = value
         .replace(/\D/g, "")
         .replace(/(\d{3})(\d)/, "$1.$2")
         .replace(/(\d{3})(\d)/, "$1.$2")
         .replace(/(\d{3})(\d{1,2})/, "$1-$2")
         .replace(/(-\d{2})\d+?$/, "$1");
+      // Busca automática ao digitar CPF completo
+      if (newValue.length === 14) {
+        try {
+          const resps = await list(
+            `guardians?cpf=${encodeURIComponent(newValue)}`,
+          );
+          if (Array.isArray(resps) && resps.length > 0) {
+            const r = resps[0];
+            setResponsavelForm((prev) => ({
+              ...prev,
+              respCpf: newValue,
+              respNome: r.nome || r.respNome || "",
+              respTelefone: r.telefone || r.respTelefone || "",
+              respEmail: r.email || r.respEmail || "",
+              // NÃO preencher parentesco (deixa o usuário escolher)
+              // respParentesco: prev.respParentesco || r.parentesco || r.respParentesco || "",
+              // Preencher endereço se existir
+              cep: r.cep || "",
+              bairro: r.bairro || "",
+              cidade: r.cidade || "",
+              uf: r.uf || "",
+              logradouro: r.logradouro || "",
+              complemento: r.complemento || "",
+            }));
+            return;
+          }
+        } catch {}
+      }
     }
     // Validação de email
     let emailError = "";
@@ -90,6 +115,16 @@ export default function ModalCadastroAtleta({
       ...prev,
       [name]: newValue,
       respEmailError: name === "respEmail" ? emailError : prev.respEmailError,
+      // Atualiza o parentesco individual se for o campo de parentesco
+      vinculos:
+        name === "respParentesco" && prev.respCpf && formData.cpf
+          ? [
+              {
+                cpfAtleta: formData.cpf,
+                parentesco: newValue,
+              },
+            ]
+          : prev.vinculos,
     }));
   }
 
@@ -184,14 +219,63 @@ export default function ModalCadastroAtleta({
   const lastActiveElement = useRef(null);
 
   // Limpa step e dirty ao abrir/fechar
+
   useEffect(() => {
-    if (aberto) {
-      setStep(0);
-      setIsDirty(false);
-      setIsLoading(false);
-      setFormData(formDataAtleta || {});
+    async function preencherResponsaveis() {
+      if (aberto) {
+        setStep(0);
+        setIsDirty(false);
+        setIsLoading(false);
+        // Se vier array de CPFs, buscar dados completos
+        if (
+          formDataAtleta &&
+          Array.isArray(formDataAtleta.responsaveis) &&
+          formDataAtleta.responsaveis.length > 0 &&
+          typeof formDataAtleta.responsaveis[0] === "string"
+        ) {
+          // Buscar todos os responsáveis pelo CPF
+          const responsaveisCompletos = await Promise.all(
+            formDataAtleta.responsaveis.map(async (cpf) => {
+              try {
+                const resps = await list(
+                  `guardians?cpf=${encodeURIComponent(cpf)}`,
+                );
+                const r =
+                  Array.isArray(resps) && resps.length > 0 ? resps[0] : { cpf };
+                // Busca o parentesco individual do vínculo
+                let parentescoVinculo = "";
+                if (Array.isArray(r.vinculos)) {
+                  const v = r.vinculos.find(
+                    (v) => v.cpfAtleta === formDataAtleta.cpf,
+                  );
+                  if (v) parentescoVinculo = v.parentesco;
+                }
+                return {
+                  respNome: r.nome || r.respNome || "",
+                  respCpf: r.cpf || cpf,
+                  respParentesco:
+                    parentescoVinculo || r.parentesco || r.respParentesco || "",
+                  respTelefone: r.telefone || r.respTelefone || "",
+                  respEmail: r.email || r.respEmail || "",
+                  respEmailError: "",
+                };
+              } catch {
+                return { respCpf: cpf };
+              }
+            }),
+          );
+          setFormData({
+            ...formDataAtleta,
+            responsaveis: responsaveisCompletos,
+          });
+        } else {
+          setFormData(formDataAtleta || {});
+        }
+      }
     }
-  }, [aberto]);
+    preencherResponsaveis();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [aberto, formDataAtleta?.id]);
 
   // Detecta se o formulário está sujo
   useEffect(() => {
@@ -434,15 +518,95 @@ export default function ModalCadastroAtleta({
                   dataToSend.nascimento = d.slice(0, 10);
                 }
               }
-              // Garante que só o array de responsáveis será enviado
+              // Salva array de CPFs dos responsáveis
               if (Array.isArray(formData.responsaveis)) {
-                dataToSend.responsaveis = formData.responsaveis;
+                dataToSend.responsaveis = formData.responsaveis
+                  .filter((r) => r && typeof r === "object" && r.respCpf)
+                  .map((r) => r.respCpf);
               }
+
               try {
-                await onSave(dataToSend);
+                const now = new Date().toISOString();
+                if (dataToSend.id) {
+                  // Atualização: mantém entry_date original, atualiza updated_at
+                  dataToSend.updated_at = now;
+                  if (!dataToSend.entry_date && formData.entry_date) {
+                    dataToSend.entry_date = formData.entry_date;
+                  }
+                  await update("players", dataToSend.id, dataToSend);
+                } else {
+                  // Antes de criar, verifica se já existe atleta com mesmo CPF
+                  const existentes = await list(
+                    `players?cpf=${encodeURIComponent(dataToSend.cpf)}`,
+                  );
+                  if (Array.isArray(existentes) && existentes.length > 0) {
+                    alert("Já existe um atleta cadastrado com este CPF.");
+                    setIsLoading(false);
+                    return;
+                  }
+                  dataToSend.entry_date = now;
+                  dataToSend.updated_at = now;
+                  await create("players", dataToSend);
+                }
+
+                // Para cada responsável vinculado, atualiza o array de atletas (por CPF) e os dados completos, incluindo endereço
+                if (Array.isArray(formData.responsaveis)) {
+                  for (const resp of formData.responsaveis) {
+                    const res = await list(
+                      `guardians?cpf=${encodeURIComponent(resp.respCpf)}`,
+                    );
+                    const guardian = Array.isArray(res) ? res[0] : res;
+                    // Atualiza ou cria vínculos de parentesco individualizados
+                    let vinculos = Array.isArray(guardian?.vinculos)
+                      ? [...guardian.vinculos]
+                      : [];
+                    // Remove vínculo antigo do mesmo atleta, se existir
+                    vinculos = vinculos.filter(
+                      (v) => v.cpfAtleta !== formData.cpf,
+                    );
+                    // Adiciona vínculo atualizado
+                    if (resp.respParentesco && formData.cpf) {
+                      vinculos.push({
+                        cpfAtleta: formData.cpf,
+                        parentesco: resp.respParentesco,
+                      });
+                    }
+                    // Monta dados completos do responsável, incluindo endereço
+                    const dadosResponsavel = {
+                      nome: resp.respNome,
+                      cpf: resp.respCpf,
+                      telefone: resp.respTelefone,
+                      email: resp.respEmail,
+                      atletas:
+                        guardian && Array.isArray(guardian.atletas)
+                          ? guardian.atletas.includes(formData.cpf)
+                            ? guardian.atletas
+                            : [...guardian.atletas, formData.cpf]
+                          : [formData.cpf],
+                      vinculos,
+                      // Campos de endereço (se existirem no objeto do responsável)
+                      cep: resp.cep || guardian?.cep || "",
+                      bairro: resp.bairro || guardian?.bairro || "",
+                      cidade: resp.cidade || guardian?.cidade || "",
+                      uf: resp.uf || guardian?.uf || "",
+                      logradouro: resp.logradouro || guardian?.logradouro || "",
+                      complemento:
+                        resp.complemento || guardian?.complemento || "",
+                    };
+                    // Remove campo global de parentesco se existir
+                    if (dadosResponsavel.parentesco)
+                      delete dadosResponsavel.parentesco;
+                    if (guardian && guardian.id) {
+                      await update("guardians", guardian.id, dadosResponsavel);
+                    } else {
+                      // Se não existe, cria
+                      await create("guardians", dadosResponsavel);
+                    }
+                  }
+                }
+
                 setSuccessMessage("Atleta atualizado com sucesso!");
                 setIsLoading(false);
-                // Em modo de edição, não fecha o modal automaticamente. O controle fica com o componente pai (EditPlayersModal)
                 if (!editandoAtleta) {
                   setTimeout(() => {
                     setSuccessMessage("");
@@ -1009,6 +1173,22 @@ export default function ModalCadastroAtleta({
                 </ul>
                 {/* Formulário de responsável */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* CPF PRIMEIRO */}
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
+                      CPF
+                    </label>
+                    <input
+                      type="text"
+                      name="respCpf"
+                      value={responsavelForm.respCpf || ""}
+                      onChange={handleResponsavelChange}
+                      maxLength="14"
+                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
+                      placeholder="XXX.XXX.XXX-XX"
+                    />
+                  </div>
+                  {/* Nome */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Nome
@@ -1022,6 +1202,41 @@ export default function ModalCadastroAtleta({
                       placeholder="Nome do responsável"
                     />
                   </div>
+                  {/* Telefone */}
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
+                      Telefone
+                    </label>
+                    <input
+                      type="tel"
+                      name="respTelefone"
+                      value={responsavelForm.respTelefone || ""}
+                      onChange={handleResponsavelChange}
+                      maxLength="15"
+                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
+                      placeholder="(00) 00000-0000"
+                    />
+                  </div>
+                  {/* Email */}
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="respEmail"
+                      value={responsavelForm.respEmail || ""}
+                      onChange={handleResponsavelChange}
+                      className={`w-full px-3.5 py-2.5 border ${responsavelForm.respEmailError ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white`}
+                      placeholder="email@exemplo.com"
+                    />
+                    {responsavelForm.respEmailError && (
+                      <span className="text-xs text-red-600 mt-1 block">
+                        {responsavelForm.respEmailError}
+                      </span>
+                    )}
+                  </div>
+                  {/* Parentesco */}
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
                       Parentesco
@@ -1072,52 +1287,6 @@ export default function ModalCadastroAtleta({
                         </svg>
                       </span>
                     </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
-                      CPF
-                    </label>
-                    <input
-                      type="text"
-                      name="respCpf"
-                      value={responsavelForm.respCpf || ""}
-                      onChange={handleResponsavelChange}
-                      maxLength="14"
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="XXX.XXX.XXX-XX"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
-                      Telefone
-                    </label>
-                    <input
-                      type="tel"
-                      name="respTelefone"
-                      value={responsavelForm.respTelefone || ""}
-                      onChange={handleResponsavelChange}
-                      maxLength="15"
-                      className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white"
-                      placeholder="(00) 00000-0000"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-gray-600 mb-1.5">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      name="respEmail"
-                      value={responsavelForm.respEmail || ""}
-                      onChange={handleResponsavelChange}
-                      className={`w-full px-3.5 py-2.5 border ${responsavelForm.respEmailError ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-700 outline-none transition-all text-sm placeholder:text-gray-400 bg-white`}
-                      placeholder="email@exemplo.com"
-                    />
-                    {responsavelForm.respEmailError && (
-                      <span className="text-xs text-red-600 mt-1 block">
-                        {responsavelForm.respEmailError}
-                      </span>
-                    )}
                   </div>
                 </div>
                 <div className="flex gap-2 mt-3">
