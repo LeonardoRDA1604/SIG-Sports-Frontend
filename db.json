@@ -131,11 +131,12 @@
       "logradouro": "Rua República Sul Africana",
       "complemento": "de 502/503 ao fim",
       "responsaveis": [
-        "000.000.000-02"
+        "000.000.000-02",
+        "126.515.611-51"
       ],
       "observacoes": "ola",
       "notes": "10",
-      "updated_at": "2026-01-23T02:28:53.697Z"
+      "updated_at": "2026-01-24T05:43:15.569Z"
     },
     {
       "id": "a4cc",
@@ -294,6 +295,10 @@
         {
           "cpfAtleta": "000.000.000-30",
           "parentesco": "Tia"
+        },
+        {
+          "cpfAtleta": "000.000.000-01",
+          "parentesco": "Mãe"
         }
       ]
     },
@@ -354,6 +359,28 @@
         {
           "cpfAtleta": "000.000.001-01",
           "parentesco": "Pai"
+        }
+      ],
+      "cep": "",
+      "bairro": "",
+      "cidade": "",
+      "uf": "",
+      "logradouro": "",
+      "complemento": ""
+    },
+    {
+      "id": "d1b4",
+      "nome": "ze vaqueiro",
+      "cpf": "126.515.611-51",
+      "telefone": "(26) 51165-1561",
+      "email": "ze@gmail.com",
+      "atletas": [
+        "000.000.000-01"
+      ],
+      "vinculos": [
+        {
+          "cpfAtleta": "000.000.000-01",
+          "parentesco": "Tio"
         }
       ],
       "cep": "",
