@@ -147,17 +147,117 @@ Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *ot
 ---
 
 ## 🧱 Arquitetura do Projeto (Frontend)
-```
-src/
-│── assets/
-│── components/
-│── pages/
-│── services/
-│── hooks/
-│── styles/
-│── utils/
-│── App.jsx
-│── main.jsx
+<!-- falta corrigir a estrutura da pasta src (porem preciso refatorar o codigo para ver os pathings), tb falta colocar os comentários -->
+```bash
+├── src/
+│   ├── assets/                # Arquivos estáticos (Imagens, Ícones, Logotipos)
+│   │   ├── icons/
+│   │
+│   ├── components/            # Componentes reutilizáveis (Buttons, Inputs, Cards, etc.)
+│   │   └── AcaoRapida/
+│   │   │   └── index.jsx
+│   │   │
+│   │   └── AdminPanel/ 
+│   │   │   └── AdminPanel.jsx
+│   │   │   └── .jsx
+│   │   │   └── .jsx
+│   │   │
+│   │   └── Auth/ 
+│   │   │   └── Cadastro.jsx
+│   │   │   └── EsqueciSenha.jsx
+│   │   │   └── UsuariosTable.jsx
+│   │   │
+│   │   └── Banner/ 
+│   │   │   └── index.jsx
+│   │   │
+│   │   └── BotaoAdicionar/ 
+│   │   │   └── BotaoAdicionar.jsx
+│   │   │
+│   │   └── Card/ 
+│   │   │   └── index.jsx
+│   │   │
+│   │   └── DataTable/ 
+│   │   │   └── DataTable.jsx
+│   │   │   └── index.js
+│   │   │
+│   │   └── Header/ 
+│   │   │   └── Header.jsx
+│   │   │
+│   │   └── Login/ 
+│   │   │   └── Login.jsx
+│   │   │
+│   │   └── Logout/ 
+│   │   │   └── Logout.jsx
+│   │   │
+│   │   └── Navbar/ 
+│   │   │   └── Navbar.jsx
+│   │   │   └── NavbarMobile.jsx
+│   │   │
+│   │   └── Notificacao/ 
+│   │   │   └── NotificationIcon.jsx
+│   │   │
+│   │   └── AutocompleteAtleta.jsx
+│   │
+│   ├── context/               # 
+│   │   ├── AuthContext.js 
+│   │
+│   ├── data/                  # 
+│   │   ├── api.js
+│   │   ├── dadosUsuarios.js
+│   ├── modals/                # 
+│   │   └── forms/             # 
+│   │   │   └── ModalCadastroCategoria.jsx
+│   │   │   └── ModalCadastroInteressado.jsx
+│   │   │   └── ModalCadastroModalidade.jsx
+│   │   │   └── ModalCadastroResponsavel.jsx
+│   │   │   └── ModalCadastroTreinador.jsx
+│   │   │   └── ModalCadastroTurma.jsx
+│   │   │   └── ModalCadastroUsuario.jsx
+│   │   │   └── PlayerTemplateModal.jsx
+│   │   │
+│   │   └── views/             # 
+│   │   │   └── EditPlayersModal.jsx
+│   │   │   └── ModalVisualizarCadastroResponsavel.jsx
+│   │   │
+│   │   └── AnimatedSubTitle.jsx
+│   │   └── AnimatedTitle.jsx
+│   │   └── ModalConfirmarSaída.jsx
+│   │
+│   ├── pages/                 # Componentes de rota (Telas principais do sistema)
+│   │   └── Administracao.jsx  #  
+│   │   └── Cadastros.jsx      #  
+│   │   └── Dashboard.jsx      #  
+│   │   └── Financeiro.jsx     #  
+│   │   └── Interessados.jsx   #  
+│   │   └── Presencas.jsx      #  
+│   │   └── Relatorios.jsx     #  
+│   │
+│   ├── styles/                # Estilizações globais e configurações de temas
+│   │   └── token.css          # 
+│   │
+│   ├── utils/                 # Funções auxiliares (Formatadores, Validadores)
+│   │   └── permissoes.js      # 
+│   │
+│   ├── App.css                # 
+│   │
+│   ├── App.jsx                # Componente raiz com as rotas
+│   │
+│   ├── index.css              # 
+│   │
+│   └── main.jsx               # Ponto de entrada da aplicação (Renderização)
+│
+├── .env.example               # Modelo de variáveis de ambiente
+├── .gitignore                 # Arquivos ignorados pelo Git
+├── CONTRIBUTING.md            # 
+├── db.json                    # Banco de dados simulado (JSON Server) se aplicável
+├── eslint.config.js           # Configuração de padronização do código
+├── index.html                 # Estrutura HTML principal
+├── LICENSE                    # 
+├── package-lock.json          # 
+├── package.json               # Gerenciamento de dependências e scripts
+├── postcss.config.js          # Configuração do PostCSS (Tailwind)
+├── README.md                  # Documentação do projeto
+└── vite.config.js             # Configuração do bundler Vite
 ```
 
 ---
@@ -216,12 +316,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Scrum Master; DevOps; QA; Product Owner</td>
       <td>DevOps & QA; Docs; Development; Design; Communication</td>
       <td align="center">
-        <a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank">
+        <a href="https://www.linkedin.com/in/leonardorafael1604/" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/leonardorafael1604</span>
         </a>
         <br><br>
-        <a href="https://github.com/LeonardoRDA1604" target="_blank">
+        <a href="https://github.com/LeonardoRDA1604" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/LeonardoRDA1604</span>
         </a>
@@ -234,12 +334,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Tech Leader and DevOps</td>
       <td>Development; DevOps & QA; Communication</td>
       <td align="center">
-        <a href="https://www.linkedin.com/in/leandro-wilke/" target="_blank">
+        <a href="https://www.linkedin.com/in/leandro-wilke/" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/leandro-wilke</span>
         </a>
         <br><br>
-        <a href="https://github.com/LeandroWilkeDev" target="_blank">
+        <a href="https://github.com/LeandroWilkeDev" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/LeandroWilkeDev</span>
         </a>
@@ -252,12 +352,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Scrum Team</td>
       <td>Design; Development</td>
       <td align="center">
-        <a href="https://www.linkedin.com/in/guilhermechroma/" target="_blank">
+        <a href="https://www.linkedin.com/in/guilhermechroma/" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/guilhermechroma</span>
         </a>
         <br><br>
-        <a href="https://github.com/guilhermechroma" target="_blank">
+        <a href="https://github.com/guilhermechroma" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/guilhermechroma</span>
         </a>
@@ -270,12 +370,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Scrum Team</td>
       <td>Design; Development</td>
       <td align="center">
-        <a href="https://www.linkedin.com/in//mateeussoares/" target="_blank">
+        <a href="https://www.linkedin.com/in//mateeussoares/" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/mateeussoares</span>
         </a>
         <br><br>
-        <a href="https://github.com/mateeussoares" target="_blank">
+        <a href="https://github.com/mateeussoares" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/mateeussoares</span>
         </a>
@@ -288,12 +388,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Scrum Team</td>
       <td>Docs; Development</td>
       <td align="center">
-        <a href="https://www.linkedin.com/in/luana-de-melo-527415352/" target="_blank">
+        <a href="https://www.linkedin.com/in/luana-de-melo-527415352/" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/luana-de-melo</span>
         </a>
         <br><br>
-        <a href="https://github.com/luanavitorino" target="_blank">
+        <a href="https://github.com/luanavitorino" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/luanavitorino</span>
         </a>
@@ -306,12 +406,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Scrum Team</td>
       <td>Docs</td>
       <td align="center">
-        <a href="https://www.linkedin.com/in/gabriel-josimar-306000249/" target="_blank">
+        <a href="https://www.linkedin.com/in/gabriel-josimar-306000249/" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/gabriel-josimar</span>
         </a>
         <br><br>
-        <a href="https://github.com/GabrielJosimar123" target="_blank">
+        <a href="https://github.com/GabrielJosimar123" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/GabrielJosimar123</span>
         </a>
@@ -324,12 +424,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Scrum Team</td>
       <td>Design</td>
       <td align="center">
-        <a href="http://www.linkedin.com/in/joselucasdg" target="_blank">
+        <a href="http://www.linkedin.com/in/joselucasdg" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/joselucasdg</span>
         </a>
         <br><br>
-        <a href="https://github.com/lukaaszx" target="_blank">
+        <a href="https://github.com/lukaaszx" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/lukaaszx</span>
         </a>
@@ -342,12 +442,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Scrum Team</td>
       <td>Development</td>
       <td align="center">
-        <a href="https://www.linkedin.com/in/jean-menino-dos-santos-j%C3%BAnior-507a48311/" target="_blank">
+        <a href="https://www.linkedin.com/in/jean-menino-dos-santos-j%C3%BAnior-507a48311/" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/jean-menino-dos-santos</span>
         </a>
         <br><br>
-        <a href="https://github.com/jeanwox" target="_blank">
+        <a href="https://github.com/jeanwox" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/jeanwox</span>
         </a>
@@ -360,12 +460,12 @@ Apresentamos abaixo a estrutura da nossa equipe e as respectivas responsabilidad
       <td>Scrum Team</td>
       <td>Docs</td>
       <td align="center">
-        <a href="https://www.linkedin.com/in/guilherme-costa-825aa43a6/" target="_blank">
+        <a href="https://www.linkedin.com/in/guilherme-costa-825aa43a6/" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg" width="18" height="18" align="center"> 
           <span>/guilherme-costa</span>
         </a>
         <br><br>
-        <a href="https://github.com/guizihn" target="_blank">
+        <a href="https://github.com/guizihn" target="_blank" rel="noopener noreferrer">
           <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="18" height="18" align="center"> 
           <span>/guizihn</span>
         </a>
@@ -520,8 +620,6 @@ npm run server      # Inicia o JSON Server para simulação de backend
 ## 🚧 Status do Projeto
 
 Em desenvolvimento.
-
----
 
 ## 📚 Apoio:
 ### Aponti
