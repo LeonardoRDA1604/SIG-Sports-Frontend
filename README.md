@@ -39,13 +39,16 @@ O sistema foi planejado, prototipado e implementado, seguindo *boas práticas de
     - [11.1. Como Baixar e Utilizar o Repositório](#️-como-baixar-e-utilizar-o-repositório)
         - [11.1.1. Scripts Disponíveis](#️-scripts-disponíveis)
 - [12. Status do Projeto](#-status-do-projeto)
-- [13. Apoio](#-apoio)
-- [14. Versionamento](#️-versionamento)
-    - [14.1. Significado das versões](#-significado-das-versões)
-    - [14.2. Objetivo do versionamento](#-objetivo-do-versionamento)
-- [15. Colaboração](#-colaboração)
-- [16. Documentação do Sistema](#-documentação-do-sistema)
-- [17. Licença](#-licença)
+- [13. Apresentação e Demonstração](#-apresentação-e-demonstração)
+  - [13.1. Pitch de Negócio (Apresentação)](#-1-pitch-de-negócio-apresentação)
+  - [13.1. Demonstração do Software (Demo)](#-2-demonstração-do-software-demo)
+- [14. Apoio](#-apoio)
+- [15. Versionamento](#️-versionamento)
+    - [15.1. Significado das versões](#-significado-das-versões)
+    - [15.2. Objetivo do versionamento](#-objetivo-do-versionamento)
+- [16. Colaboração](#-colaboração)
+- [17. Documentação do Sistema](#-documentação-do-sistema)
+- [18. Licença](#-licença)
 <!-- - [Como baixar e utilizar o sistema](#️-como-baixar-e-utilizar-o-sistema) -->
 
 ---
@@ -619,12 +622,20 @@ npm run server      # Inicia o JSON Server para simulação de backend
 
 ## 🚧 Status do Projeto
 
-Em desenvolvimento.
+✅ **Primeira Versão (MVP): Concluída** O sistema já conta com as funcionalidades core de gestão e está pronto para o uso inicial.
 
 ---
 
-## Demo do Projeto.
-Você pode conferir a demo do nosso projeto [clicando aqui](https://youtu.be/frXxWNagzAA)
+## 📺 Apresentação e Demonstração
+Para uma visão mais profunda sobre o propósito e a execução do projeto, disponibilizamos dois conteúdos complementares que detalham a jornada desde a concepção estratégica até a implementação técnica:
+
+#### 🎤 1. Pitch de Negócio (Apresentação)
+Aborda os desafios enfrentados pela **PS Sports**, a análise das dores do mercado e como nossa solução foi arquitetada para transformar a gestão esportiva e gerar valor real.
+* [Assistir ao Pitch de Negócio](https://youtu.be/uP9eL_eKz3s)
+
+#### 🎬 2. Demonstração do Software (Demo)
+Um *walkthrough* detalhado pelas funcionalidades da plataforma, destacando a interface responsiva, a fluidez da experiência do usuário (UX) e as regras de negócio aplicadas.
+* [Assistir à Demo do Software](https://youtu.be/frXxWNagzAA)
 
 ---
 
@@ -721,6 +732,7 @@ A documentação detalhada dos requisitos, fluxos de interface e especificaçõe
 - [📄 Visualizar Documentação Técnica (PDF)](https://drive.google.com/file/d/1pUAkCxrXqQsrxrY-NJn3jxBiqQwk9jAW/view?usp=sharing)
 
 ---
+
 ## 📄 Licença
 Este projeto está sob a [Licença MIT](https://opensource.org/license/mit) - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
