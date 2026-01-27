@@ -692,28 +692,6 @@ MAJOR.MINOR.PATCH
 - Identificação clara de mudanças relevantes
 - Facilidade na manutenção, colaboração e integração contínua 
 
-<!-- ## 🏷️ Versionamento
-<details>
-<summary>▶️  Clique para ver detalhes</summary>
-
-Este projeto segue o padrão [Semantic Versioning (SemVer)](https://semver.org/) para controle de versões, garantindo clareza, previsibilidade e compatibilidade entre as mudanças. Todas as versões publicadas do projeto podem ser consultadas por meio das [*tags* do repositório](https://github.com/LeonardoRDA1604/PS-Sports-Frontend/tags), onde cada tag representa um marco importante na evolução do sistema.
-
-O versionamento utiliza o seguinte formato:
-```bash
-MAJOR.MINOR.PATCH
-```
-
-#### 🔹 Significado das versões
-- **MAJOR** → Alterações incompatíveis com versões anteriores (*breaking changes*)
-- **MINOR** → Novas funcionalidades adicionadas de forma retrocompatível
-- **PATCH** → Correções de bugs e pequenos ajustes que não afetam a compatibilidade
-
-#### 🔹 Objetivo do versionamento
-- Melhor rastreabilidade da evolução do projeto
-- Identificação clara de mudanças relevantes
-- Facilidade na manutenção, colaboração e integração contínua 
-</details> -->
-
 ---
 
 ## 🤝 Colaboração
