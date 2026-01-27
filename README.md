@@ -160,7 +160,7 @@ Essa abordagem garante que o sistema seja de fácil manutenção, permitindo evo
 
 <!-- falta corrigir a estrutura da pasta src (porem preciso refatorar o codigo para ver os pathings), tb falta colocar os comentários -->
 <details>
-  <summary><b>Clique para expandir a árvore de diretórios 📂 (estrutura de pastas)</b></summary>
+  <summary style="background-color: white; color: blue"><b>ℹ️ Clique para expandir a árvore de diretórios 📂 (estrutura de pastas)</b></summary>
   <br />
 
 ```bash
