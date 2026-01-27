@@ -150,13 +150,25 @@ Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *ot
 ---
 
 ## 🧱 Arquitetura do Projeto (Frontend)
+O desenvolvimento foi guiado pelo modelo **Component-Based (Modular)**, focado na separação de responsabilidades e na criação de um ecossistema de código escalável. A estrutura organiza o projeto em três pilares principais:
+
+- **Camada de Apresentação (Components & Pages):** Focada na interface do usuário e na composição visual, garantindo que elementos como botões, modais e tabelas sejam altamente reutilizáveis e consistentes em todo o ecossistema do projeto.
+- **Camada de Lógica e Estado (Hooks & Context):** Centraliza as regras de negócio e o gerenciamento de estados globais (como a autenticação), desacoplando a inteligência da aplicação da interface visual.
+- **Camada de Dados e Utilidades (Services & Utils):** Responsável pela comunicação com APIs externas e pelo processamento de dados brutos através de funções auxiliares, garantindo um fluxo de dados limpo e previsível.
+
+Essa abordagem garante que o sistema seja de fácil manutenção, permitindo evoluções rápidas sem comprometer a estabilidade das funcionalidades existentes.
+
 <!-- falta corrigir a estrutura da pasta src (porem preciso refatorar o codigo para ver os pathings), tb falta colocar os comentários -->
+<details>
+  <summary><b>Clique para expandir a árvore de diretórios 📂 (estrutura de pastas)</b></summary>
+  <br />
+
 ```bash
 ├── src/
 │   ├── assets/                # Arquivos estáticos (Imagens, Ícones, Logotipos)
 │   │   ├── icons/
 │   │
-│   ├── components/            # Componentes reutilizáveis (Buttons, Inputs, Cards, etc.)
+│   ├── components/            # UI Kit: Componentes reutilizáveis (Buttons, Inputs, Cards, etc.)
 │   │   └── AcaoRapida/
 │   │   │   └── index.jsx
 │   │   │
@@ -165,7 +177,7 @@ Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *ot
 │   │   │   └── .jsx
 │   │   │   └── .jsx
 │   │   │
-│   │   └── Auth/ 
+│   │   └── Auth/              # Componentes relacionados a autenticação e usuários
 │   │   │   └── Cadastro.jsx
 │   │   │   └── EsqueciSenha.jsx
 │   │   │   └── UsuariosTable.jsx
@@ -179,7 +191,7 @@ Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *ot
 │   │   └── Card/ 
 │   │   │   └── index.jsx
 │   │   │
-│   │   └── DataTable/ 
+│   │   └── DataTable/         # Listagens e tabelas dinâmicas
 │   │   │   └── DataTable.jsx
 │   │   │   └── index.js
 │   │   │
@@ -201,14 +213,14 @@ Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *ot
 │   │   │
 │   │   └── AutocompleteAtleta.jsx
 │   │
-│   ├── context/               # 
+│   ├── context/               # Provedores de Estado Global (Context API)
 │   │   ├── AuthContext.js 
 │   │
-│   ├── data/                  # 
+│   ├── data/                  # Serviços de API e mock de dados
 │   │   ├── api.js
 │   │   ├── dadosUsuarios.js
-│   ├── modals/                # 
-│   │   └── forms/             # 
+│   ├── modals/                # Componentes de sobreposição (Modais)
+│   │   └── forms/             # Formulários de criação e edição em modal
 │   │   │   └── ModalCadastroCategoria.jsx
 │   │   │   └── ModalCadastroInteressado.jsx
 │   │   │   └── ModalCadastroModalidade.jsx
@@ -218,7 +230,7 @@ Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *ot
 │   │   │   └── ModalCadastroUsuario.jsx
 │   │   │   └── PlayerTemplateModal.jsx
 │   │   │
-│   │   └── views/             # 
+│   │   └── views/             # Modais apenas para visualização de dados
 │   │   │   └── EditPlayersModal.jsx
 │   │   │   └── ModalVisualizarCadastroResponsavel.jsx
 │   │   │
@@ -235,33 +247,35 @@ Durante o desenvolvimento deste projeto, adotamos *metodologias ágeis* para *ot
 │   │   └── Presencas.jsx      #  
 │   │   └── Relatorios.jsx     #  
 │   │
-│   ├── styles/                # Estilizações globais e configurações de temas
+│   ├── styles/                # Identidade visual (Global Style, Themes and Design Tokens)
 │   │   └── token.css          # 
 │   │
-│   ├── utils/                 # Funções auxiliares (Formatadores, Validadores)
+│   ├── utils/                 # Funções auxiliares e utilitários (Formatadores, Validadores, etc.)
 │   │   └── permissoes.js      # 
 │   │
-│   ├── App.css                # 
+│   ├── App.css                # Estilização específica do componente raiz
 │   │
-│   ├── App.jsx                # Componente raiz com as rotas
+│   ├── App.jsx                # Componente raiz e definição de rotas
 │   │
-│   ├── index.css              # 
+│   ├── index.css              # Estilos base e resets da aplicação
 │   │
-│   └── main.jsx               # Ponto de entrada da aplicação (Renderização)
+│   └── main.jsx               # Ponto de entrada da aplicação (Renderização do React)
 │
-├── .env.example               # Modelo de variáveis de ambiente
-├── .gitignore                 # Arquivos ignorados pelo Git
-├── CONTRIBUTING.md            # 
-├── db.json                    # Banco de dados simulado (JSON Server) se aplicável
+├── .env.example               # Exemplo de variáveis de ambiente
+├── .gitignore                 # Arquivos e pastas ignorados pelo Git
+├── CONTRIBUTING.md            # Guia de diretrizes para novos contribuidores
+├── db.json                    # Banco de dados simulado (JSON Server)
 ├── eslint.config.js           # Configuração de padronização do código
-├── index.html                 # Estrutura HTML principal
-├── LICENSE                    # 
-├── package-lock.json          # 
+├── index.html                 # Estrutura HTML principal (Entry point do browser)
+├── LICENSE                    # Licença de uso do software
+├── package-lock.json          # Registro detalhado das versões das dependências
 ├── package.json               # Gerenciamento de dependências e scripts
-├── postcss.config.js          # Configuração do PostCSS (Tailwind)
-├── README.md                  # Documentação do projeto
-└── vite.config.js             # Configuração do bundler Vite
+├── postcss.config.js          # Configuração de processamento de CSS (Tailwind)
+├── README.md                  # Documentação principal do repositório
+└── vite.config.js             # Configuração técnica do Bundler Vite
 ```
+
+</details>
 
 ---
 
