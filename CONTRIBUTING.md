@@ -3,9 +3,9 @@
 </div>
 
 
-# Contribuindo com o PS Sports Frontend
+# Contribuindo com o SIG Sports Frontend
 
-Obrigado pelo interesse em contribuir com o **PS Sports Frontend**!
+Obrigado pelo interesse em contribuir com o **SIG Sports**!
 Este documento descreve as regras, padrões e fluxo que devem ser seguidos ao contribuir com o projeto.
 
 ---
@@ -13,8 +13,8 @@ Este documento descreve as regras, padrões e fluxo que devem ser seguidos ao co
 ## 📌 Regras do Projeto
 
 - **NÃO faça commit diretamente na branch `main`**
-- Todas as alterações devem ser feitas em branches separadas e enviadas via Pull Request
-- Apenas administradores do repositório podem aprovar e realizar merge de Pull Requests
+- Todas as alterações devem ser feitas em branches separadas e enviadas via **Pull Request**
+- Apenas **administradores** do repositório podem aprovar e realizar merge de **Pull Requests**
 
 ---
 
@@ -65,8 +65,8 @@ chore: configure eslint and prettier
 
 ## 👤 Quem Pode Aprovar
 
-- Apenas administradores do repositório podem aprovar e realizar merge de Pull Requests
-- Contribuidores podem abrir Pull Requests e solicitar revisão
+- Apenas **administradores** do repositório podem aprovar e realizar **merge** de **Pull Requests**
+- Contribuidores podem abrir Pull Requests e **solicitar revisão**
 
 ---
 
@@ -100,9 +100,9 @@ Caso tenha dúvidas, abra uma Issue ou entre em contato com o administrador do r
 </div>
 
 
-# Contributing to PS Sports Frontend
+# Contributing to SIG Sports Frontend
 
-Thank you for your interest in contributing to the **PS Sports Frontend** project!
+Thank you for your interest in contributing to the **SIG Sports** project!
 This document describes the rules, standards, and workflow that must be followed when contributing.
 
 ---
@@ -110,8 +110,8 @@ This document describes the rules, standards, and workflow that must be followed
 ## 📌 Project Rules
 
 - **Do NOT commit directly to the `main` branch**
-- All changes must be made through feature branches and submitted via Pull Requests
-- Only repository administrators can approve and merge Pull Requests
+- All changes must be made through feature branches and submitted via **Pull Requests**
+- Only repository **administrators** can approve and merge **Pull Requests**
 
 ---
 
@@ -162,8 +162,8 @@ chore: configure eslint and prettier
 
 ## 👤 Who Can Approve
 
-- Only repository administrators can approve and merge Pull Requests
-- Contributors can open Pull Requests and request reviews
+- Only repository **administrators** can approve and **merge Pull Requests**
+- Contributors can open Pull Requests and **request reviews**
 
 ---
 
